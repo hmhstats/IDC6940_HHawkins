@@ -1,5 +1,5 @@
 ---
-title: "Statistical Analysis of Secondary Traumatic Stress (STS) and Teacher Attrition - Summer 2025"
+title: "A Statistical Analysis of Secondary Traumatic Stress (STS) and Teacher Attrition - Summer 2025"
 subtitle: "Using Binary Logistic Regression to Predict Attrition Based On STS"
 author: "Hailee Hawkins (Advisors: Dr. Cohen, Dr. DiLoreto)"
 date: '`r Sys.Date()`'
