@@ -21,44 +21,10 @@ editor:
 Slides: [slides.html](slides.html){target="_blank"} ( Go to `slides.qmd`
 to edit)
 
-::: callout-important
-**Remember:** Your goal is to make your audience understand and care
-about your findings. By crafting a compelling story, you can effectively
-communicate the value of your data science project.
-
-Carefully read this template since it has instructions and tips to
-writing!
-:::
 
 ## Introduction
 
-The introduction should:
 
--   Develop a storyline that captures attention and maintains interest.
-
--   Your audience is your peers
-
--   Clearly state the problem or question you're addressing.
-
-<!-- -->
-
--   Introduce why it is relevant needs.
-
--   Provide an overview of your approach.
-
-Example of writing including citing references:
-
-*This is an introduction to ..... regression, which is a non-parametric
-estimator that estimates the conditional expectation of two variables
-which is random. The goal of a kernel regression is to discover the
-non-linear relationship between two random variables. To discover the
-non-linear relationship, kernel estimator or kernel smoothing is the
-main method to estimate the curve for non-parametric statistics. In
-kernel estimator, weight function is known as kernel function
-[@efr2008]. Cite this paper [@bro2014principal]. The GEE [@wang2014].
-The PCA [@daffertshofer2004pca]*. Topology can be used in machine learning [@adams2021topology]
-
-*This is my work and I want to add more work...*
 
 ## Methods
 
