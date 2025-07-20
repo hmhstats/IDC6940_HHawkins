@@ -69,7 +69,7 @@ where $\pi$ is the probability of the event occurring, $Y$ is the binary outcome
 [@abdulqader2017applying]
 
 
-Two way contingency tables are a great way to represent categorical information. When using a two-way table, odds and odds ratios can be easily calculated. Binary logistic regression relies on odds and odds ratios (ORs) for interpretation. Odds are a ratio that compare the probability of an event happening to the probability of the event not happening. Odds ratios are calculated by dividing the odds of a certain outcome in one group by the odds of the same outcome in a comparison group.
+Two way contingency tables can be used to represent categorical information. When using a two-way table, odds and odds ratios are easily calculated. Binary logistic regression relies on odds and odds ratios (ORs) for interpretation. Odds are a ratio that compare the probability of an event happening to the probability of the event not happening. Odds ratios are calculated by dividing the odds of a certain outcome in one group by the odds of the same outcome in a comparison group.
 
 In binary logistic regression, a logit transformation of the probability of the outcome is used to model the likelihood of an event occurring. A logit is the natural log of the odds of the event occurring. This transformation allows us to model the relationship between the predictors and the odds of the event as a linear equation:
 
@@ -90,19 +90,19 @@ $x_i s$ are the predictor (independent) variables.
 
 Because of the logit transformation on the probability of the outcome, the model will return the log odds of an event. To discuss the regular odds of an event, one should exponentiate the log odds. In a binary logistic regression model, each regression coefficient represents the change in the log-odds of the outcome associated with a one-unit increase in the corresponding predictor, holding all other variables constant. Exponentiating a coefficient yields the odds ratio, which quantifies how the odds of the outcome change with a one-unit increase in that predictor. [@peng2002introduction]
 
-Binary logistic regression relies on a few assumptions:
+Binary logistic regression relies on the following assumptions:
 
 1. The outcome (dependent) variable should be binary.
 2. The observations should be independent. 
 3. The predictor (independent) variables should have no perfect multicollinearity. 
-4. Any continuous predictor variables should have a linear relationship with the log odds of the dependent variable.
-5. The sample size should be large. 
+4. Continuous predictor variables should have a linear relationship with the log odds of the dependent variable.
+5. The sample size should be large - at least ten observations per predictor. 
 
-When the data used to create a binary logistic regression model meet these assumptions, the results are considered reliable. [@tranmer2008binary] [@harris2021primer] [@abdulqader2017applying]
+When these assumptions are met, the results of a binary logistic regression analysis can be considered statistically reliable. [@tranmer2008binary] [@harris2021primer] [@abdulqader2017applying]
 
-RStudio will be used to conduct the statistical analyses in this project. Several R packages provide functions for performing binary logistic regression and related tasks. These include lmtest, MASS, fastDummies, tidyverse, car, and the base stats package, among others. [@zeileis2002diagnostic] [@venables2013modern] [@kaplan2020fastdummies] [@wickham2019welcome] [@fox2020using] [@team2002r] 
+RStudio will be used to perform the statistical analyses in this project. Several R packages provide functions for performing binary logistic regression and related tasks. These include lmtest, MASS, fastDummies, tidyverse, car, and the base stats package, among others. [@zeileis2002diagnostic] [@venables2013modern] [@kaplan2020fastdummies] [@wickham2019welcome] [@fox2020using] [@team2002r] 
 
-The goal of this project is to predict teacher attrition based on Secondary Traumatic Stress. Since teacher attrition is a binary outcome, binary logistic regression is the method that will be used for this analysis. Responses to the Secondary Traumatic Stress Scale, specifically scores for intrusion, arousal and avoidance, will be used to predict whether a teacher will stay in or leave the profession. 
+The goal of this project is to predict teacher attrition using responses from the Secondary Traumatic Stress Scale (STSS). Given that teacher attrition is a binary outcome—indicating whether a teacher stays in or leaves the profession—binary logistic regression will be applied in this analysis. Predictor variables will include the subscale scores for intrusion, arousal, and avoidance from the STSS, which will be used to estimate the likelihood of a teacher leaving the profession.
 
 ## Analysis and Results
 
