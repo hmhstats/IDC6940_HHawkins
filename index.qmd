@@ -51,7 +51,7 @@ In an effort to build on the previous research, the current study focuses on pre
 
 ## Methods
 
-In this project, binary logistic regression will be used to predict teacher attrition using responses to the Secondary Traumatic Stress Scale (STSS). Peng says “Many educational research problems call for the analysis and prediction of a dichotomous outcome: whether a student will succeed in college, whether a child should be classified as learning disabled (LD), whether a teenager is prone to engage in risky behaviors, and so on” [@peng2002introduction]. Binary logistic regression is useful for this project because it is used to model outcomes with two categories (e.g. the teacher will leave the profession/the teacher will stay in the profession).
+In this project, binary logistic regression will be used to predict teacher attrition using responses to the Secondary Traumatic Stress Scale (STSS). Peng says “Many educational research problems call for the analysis and prediction of a dichotomous outcome: whether a student will succeed in college, whether a child should be classified as learning disabled (LD), whether a teenager is prone to engage in risky behaviors, and so on” [@peng2002introduction]. Binary logistic regression is useful in scenarios where the outcome variable is dichotomous (i.e., has two categories), such as predicting whether a teacher will stay in the profession or leave it.
 
 In binary logistic regression, the dependent (outcome) variable is binary and is modeled using one or more independent (predictor) variables. These predictors can be continuous or categorical. Categorical predictors with two or more levels are typically converted into dummy (indicator) variables, with one category chosen as the reference. The model then compares the effect of other categories relative to this reference. Tranmer explains, "If an explanatory variable has 𝑘 categories, we need 𝑘 − 1 dummy variables to investigate all the differences in the categories with respect to the response variable" [@tranmer2008binary].
 
@@ -90,13 +90,13 @@ $x_i s$ are the predictor (independent) variables.
 
 Because of the logit transformation on the probability of the outcome, the model will return the log odds of an event. To discuss the regular odds of an event, one should exponentiate the log odds. In a binary logistic regression model, each regression coefficient represents the change in the log-odds of the outcome associated with a one-unit increase in the corresponding predictor, holding all other variables constant. Exponentiating a coefficient yields the odds ratio, which quantifies how the odds of the outcome change with a one-unit increase in that predictor. [@peng2002introduction]
 
-Binary logistic regression relies on the following assumptions:
+Binary logistic regression relies on several assumptions:
 
-1. The outcome (dependent) variable should be binary.
-2. The observations should be independent. 
-3. The predictor (independent) variables should have no perfect multicollinearity. 
-4. Continuous predictor variables should have a linear relationship with the log odds of the dependent variable.
-5. The sample size should be large - at least ten observations per predictor. 
+1. The dependent variable is binary.
+2. Observations are independent of each other.
+3. There is no perfect multicollinearity among independent variables.
+4. There is a linear relationship between any continuous predictors and the log odds of the outcome.
+5. The sample size is sufficiently large, ideally with at least 10 outcome events per predictor variable.
 
 When these assumptions are met, the results of a binary logistic regression analysis can be considered statistically reliable. [@tranmer2008binary] [@harris2021primer] [@abdulqader2017applying]
 
