@@ -274,7 +274,7 @@ kable(summary_table_long, digits = 2, caption = "Summary Statistics (Long Format
 ```
 
 
-Boxplots were created to visually compare the score distributions across teacher intent groups. One outlier was identified in the intrusion scores, indicating that one respondent reported unusually high levels of intrusion relative to the rest of the sample.
+Boxplots were generated to visually compare the distribution of scores across teacher intent groups. One notable outlier was observed in the intrusion scores, suggesting that a single respondent reported significantly higher levels of intrusion compared to the rest of the sample. Upon further examination, it is important to highlight that the maximum possible score for intrusion is 25. Interestingly, the respondent associated with this outlier also indicated an intention to leave the teaching profession.
 
 
 ```{r, warning=FALSE, echo=TRUE}
@@ -341,7 +341,7 @@ ggplot(sts_data, aes(x = total_score, fill = as.factor(leave_teaching))) +
 ```
 
 
-Wilcoxon rank-sum tests were conducted to compare STSS scores between teachers who intended to remain in the profession and those who intended to leave.
+Because the data did not meet the assumptions of normality, Wilcoxon rank-sum tests were conducted to compare STSS scores between teachers who intended to remain in the profession and those who intended to leave.
 
 $$
 H_0= \text{The distributions of the two groups are the same.}
