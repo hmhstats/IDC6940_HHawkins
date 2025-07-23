@@ -24,7 +24,7 @@ df_cleaned[likert_cols] <- lapply(df_cleaned[likert_cols], function(x) {
   as.numeric(sub(".*\\((\\d+)\\)", "\\1", x))
 })
 
-View(df_cleaned)
+
 
 # Recode Q5 to 1 if any of 2, 3, or 4 are mentioned, otherwise 0
 df_cleaned$Q5_binary <- ifelse(
@@ -45,6 +45,8 @@ df_cleaned$Q5_binary[120] <- 0
 #count the number of nas in each column
 colSums(is.na(df_cleaned))
 
+
+
 #remove rows with nas
 #df_cleaned <- na.omit(df_cleaned)
 #View(df_cleaned)
@@ -60,3 +62,14 @@ df_cleaned$total_score <- rowSums(df_cleaned[, likert_cols], na.rm = TRUE)
 
 
 View(df_cleaned)
+
+#change Q5_binary name
+sts_data <- df_cleaned %>%
+  rename(leave_teach = Q5_binary)
+View(sts_data)
+
+# Remove rows where all of the first 18 columns are NA
+sts_data <- sts_data[!apply(is.na(sts_data[, 1:18]), 1, all), ]
+View(sts_data)
+
+write.csv(sts_data, "sts_data.csv", row.names = FALSE)
