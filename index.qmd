@@ -110,7 +110,7 @@ The goal of this project is to predict teacher attrition using responses from th
 
 ### Data Exploration and Visualization
 
-The data used in this analysis was collected through a questionnaire given to teachers in Northwest Florida. The questionnaire had 8 questions gauging teachers experiences with secondary traumatic stress and its symptoms (from the STSS), compassion fatigue and its symptoms (from the ProQOL), decision to stay in or leave teaching and why, and whether the teacher thought their decision to stay or leave teaching had something to do with expereincing secondary truamatic stress working with their students. For this analysis, the focus is on teachers responses to the STSS (Q3) and their decision to stay in or leave teaching (Q5). 
+The data for this analysis were collected via a questionnaire administered to teachers in Northwest Florida. The survey included eight items assessing teachers’ experiences with secondary traumatic stress (using items from the STSS), compassion fatigue (from the ProQOL), their intentions to stay in or leave the teaching profession, and their perceptions of whether secondary traumatic stress influenced that decision. For the purposes of this analysis, the focus is on responses to the STSS (Question 3) and participants’ stated intent to stay in or leave teaching (Question 5).
 
 [View Questionnaire](Questionnaire.pdf)
 
@@ -132,14 +132,15 @@ library(tidyr)
 
 sts_data <- read_csv("sts_data.csv")
 
+
 ```
 
-There were a total of 107 responses to the questionnaire. In the survey, 74 teachers indicated that they will continue teaching and 33 indicated that they will leave teaching.  
+A total of 107 teachers responded to the questionnaire. Of these, three participants indicated uncertainty about whether they would continue or leave the teaching profession. Because the analysis required a definitive "yes" or "no" response regarding intent to stay or leave, these uncertain responses were excluded. The final sample included 104 teachers, with 70 indicating they intended to continue teaching and 34 indicating they planned to leave the profession. 
 
 ```{r, warning=FALSE, echo=TRUE}
 # Recode intent as factor with labels
 sts_data <- sts_data %>%
-  mutate(leave_label = factor(leave_teach, levels = c(0, 1), labels = c("Stay", "Leave")))
+  mutate(leave_label = factor(leave_teaching, levels = c(0, 1), labels = c("Stay", "Leave")))
 
 # Create bar plot with labels
 ggplot(sts_data, aes(x = leave_label)) +
@@ -155,15 +156,15 @@ ggplot(sts_data, aes(x = leave_label)) +
 ```
 
 
-Density plots were created to visualize the range and spread of the subscales scores for intrusion, avoidance, arousal and the total score for secondary traumatic stress. 
+Density plots were generated to visualize the distribution and spread of scores for each STSS subscale—intrusion, avoidance, arousal—as well as the overall total score for secondary traumatic stress.
 
-The total scores for secondary traumatic stress vary widely. The scores for teachers who intend to continue teaching peak around 30 and 50 while the total score for teachers who intend to leave peaks around 45. The plot shows that higher total scores were more frequent in teachers who intended to leave.
+The total STSS scores varied widely across participants. Among teachers intending to continue teaching, scores peaked around 30 and 50, while those intending to leave showed a peak around 45. The plot suggests that higher total scores were more frequent among teachers planning to leave the profession.
 
-The intrusion scores for both groups of teachers peak between 11 and 14. Interestingly scores between 11 and 14 were more frequent in teachers who intended to continue teaching. The plot shows that higher intrusion scores were more frequent in teachers who intended to leave. 
+For intrusion scores, both groups peaked between 11 and 14. Interestingly, scores within this range were slightly more common among teachers intending to stay. However, the plot also indicates that higher intrusion scores were more frequent among those intending to leave.
 
-The avoidance scores for teachers who intend to continue teaching peak around 10 and 20 while the total score for teachers who intend to leave peaks around 17. The plot shows that higher avoidance scores were more frequent in teachers who intended to leave.
+Avoidance scores peaked around 10 and 20 for teachers planning to stay, whereas teachers intending to leave showed a peak around 17. The distribution suggests that higher avoidance scores were more prevalent among those considering leaving teaching.
 
-The arousal scores for teachers who intend to continue teaching peak around 14 while the total score for teachers who intend to leave peaks around 17. Interestingly the plot shows that higher arousal scores were slightly more frequent in teachers who intended to continue teaching.
+Arousal scores peaked around 9 and 12 for teachers intending to stay and around 17 for those intending to leave. Interestingly, the plot indicates that higher arousal scores were slightly more common among teachers intending to continue teaching.
 
 
 ```{r, warning=FALSE, echo=TRUE}
@@ -180,7 +181,7 @@ max_arousal <- max(density(sts_data$arousal_score)$y)
 y_max <- max(c(max_total, max_intrusion, max_avoidance, max_arousal))
 
 # Ensure intent is treated as a factor
-sts_data$intent_label <- factor(sts_data$leave_teach, levels = c(0, 1), labels = c("Stay", "Leave"))
+sts_data$intent_label <- factor(sts_data$leave_teaching, levels = c(0, 1), labels = c("Stay", "Leave"))
 
 # Density plot: Total Score
 p_total <- ggplot(sts_data, aes(x = total_score, fill = intent_label)) +
@@ -220,13 +221,13 @@ p_arousal <- ggplot(sts_data, aes(x = arousal_score, fill = intent_label)) +
 ```
 
 
-The following table gives the summary statistics for both groups of teachers. Each score is listed in the table including the overall total, intrusion, avoidance and arousal scores. Mean is the average of the scores, SD is the standard deviation of the scores, Min is the minimum score and Max is the maximum score. 
+The table below presents summary statistics for both groups of teachers. It includes the total STSS score as well as the subscale scores for intrusion, avoidance, and arousal. For each score, the table provides the mean (average), standard deviation (SD), minimum (Min), and maximum (Max) values. 
 
 
 ```{r, warning=FALSE, echo=TRUE}
 
 summary_table <- sts_data %>%
-  mutate(Intent = factor(leave_teach, labels = c("Stay", "Leave"))) %>%
+  mutate(Intent = factor(leave_teaching, labels = c("Stay", "Leave"))) %>%
   group_by(Intent) %>%
   summarise(
     Count = n(),
@@ -273,28 +274,28 @@ kable(summary_table_long, digits = 2, caption = "Summary Statistics (Long Format
 ```
 
 
-Boxplots were created to visually compare the score distributions across teacher intent groups. Two outliers were identified in the intrusion scores, indicating that two respondents reported unusually high levels of intrusion relative to the rest of the sample.
+Boxplots were created to visually compare the score distributions across teacher intent groups. One outlier was identified in the intrusion scores, indicating that one respondent reported unusually high levels of intrusion relative to the rest of the sample.
 
 
 ```{r, warning=FALSE, echo=TRUE}
 
 
-p_intrusion <- ggplot(sts_data, aes(x = leave_teach, y = intrusion_score, fill = leave_teach)) +
+p_intrusion <- ggplot(sts_data, aes(x = leave_teaching, y = intrusion_score, fill = leave_teaching)) +
   geom_boxplot() +
   labs(title = "Intrusion", x = NULL, y = "Score") +
   theme_minimal()
 
-p_avoidance <- ggplot(sts_data, aes(x = leave_teach, y = avoidance_score, fill = leave_teach)) +
+p_avoidance <- ggplot(sts_data, aes(x = leave_teaching, y = avoidance_score, fill = leave_teaching)) +
   geom_boxplot() +
   labs(title = "Avoidance", x = NULL, y = "Score") +
   theme_minimal()
 
-p_arousal <- ggplot(sts_data, aes(x = leave_teach, y = arousal_score, fill = leave_teach)) +
+p_arousal <- ggplot(sts_data, aes(x = leave_teaching, y = arousal_score, fill = leave_teaching)) +
   geom_boxplot() +
   labs(title = "Arousal", x = "Intent", y = "Score") +
   theme_minimal()
 
-p_total <- ggplot(sts_data, aes(x = leave_teach, y = total_score, fill = leave_teach)) +
+p_total <- ggplot(sts_data, aes(x = leave_teaching, y = total_score, fill = leave_teaching)) +
   geom_boxplot() +
   labs(title = "Total STSS", x = "Intent", y = "Score") +
   theme_minimal()
@@ -305,7 +306,7 @@ p_total <- ggplot(sts_data, aes(x = leave_teach, y = total_score, fill = leave_t
 ```
 
 
-Before statistical comparing the two groups of teachers, tests for normality were done.
+Before conducting statistical comparisons between the two groups of teachers, tests for normality were performed to assess the distribution of the data.
 
 
 $$
@@ -316,20 +317,20 @@ H_1= \text{The data is not normally distributed.}
 $$
 
 ```{r, warning=FALSE, echo=TRUE}
-shapiro.test(sts_data$total_score[sts_data$leave_teach == 0])  # Stay
-shapiro.test(sts_data$total_score[sts_data$leave_teach == 1])  # Leave
+shapiro.test(sts_data$total_score[sts_data$leave_teaching == 0])  # Stay
+shapiro.test(sts_data$total_score[sts_data$leave_teaching == 1])  # Leave
 
 ```
 
 
-The Shapiro-Wilk tests showed that the data for teachers who intend to continue teaching is not normally distributed. This is confirmed by the p-value 0.01492 which is less than 0.05. The density plot also confirms the data for teachers who intend to continue teaching is not normal. The data for teachers who intend to leave teaching is normal confirmed by the p-value 0.9441 which is greater than 0.05 and the density plot shape which resembles a bell curve.
+The Shapiro-Wilk test indicated that the data for teachers intending to continue teaching were not normally distributed, as evidenced by a p-value of 0.01536 (p < 0.05). This finding is supported by the corresponding density plot, which deviates from the shape of a normal distribution. In contrast, the data for teachers intending to leave teaching met the assumption of normality, with a Shapiro-Wilk p-value of 0.9717 (p > 0.05) and a density plot that closely resembles a bell curve.
 
 
 ```{r, warning=FALSE, echo=TRUE}
 
-ggplot(sts_data, aes(x = total_score, fill = as.factor(leave_teach))) +
+ggplot(sts_data, aes(x = total_score, fill = as.factor(leave_teaching))) +
   geom_density(alpha = 0.5) +
-  facet_wrap(~ leave_teach, labeller = labeller(leave_teach = c("0" = "Stay", "1" = "Leave"))) +
+  facet_wrap(~ leave_teaching, labeller = labeller(leave_teaching = c("0" = "Stay", "1" = "Leave"))) +
   labs(
     title = "Density of Total STSS Scores by Intent",
     fill = "Intent to Stay or Leave",  
@@ -340,14 +341,22 @@ ggplot(sts_data, aes(x = total_score, fill = as.factor(leave_teach))) +
 ```
 
 
-Wilcoxon rank-sum tests were used to compare STSS scores between teachers who intended to stay and those who intended to leave. 
+Wilcoxon rank-sum tests were conducted to compare STSS scores between teachers who intended to remain in the profession and those who intended to leave.
+
+$$
+H_0= \text{The distributions of the two groups are the same.}
+$$
+
+$$
+H_1= \text{The distributions of the two groups are different.}
+$$
 
 
 ```{r, warning=FALSE, echo=TRUE}
 scores <- c("total_score", "intrusion_score", "avoidance_score", "arousal_score")
 
 results <- lapply(scores, function(var) {
-  test <- wilcox.test(as.formula(paste(var, "~ leave_teach")), data = sts_data)
+  test <- wilcox.test(as.formula(paste(var, "~ leave_teaching")), data = sts_data)
   data.frame(
     Score = var,
     W = test$statistic,
@@ -363,8 +372,8 @@ bind_rows(results)
 # Create the results data frame
 test_results <- data.frame(
   Subscale = c("Total Score", "Intrusion", "Avoidance", "Arousal"),
-  W = c(950.5, 940.5, 969.5, 985.0),
-  p_value = c(0.06846849, 0.05809506, 0.08999036, 0.11138443)
+  W = c(867.0, 876.5, 885.5, 901.0),
+  p_value = c(0.02537618, 0.02951149, 0.03489508, 0.04513017)
 )
 
 # Show as table
@@ -374,14 +383,14 @@ kable(test_results, digits = 3, caption = "Wilcoxon Rank-Sum Test Results by STS
 ```
 
 
-While none of the subscale differences reached conventional levels of statistical significance (p < 0.05), total STSS scores (W = 950.5, p = 0.068) and intrusion scores (W = 940.5, p = 0.058) approached significance, suggesting that teachers intending to leave may experience higher levels of secondary traumatic stress — particularly intrusive symptoms.
+All STSS subscale scores, as well as the total score, showed statistically significant differences between groups. Notably, total STSS scores (W = 867.0, p = 0.025), intrusion scores (W = 876.5, p = 0.030), avoidance scores (W = 885.5, p = 0.035), and arousal scores (W = 901.0, p = 0.045) were significantly higher among teachers intending to leave, suggesting elevated levels of secondary traumatic stress across multiple symptoms.
 
-A correlation matrix was created to examine the correlation between the STSS subscales and the attrition response. 
+A correlation matrix was generated to examine the relationships between the STSS subscales and teachers’ attrition responses.
 
 ```{r, warning=FALSE, echo=TRUE}
 
 # Add attrition variable (binary) to the matrix
-stss_data2 <- sts_data[, c("intrusion_score", "avoidance_score", "arousal_score", "total_score", "leave_teach")]
+stss_data2 <- sts_data[, c("intrusion_score", "avoidance_score", "arousal_score", "total_score", "leave_teaching")]
 
 # Correlation matrix (Pearson)
 cor_matrix <- cor(stss_data2, use = "complete.obs")
@@ -392,9 +401,9 @@ corrplot(cor_matrix, method = "number", type = "upper", tl.col = "black", number
 
 ```
 
-Pearson correlation coefficients indicated strong to very strong positive associations among the STSS subscales. For example, intrusion was highly correlated with both avoidance (r = 0.80) and arousal (r = 0.84), and each subscale showed very strong correlations with the total STSS score (r = 0.92–0.96).
+Pearson correlation coefficients indicated strong to very strong positive associations among the STSS subscales. For instance, intrusion was strongly correlated with avoidance (r = 0.80) and arousal (r = 0.84). Avoidance and arousal were also highly correlated (r = 0.88). Each subscale showed very strong correlations with the total STSS score (r = 0.91–0.96), indicating a high degree of internal consistency within the scale.
 
-In contrast, correlations between the subscales and intent to leave teaching were weak (r = 0.14–0.19), suggesting that while higher secondary traumatic stress symptoms may be associated with greater likelihood of considering attrition, the relationship is modest.
+In contrast, correlations between the STSS scores and intent to leave teaching were weak (r = 0.18–0.22), suggesting that while higher levels of secondary traumatic stress may be associated with a greater likelihood of considering attrition, the strength of this relationship is modest.
 
 ### Modeling and Results
 

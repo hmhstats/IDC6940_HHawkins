@@ -40,16 +40,15 @@ df_cleaned$Q5_binary[5] <- 0
 df_cleaned$Q5_binary[15] <- 0
 df_cleaned$Q5_binary[21] <- 0
 df_cleaned$Q5_binary[73] <- 0
-df_cleaned$Q5_binary[120] <- 0
+df_cleaned$Q5_binary[120] <- 1
 
 #count the number of nas in each column
 colSums(is.na(df_cleaned))
 
+# Remove rows 15, 21, 73
+df_cleaned <- df_cleaned[-c(15, 21, 73), ]
 
-
-#remove rows with nas
-#df_cleaned <- na.omit(df_cleaned)
-#View(df_cleaned)
+View(df_cleaned)
 
 #calculating scores for intrusion, arousal and avoidance
 df_cleaned$intrusion_score <- rowSums(df_cleaned[, c("Q3_2", "Q3_3", "Q3_6", "Q3_10", "Q3_13")], na.rm = TRUE)
@@ -65,7 +64,7 @@ View(df_cleaned)
 
 #change Q5_binary name
 sts_data <- df_cleaned %>%
-  rename(leave_teach = Q5_binary)
+  rename(leave_teaching = Q5_binary)
 View(sts_data)
 
 # Remove rows where all of the first 18 columns are NA
