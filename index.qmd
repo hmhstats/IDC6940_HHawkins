@@ -172,7 +172,7 @@ Arousal scores peaked around 9 and 12 for teachers intending to stay and around 
 x_limits <- c(0, 85)  
 
 # Compute max densities manually
-max_total <- max(density(sts_data$total_score)$y)
+max_total <- max(density(sts_data$stss_total_score)$y)
 max_intrusion <- max(density(sts_data$intrusion_score)$y)
 max_avoidance <- max(density(sts_data$avoidance_score)$y)
 max_arousal <- max(density(sts_data$arousal_score)$y)
@@ -184,7 +184,7 @@ y_max <- max(c(max_total, max_intrusion, max_avoidance, max_arousal))
 sts_data$intent_label <- factor(sts_data$leave_teaching, levels = c(0, 1), labels = c("Stay", "Leave"))
 
 # Density plot: Total Score
-p_total <- ggplot(sts_data, aes(x = total_score, fill = intent_label)) +
+p_total <- ggplot(sts_data, aes(x = stss_total_score, fill = intent_label)) +
   geom_density(alpha = 0.5) +
   xlim(x_limits) +
   coord_cartesian(ylim = c(0, y_max)) +
@@ -231,10 +231,10 @@ summary_table <- sts_data %>%
   group_by(Intent) %>%
   summarise(
     Count = n(),
-    Total_Mean = mean(total_score, na.rm = TRUE),
-    Total_SD = sd(total_score, na.rm = TRUE),
-    Total_Min = min(total_score, na.rm = TRUE),
-    Total_Max = max(total_score, na.rm = TRUE),
+    Total_Mean = mean(stss_total_score, na.rm = TRUE),
+    Total_SD = sd(stss_total_score, na.rm = TRUE),
+    Total_Min = min(stss_total_score, na.rm = TRUE),
+    Total_Max = max(stss_total_score, na.rm = TRUE),
     
     Intrusion_Mean = mean(intrusion_score, na.rm = TRUE),
     Intrusion_SD = sd(intrusion_score, na.rm = TRUE),
@@ -295,7 +295,7 @@ p_arousal <- ggplot(sts_data, aes(x = leave_teaching, y = arousal_score, fill = 
   labs(title = "Arousal", x = "Intent", y = "Score") +
   theme_minimal()
 
-p_total <- ggplot(sts_data, aes(x = leave_teaching, y = total_score, fill = leave_teaching)) +
+p_total <- ggplot(sts_data, aes(x = leave_teaching, y = stss_total_score, fill = leave_teaching)) +
   geom_boxplot() +
   labs(title = "Total STSS", x = "Intent", y = "Score") +
   theme_minimal()
@@ -317,8 +317,8 @@ H_1= \text{The data is not normally distributed.}
 $$
 
 ```{r, warning=FALSE, echo=TRUE}
-shapiro.test(sts_data$total_score[sts_data$leave_teaching == 0])  # Stay
-shapiro.test(sts_data$total_score[sts_data$leave_teaching == 1])  # Leave
+shapiro.test(sts_data$stss_total_score[sts_data$leave_teaching == 0])  # Stay
+shapiro.test(sts_data$stss_total_score[sts_data$leave_teaching == 1])  # Leave
 
 ```
 
@@ -328,7 +328,7 @@ The Shapiro-Wilk test indicated that the data for teachers intending to continue
 
 ```{r, warning=FALSE, echo=TRUE}
 
-ggplot(sts_data, aes(x = total_score, fill = as.factor(leave_teaching))) +
+ggplot(sts_data, aes(x = stss_total_score, fill = as.factor(leave_teaching))) +
   geom_density(alpha = 0.5) +
   facet_wrap(~ leave_teaching, labeller = labeller(leave_teaching = c("0" = "Stay", "1" = "Leave"))) +
   labs(
@@ -353,7 +353,7 @@ $$
 
 
 ```{r, warning=FALSE, echo=TRUE}
-scores <- c("total_score", "intrusion_score", "avoidance_score", "arousal_score")
+scores <- c("stss_total_score", "intrusion_score", "avoidance_score", "arousal_score")
 
 results <- lapply(scores, function(var) {
   test <- wilcox.test(as.formula(paste(var, "~ leave_teaching")), data = sts_data)
@@ -371,7 +371,7 @@ bind_rows(results)
 
 # Create the results data frame
 test_results <- data.frame(
-  Subscale = c("Total Score", "Intrusion", "Avoidance", "Arousal"),
+  Subscale = c("STSS Total Score", "Intrusion", "Avoidance", "Arousal"),
   W = c(867.0, 876.5, 885.5, 901.0),
   p_value = c(0.02537618, 0.02951149, 0.03489508, 0.04513017)
 )
@@ -390,7 +390,7 @@ A correlation matrix was generated to examine the relationships between the STSS
 ```{r, warning=FALSE, echo=TRUE}
 
 # Add attrition variable (binary) to the matrix
-stss_data2 <- sts_data[, c("intrusion_score", "avoidance_score", "arousal_score", "total_score", "leave_teaching")]
+stss_data2 <- sts_data[, c("intrusion_score", "avoidance_score", "arousal_score", "stss_total_score", "leave_teaching")]
 
 # Correlation matrix (Pearson)
 cor_matrix <- cor(stss_data2, use = "complete.obs")

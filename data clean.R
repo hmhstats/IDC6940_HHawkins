@@ -7,7 +7,9 @@ View(Data_For_Hailee)
 #pull STS and attrition columns into new dataset
 new_df <- Data_For_Hailee %>% select(Q3_1, Q3_2, Q3_3, Q3_4, Q3_5, Q3_6, Q3_7, Q3_8,
                                      Q3_9, Q3_10, Q3_11, Q3_12, Q3_13, Q3_14, Q3_15, 
-                                     Q3_16, Q3_17, Q5)
+                                     Q3_16, Q3_17, Q5,
+                                     Q4_2, Q4_5, Q4_7, Q4_9, Q4_11, Q4_13, Q4_14, Q4_23, Q4_25, Q4_28
+                                     )
 View(new_df)
 
 # Remove the first two rows
@@ -21,6 +23,14 @@ likert_cols <- paste0("Q3_", 1:17)
 
 # Apply regex to extract numeric value from strings like "Never (1)"
 df_cleaned[likert_cols] <- lapply(df_cleaned[likert_cols], function(x) {
+  as.numeric(sub(".*\\((\\d+)\\)", "\\1", x))
+})
+
+# Get the column indices for the last 10 columns
+last_10_cols <- tail(names(df_cleaned), 10)
+
+# Apply regex extraction and convert to numeric
+df_cleaned[last_10_cols] <- lapply(df_cleaned[last_10_cols], function(x) {
   as.numeric(sub(".*\\((\\d+)\\)", "\\1", x))
 })
 
@@ -57,7 +67,8 @@ df_cleaned$arousal_score <- rowSums(df_cleaned[, c("Q3_4", "Q3_8", "Q3_11", "Q3_
 
 #calculate total score
 likert_cols <- paste0("Q3_", 1:17)
-df_cleaned$total_score <- rowSums(df_cleaned[, likert_cols], na.rm = TRUE)
+df_cleaned$stss_total_score <- rowSums(df_cleaned[, likert_cols], na.rm = TRUE)
+df_cleaned$proqol_sts_score <- rowSums(df_cleaned[, last_10_cols], na.rm = TRUE)
 
 
 View(df_cleaned)
