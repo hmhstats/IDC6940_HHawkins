@@ -76,7 +76,7 @@ View(df_cleaned)
 #change Q5_binary name
 sts_data <- df_cleaned %>%
   rename(leave_teaching = Q5_binary)
-View(sts_data)
+
 
 # Remove rows where all of the first 18 columns are NA
 sts_data <- sts_data[!apply(is.na(sts_data[, 1:18]), 1, all), ]

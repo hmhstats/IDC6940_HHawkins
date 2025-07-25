@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Hailee Hawkins (Advisors: Dr. Achraf Cohen, Dr. Melanie DiLoreto)">
-<meta name="dcterms.date" content="2025-07-23">
+<meta name="dcterms.date" content="2025-07-25">
 
 <title>A Statistical Analysis of Secondary Traumatic Stress (STS) and Teacher Attrition</title>
 <style>
@@ -3237,10 +3237,34 @@ window.Quarto = {
 
 </head>
 
-<body class="fullcontent">
+<body>
 
 <div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
-
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#methods" id="toc-methods" class="nav-link" data-scroll-target="#methods">Methods</a></li>
+  <li><a href="#analysis-and-results" id="toc-analysis-and-results" class="nav-link" data-scroll-target="#analysis-and-results">Analysis and Results</a>
+  <ul>
+  <li><a href="#data-exploration-and-visualization" id="toc-data-exploration-and-visualization" class="nav-link" data-scroll-target="#data-exploration-and-visualization">Data Exploration and Visualization</a></li>
+  <li><a href="#modeling-and-results" id="toc-modeling-and-results" class="nav-link" data-scroll-target="#modeling-and-results">Modeling and Results</a>
+  <ul class="collapse">
+  <li><a href="#model-1" id="toc-model-1" class="nav-link" data-scroll-target="#model-1">Model 1</a></li>
+  <li><a href="#model-2" id="toc-model-2" class="nav-link" data-scroll-target="#model-2">Model 2</a></li>
+  <li><a href="#model-3" id="toc-model-3" class="nav-link" data-scroll-target="#model-3">Model 3</a></li>
+  <li><a href="#model-4" id="toc-model-4" class="nav-link" data-scroll-target="#model-4">Model 4</a></li>
+  <li><a href="#model-5" id="toc-model-5" class="nav-link" data-scroll-target="#model-5">Model 5</a></li>
+  <li><a href="#model-comparison-and-diagnostics" id="toc-model-comparison-and-diagnostics" class="nav-link" data-scroll-target="#model-comparison-and-diagnostics">Model Comparison and Diagnostics</a></li>
+  </ul></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  </ul></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul>
+</nav>
+</div>
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
@@ -3263,7 +3287,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">July 23, 2025</p>
+      <p class="date">July 25, 2025</p>
     </div>
   </div>
   
@@ -3293,20 +3317,25 @@ window.Quarto = {
 </section>
 <section id="methods" class="level2">
 <h2 class="anchored" data-anchor-id="methods">Methods</h2>
-<p>In this project, binary logistic regression will be used to predict teacher attrition using responses to the Secondary Traumatic Stress Scale (STSS). Peng says “Many educational research problems call for the analysis and prediction of a dichotomous outcome: whether a student will succeed in college, whether a child should be classified as learning disabled (LD), whether a teenager is prone to engage in risky behaviors, and so on” <span class="citation" data-cites="peng2002introduction">(<a href="#ref-peng2002introduction" role="doc-biblioref">Peng, Lee, and Ingersoll 2002</a>)</span>. Binary logistic regression is useful in scenarios where the outcome variable is dichotomous (i.e., has two categories), such as predicting whether a teacher will stay in the profession or leave it.</p>
+<p>In this project, binary logistic regression will be used to predict teacher attrition using responses to the Secondary Traumatic Stress Scale (STSS). Peng says “Many educational research problems call for the analysis and prediction of a dichotomous outcome: whether a student will succeed in college, whether a child should be classified as learning disabled (LD), whether a teenager is prone to engage in risky behaviors, and so on” <span class="citation" data-cites="peng2002introduction">(<a href="#ref-peng2002introduction" role="doc-biblioref">Peng, Lee, and Ingersoll 2002</a>)</span>. Binary logistic regression is useful when the outcome has two categories, such as predicting whether a teacher stays in or leaves the profession.</p>
 <p>In binary logistic regression, the dependent (outcome) variable is binary and is modeled using one or more independent (predictor) variables. These predictors can be continuous or categorical. Categorical predictors with two or more levels are typically converted into dummy (indicator) variables, with one category chosen as the reference. The model then compares the effect of other categories relative to this reference. Tranmer explains, “If an explanatory variable has 𝑘 categories, we need 𝑘 − 1 dummy variables to investigate all the differences in the categories with respect to the response variable” <span class="citation" data-cites="tranmer2008binary">(<a href="#ref-tranmer2008binary" role="doc-biblioref">Tranmer and Elliot 2008</a>)</span>.</p>
-<p>In binary logistic regression analysis, the outcome (dependent) variable is typically coded as 0 and 1. An observation coded as 1 usually indicates that the outcome of interest occurred, whereas an observation coded as 0 indicates that it did not occur. As previously mentioned, categorical predictor (independent) variables are converted into dummy variables, where a value of 1 represents membership in a specific category, and 0 represents the reference or baseline category <span class="citation" data-cites="tranmer2008binary">(<a href="#ref-tranmer2008binary" role="doc-biblioref">Tranmer and Elliot 2008</a>)</span>.</p>
+<p>In binary logistic regression analysis, the outcome (dependent) variable is typically coded as 0 and 1. An observation coded as 1 usually indicates that the outcome of interest occurred, whereas an observation coded as 0 indicates that it did not occur. As previously mentioned, categorical predictor variables are dummy-coded, where a value of 1 indicates membership in a category, and 0 indicates the reference category <span class="citation" data-cites="tranmer2008binary">(<a href="#ref-tranmer2008binary" role="doc-biblioref">Tranmer and Elliot 2008</a>)</span>.</p>
 <p>The probability of an event occurring given certain predictor variables can be modeled with this equation:</p>
 <p><span class="math display">\[
-\pi = P(Y=1|X_1=x_1, X_2=x_2, \cdots, X_k=x_k )
-\]</span> where <span class="math inline">\(\pi\)</span> is the probability of the event occurring, <span class="math inline">\(Y\)</span> is the binary outcome (dependent) variable and <span class="math inline">\(X_i s\)</span> are the predictor (independent) variables. <span class="citation" data-cites="tranmer2008binary">(<a href="#ref-tranmer2008binary" role="doc-biblioref">Tranmer and Elliot 2008</a>)</span> <span class="citation" data-cites="harris2021primer">(<a href="#ref-harris2021primer" role="doc-biblioref">Harris 2021</a>)</span> <span class="citation" data-cites="peng2002introduction">(<a href="#ref-peng2002introduction" role="doc-biblioref">Peng, Lee, and Ingersoll 2002</a>)</span> <span class="citation" data-cites="abdulqader2017applying">(<a href="#ref-abdulqader2017applying" role="doc-biblioref">Abdulqader 2017</a>)</span></p>
-<p>Two way contingency tables can be used to represent categorical information. When using a two-way table, odds and odds ratios are easily calculated. Binary logistic regression relies on odds and odds ratios (ORs) for interpretation. Odds are a ratio that compare the probability of an event happening to the probability of the event not happening. Odds ratios are calculated by dividing the odds of a certain outcome in one group by the odds of the same outcome in a comparison group.</p>
-<p>In binary logistic regression, a logit transformation of the probability of the outcome is used to model the likelihood of an event occurring. A logit is the natural log of the odds of the event occurring. This transformation allows us to model the relationship between the predictors and the odds of the event as a linear equation:</p>
+\pi = P(Y=1 | X_1=x_1, X_2=x_2, \cdots, X_k=x_k)=\frac{e^{\beta_0 + \beta_1 x_1 + \cdots+\beta_kx_k}}{1 + e^{\beta_0 + \beta_1 x_1 + \cdots+\beta_kx_k}}
+\]</span> where <span class="math inline">\(\pi\)</span> is the probability of the event occurring, <span class="math inline">\(Y\)</span> is the binary outcome (dependent) variable, <span class="math inline">\(e\)</span> is Euler’s number (approximately 2.718), the base of the natural exponential function and <span class="math inline">\(X_i s\)</span> are the predictor (independent) variables. <span class="citation" data-cites="tranmer2008binary">(<a href="#ref-tranmer2008binary" role="doc-biblioref">Tranmer and Elliot 2008</a>)</span> <span class="citation" data-cites="harris2021primer">(<a href="#ref-harris2021primer" role="doc-biblioref">Harris 2021</a>)</span> <span class="citation" data-cites="peng2002introduction">(<a href="#ref-peng2002introduction" role="doc-biblioref">Peng, Lee, and Ingersoll 2002</a>)</span> <span class="citation" data-cites="abdulqader2017applying">(<a href="#ref-abdulqader2017applying" role="doc-biblioref">Abdulqader 2017</a>)</span></p>
+<p>Two-way contingency tables can represent categorical information, facilitating the calculation of odds and odds ratios. Binary logistic regression relies on these concepts for interpretation. Odds compare the probability of an event occurring to the probability of it not occurring, while odds ratios compare the odds of the event between groups.</p>
+<p>Binary logistic regression models the logit transformation of the probability as a linear function of the predictors. The logit (or log-odds) is the natural logarithm of the odds of the event occurring.</p>
 <p><span class="math display">\[
-\ln\left(\frac{\pi}{1 - \pi}\right) = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \cdots + \beta_k x_k
+logit(\pi)=\ln\left(\frac{\pi}{1 - \pi}\right) = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \cdots + \beta_k x_k
 \]</span></p>
-<p>where <span class="math inline">\(\pi\)</span> is the probability of an event occurring, i.e., <span class="math inline">\(P(Y=1)\)</span>, <span class="math inline">\(\left(\frac{\pi}{1 - \pi}\right)\)</span> is the odds of an event occurring, <span class="math inline">\(\ln\left(\frac{\pi}{1 - \pi}\right)\)</span> is the log odds (or logit) of the event, <span class="math inline">\(\beta_0\)</span> is the intercept (or constant term), <span class="math inline">\(\beta_i s\)</span> are the regression coefficients and <span class="math inline">\(x_i s\)</span> are the predictor (independent) variables. <span class="citation" data-cites="tranmer2008binary">(<a href="#ref-tranmer2008binary" role="doc-biblioref">Tranmer and Elliot 2008</a>)</span> <span class="citation" data-cites="harris2021primer">(<a href="#ref-harris2021primer" role="doc-biblioref">Harris 2021</a>)</span> <span class="citation" data-cites="peng2002introduction">(<a href="#ref-peng2002introduction" role="doc-biblioref">Peng, Lee, and Ingersoll 2002</a>)</span> <span class="citation" data-cites="abdulqader2017applying">(<a href="#ref-abdulqader2017applying" role="doc-biblioref">Abdulqader 2017</a>)</span></p>
-<p>Because of the logit transformation on the probability of the outcome, the model will return the log odds of an event. To discuss the regular odds of an event, one should exponentiate the log odds. In a binary logistic regression model, each regression coefficient represents the change in the log-odds of the outcome associated with a one-unit increase in the corresponding predictor, holding all other variables constant. Exponentiating a coefficient yields the odds ratio, which quantifies how the odds of the outcome change with a one-unit increase in that predictor. <span class="citation" data-cites="peng2002introduction">(<a href="#ref-peng2002introduction" role="doc-biblioref">Peng, Lee, and Ingersoll 2002</a>)</span></p>
+<p>where <span class="math inline">\(\pi\)</span> is the event probability, <span class="math inline">\(\left(\frac{\pi}{1 - \pi}\right)\)</span> is the odds, <span class="math inline">\(logit(\pi)\)</span> is the log-odds, <span class="math inline">\(\beta_0\)</span> is the intercept, <span class="math inline">\(\beta_i s\)</span> are the regression coefficients and <span class="math inline">\(x_i s\)</span> are the predictor (independent) variables. <span class="citation" data-cites="tranmer2008binary">(<a href="#ref-tranmer2008binary" role="doc-biblioref">Tranmer and Elliot 2008</a>)</span> <span class="citation" data-cites="harris2021primer">(<a href="#ref-harris2021primer" role="doc-biblioref">Harris 2021</a>)</span> <span class="citation" data-cites="peng2002introduction">(<a href="#ref-peng2002introduction" role="doc-biblioref">Peng, Lee, and Ingersoll 2002</a>)</span> <span class="citation" data-cites="abdulqader2017applying">(<a href="#ref-abdulqader2017applying" role="doc-biblioref">Abdulqader 2017</a>)</span></p>
+<p>Because the model returns log-odds, exponentiating coefficients yields odds ratios, quantifying the change in odds associated with a one-unit increase in a predictor, holding others constant. <span class="citation" data-cites="peng2002introduction">(<a href="#ref-peng2002introduction" role="doc-biblioref">Peng, Lee, and Ingersoll 2002</a>)</span> For example, an odds ratio of 1.5 indicates a 50% increase in the odds of the event occurring for each one-unit increase in the predictor, all else equal.</p>
+<p>The logistic function converts the linear predictor back to a probability between 0 and 1:</p>
+<p><span class="math display">\[
+\pi=\frac{1}{1 + e^{-(\beta_0 + \beta_1 x_1 + \beta_2 x_2 + \cdots + \beta_k x_k)}}
+\]</span></p>
+<p>This represents the estimated probability that the event (e.g., teacher attrition) will occur given specific predictor values.</p>
 <p>Binary logistic regression relies on several assumptions:</p>
 <ol type="1">
 <li>The dependent variable is binary.</li>
@@ -3324,7 +3353,7 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="analysis-and-results">Analysis and Results</h2>
 <section id="data-exploration-and-visualization" class="level3">
 <h3 class="anchored" data-anchor-id="data-exploration-and-visualization">Data Exploration and Visualization</h3>
-<p>The data for this analysis were collected via a questionnaire administered to teachers in Northwest Florida. The survey included eight items assessing teachers’ experiences with secondary traumatic stress (using items from the STSS), compassion fatigue (from the ProQOL), their intentions to stay in or leave the teaching profession, and their perceptions of whether secondary traumatic stress influenced that decision. For the purposes of this analysis, the focus is on responses to the STSS (Question 3) and participants’ stated intent to stay in or leave teaching (Question 5).</p>
+<p>Data for this analysis were collected through a questionnaire administered to teachers in Northwest Florida. The survey included eight items assessing participants’ experiences with secondary traumatic stress (using items adapted from the Secondary Traumatic Stress Scale [STSS]), compassion fatigue (from the Professional Quality of Life Scale [ProQOL]), intentions to remain in or leave the teaching profession, and perceptions of whether secondary traumatic stress influenced that decision. For the purposes of this analysis, the focus is on responses to the STSS (Item 3) and participants’ stated intent to stay in or leave teaching (Item 5). In this study, teacher attrition was operationalized as any decision to leave face-to-face classroom teaching, whether through a career change, retirement, or a transition to a teaching modality (e.g., online instruction) that substantially reduces direct student interaction.</p>
 <p><a href="Questionnaire.pdf">View Questionnaire</a></p>
 <p><a href="STSS.pdf">View Secondary Traumatic Stress Scale</a></p>
 <div class="cell">
@@ -3341,9 +3370,13 @@ window.Quarto = {
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt)</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>sts_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;sts_data.csv&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broom)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ResourceSelection)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(caret)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>sts_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;sts_data.csv&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p>A total of 107 teachers responded to the questionnaire. Of these, three participants indicated uncertainty about whether they would continue or leave the teaching profession. Because the analysis required a definitive “yes” or “no” response regarding intent to stay or leave, these uncertain responses were excluded. The final sample included 104 teachers, with 70 indicating they intended to continue teaching and 34 indicating they planned to leave the profession.</p>
@@ -3782,12 +3815,462 @@ W...4    arousal_score 901.0 0.04513017</code></pre>
 </section>
 <section id="modeling-and-results" class="level3">
 <h3 class="anchored" data-anchor-id="modeling-and-results">Modeling and Results</h3>
-<ul>
-<li><p>Explain your data preprocessing and cleaning steps.</p></li>
-<li><p>Present your key findings in a clear and concise manner.</p></li>
-<li><p>Use visuals to support your claims.</p></li>
-<li><p><strong>Tell a story about what the data reveals.</strong></p></li>
-</ul>
+<p>The data for this analysis were collected through a questionnaire designed to assess teachers’ experiences with secondary traumatic stress and their intentions regarding their future in the profession. The Secondary Traumatic Stress Scale (STSS) was used, with Question 3 (Q3) allowing respondents to indicate how frequently a given statement had been true for them over the past seven days. Responses were recorded on a five-point Likert scale: Never (1), Rarely (2), Occasionally (3), Often (4), and Very Often (5). To explore teachers’ career intentions, Question 5 (Q5) asked respondents to indicate their anticipated career path within the next three years. Response options included: Continue teaching (1), Retire (2), Leave the teaching profession (3), Become an administrator (4), and Other (please explain) (5).</p>
+<p>For the purposes of analysis, responses to Question 3 were recoded to reflect only the numerical values on the Likert scale (1 = Never, 2 = Rarely, 3 = Occasionally, 4 = Often, 5 = Very Often). Since Question 3 encompassed the items from the Secondary Traumatic Stress Scale (STSS), these responses were used to calculate subscale scores for Intrusion, Avoidance, and Arousal, as well as a total STSS score. Specifically, the Intrusion subscale score was calculated by summing the responses to items 2, 3, 6, 10, and 13. The Avoidance subscale score included items 1, 5, 7, 9, 12, 14, and 17. The Arousal subscale was based on items 4, 8, 11, 15, and 16. The total STSS score was obtained by summing all 17 items <span class="citation" data-cites="bride2004development">(<a href="#ref-bride2004development" role="doc-biblioref">Bride et al. 2004</a>)</span>.</p>
+<p>Data from Question 5 were recoded into a binary variable to indicate whether respondents intended to leave or remain in the teaching profession. Responses were coded as 1 if the respondent indicated they would be leaving teaching—specifically, if they selected Retire (2), Leave the teaching profession (3), or Become an administrator (4). Responses were coded as 0 if the respondent indicated they would Continue teaching (1).</p>
+<p>Five respondents selected Other (5). Of these, one stated they would continue teaching because they felt “stuck in the profession”; this response was recoded as 0. Another respondent indicated a move to online teaching. Given the study’s focus on daily, face-to-face student interaction as a key contributor to secondary traumatic stress, this response was recoded as 1, since the respondent would no longer be in direct contact with students. The remaining three respondents selected “Other” and expressed uncertainty about whether they would remain in or leave the profession. Because binary logistic regression requires a dichotomous outcome, these three cases were excluded from the final analysis.</p>
+<section id="model-1" class="level4">
+<h4 class="anchored" data-anchor-id="model-1">Model 1</h4>
+<p>A binary logistic regression analysis was conducted to determine whether scores on the Secondary Traumatic Stress Scale (STSS) could predict teachers’ intentions to leave the profession. The first model included the total STSS score as the sole predictor of teacher attrition.</p>
+<p><span class="math display">\[
+\ln(\text{attrition}) = -2.1175 + 0.0317(\text{Total STSS Score})
+\]</span></p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Model 1: Logistic regression with total STSS score</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>model1 <span class="ot">&lt;-</span> <span class="fu">glm</span>(leave_teaching <span class="sc">~</span> stss_total_score, <span class="at">data =</span> sts_data, <span class="at">family =</span> binomial)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="co"># View model summary (coefficients, p-values, etc.)</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+glm(formula = leave_teaching ~ stss_total_score, family = binomial, 
+    data = sts_data)
+
+Coefficients:
+                 Estimate Std. Error z value Pr(&gt;|z|)   
+(Intercept)      -2.11751    0.69225  -3.059  0.00222 **
+stss_total_score  0.03174    0.01464   2.169  0.03009 * 
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 131.45  on 103  degrees of freedom
+Residual deviance: 126.51  on 102  degrees of freedom
+AIC: 130.51
+
+Number of Fisher Scoring iterations: 4</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate odds ratios and 95% confidence intervals</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(<span class="fu">cbind</span>(<span class="at">Odds_Ratio =</span> <span class="fu">coef</span>(model1), <span class="fu">confint</span>(model1)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>                 Odds_Ratio     2.5 %    97.5 %
+(Intercept)       0.1203308 0.0287499 0.4430409
+stss_total_score  1.0322532 1.0037182 1.0635265</code></pre>
+</div>
+</div>
+<p>The model was statistically significant, χ²(1, N = 104) = 4.94, p = .030, indicating that total STSS scores significantly predicted attrition intention. The odds of indicating an intention to leave teaching increased by 3.2% for each additional point on the STSS (OR = 1.03, 95% CI [1.00, 1.06]).</p>
+</section>
+<section id="model-2" class="level4">
+<h4 class="anchored" data-anchor-id="model-2">Model 2</h4>
+<p>A second binary logistic regression model was conducted to examine whether the three components of secondary traumatic stress—Intrusion, Avoidance, and Arousal—significantly predicted teachers’ intentions to leave the profession. This model used the subscale scores for each component as separate predictor variables to assess their individual contributions to teacher attrition.</p>
+<p><span class="math display">\[
+\ln(\text{attrition}) = -2.1066 + 0.0922(\text{Intrusion Score}) + 0.0684(\text{Avoidance Score}) - 0.0724(\text{Arousal Score})
+\]</span></p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Model 2: Logistic regression with STSS subscale scores</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>model2 <span class="ot">&lt;-</span> <span class="fu">glm</span>(leave_teaching <span class="sc">~</span> intrusion_score <span class="sc">+</span> avoidance_score <span class="sc">+</span> arousal_score, <span class="at">data =</span> sts_data, <span class="at">family =</span> binomial)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="co"># View model summary</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+glm(formula = leave_teaching ~ intrusion_score + avoidance_score + 
+    arousal_score, family = binomial, data = sts_data)
+
+Coefficients:
+                Estimate Std. Error z value Pr(&gt;|z|)   
+(Intercept)     -2.10658    0.71117  -2.962  0.00306 **
+intrusion_score  0.09219    0.09311   0.990  0.32210   
+avoidance_score  0.06842    0.06933   0.987  0.32373   
+arousal_score   -0.07235    0.10816  -0.669  0.50357   
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 131.45  on 103  degrees of freedom
+Residual deviance: 125.52  on 100  degrees of freedom
+AIC: 133.52
+
+Number of Fisher Scoring iterations: 4</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>p_value <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">pchisq</span>(<span class="fl">5.93</span>, <span class="at">df =</span> <span class="dv">3</span>)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(p_value)  <span class="co"># This will print approximately 0.115</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.115066</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate odds ratios and 95% confidence intervals</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(<span class="fu">cbind</span>(<span class="at">Odds_Ratio =</span> <span class="fu">coef</span>(model2), <span class="fu">confint</span>(model2)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>                Odds_Ratio      2.5 %    97.5 %
+(Intercept)      0.1216532 0.02789728 0.4638976
+intrusion_score  1.0965777 0.91354721 1.3220831
+avoidance_score  1.0708136 0.93641468 1.2320395
+arousal_score    0.9302083 0.74868655 1.1482196</code></pre>
+</div>
+</div>
+<p>The overall model did not reach statistical significance in predicting attrition intentions, χ²(3, N = 104) = 5.93, p = .115, indicating that these subscale scores together did not significantly improve prediction over the null model.</p>
+<p>Individually, none of the subscales were statistically significant predictors of attrition intentions: intrusion (OR = 1.10, 95% CI [0.91, 1.32], p = .322), avoidance (OR = 1.07, 95% CI [0.94, 1.23], p = .324), and arousal (OR = 0.93, 95% CI [0.75, 1.15], p = .504). This suggests that, when considered simultaneously, higher scores on these subscales were not associated with significantly greater or lower odds of intending to leave teaching.</p>
+<p>Model 2 was not statistically significant, likely due to multicollinearity among the STSS subscales. As indicated by the exploratory analysis, the subscales were highly correlated. To further assess multicollinearity, the Variance Inflation Factor (VIF) was calculated for each predictor variable.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co">#check variance inflation factor</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">vif</span>(model2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>intrusion_score avoidance_score   arousal_score 
+       3.360114        4.471784        5.561493 </code></pre>
+</div>
+</div>
+<p>VIF values above 3 confirmed moderate to high multicollinearity, which may have masked individual predictor effects.</p>
+<p>Since Model 2, which included all three subscale scores (Intrusion, Avoidance, and Arousal) as predictors, was not statistically significant, separate binary logistic regression analyses were conducted to examine whether each component of secondary traumatic stress individually predicted teachers’ intentions to leave the profession.</p>
+</section>
+<section id="model-3" class="level4">
+<h4 class="anchored" data-anchor-id="model-3">Model 3</h4>
+<p>Model 3 assessed the predictive value of the Intrusion subscale score on teachers’ intentions to leave the profession.</p>
+<p><span class="math display">\[
+\ln(\text{attrition}) = -2.1044 + 0.1091(\text{Intrusion Score})
+\]</span></p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Model with intrusion only</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>model_intrusion <span class="ot">&lt;-</span> <span class="fu">glm</span>(leave_teaching <span class="sc">~</span> intrusion_score, <span class="at">data =</span> sts_data, <span class="at">family =</span> binomial)</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_intrusion)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+glm(formula = leave_teaching ~ intrusion_score, family = binomial, 
+    data = sts_data)
+
+Coefficients:
+                Estimate Std. Error z value Pr(&gt;|z|)   
+(Intercept)     -2.10441    0.68699  -3.063  0.00219 **
+intrusion_score  0.10911    0.05047   2.162  0.03062 * 
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 131.45  on 103  degrees of freedom
+Residual deviance: 126.51  on 102  degrees of freedom
+AIC: 130.51
+
+Number of Fisher Scoring iterations: 4</code></pre>
+</div>
+</div>
+<p>Intrusion was a significant predictor of attrition intentions, χ²(1, N = 104) = 4.94, p = .031. For every one-point increase in intrusion scores, the odds of intending to leave teaching increased by approximately 11% (OR = 1.11, 95% CI [1.01, 1.23]).</p>
+</section>
+<section id="model-4" class="level4">
+<h4 class="anchored" data-anchor-id="model-4">Model 4</h4>
+<p>Model 4 used the Avoidance subscale score to predict teachers’ intentions to leave the profession.</p>
+<p><span class="math display">\[
+\ln(\text{attrition}) = -1.9626 + 0.0704(\text{Avoidance Score})
+\]</span></p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Model with avoidance only</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>model_avoidance <span class="ot">&lt;-</span> <span class="fu">glm</span>(leave_teaching <span class="sc">~</span> avoidance_score, <span class="at">data =</span> sts_data, <span class="at">family =</span> binomial)</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_avoidance)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+glm(formula = leave_teaching ~ avoidance_score, family = binomial, 
+    data = sts_data)
+
+Coefficients:
+                Estimate Std. Error z value Pr(&gt;|z|)   
+(Intercept)     -1.96257    0.62638  -3.133  0.00173 **
+avoidance_score  0.07041    0.03253   2.164  0.03046 * 
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 131.45  on 103  degrees of freedom
+Residual deviance: 126.56  on 102  degrees of freedom
+AIC: 130.56
+
+Number of Fisher Scoring iterations: 4</code></pre>
+</div>
+</div>
+<p>Avoidance also significantly predicted attrition intentions, χ²(1, N = 104) = 4.95, p = .030. For every one-point increase in avoidance scores, the odds of intending to leave increased by about 7% (OR = 1.07, 95% CI [1.01, 1.14]).</p>
+</section>
+<section id="model-5" class="level4">
+<h4 class="anchored" data-anchor-id="model-5">Model 5</h4>
+<p>Model 5 examined whether the Arousal subscale score predicted teachers’ intentions to leave the profession.</p>
+<p><span class="math display">\[
+\ln(\text{attrition}) = -1.8426 + 0.0820(\text{Arousal Score})
+\]</span></p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Model with arousal only</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>model_arousal <span class="ot">&lt;-</span> <span class="fu">glm</span>(leave_teaching <span class="sc">~</span> arousal_score, <span class="at">data =</span> sts_data, <span class="at">family =</span> binomial)</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_arousal)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+glm(formula = leave_teaching ~ arousal_score, family = binomial, 
+    data = sts_data)
+
+Coefficients:
+              Estimate Std. Error z value Pr(&gt;|z|)   
+(Intercept)   -1.84259    0.66734  -2.761  0.00576 **
+arousal_score  0.08196    0.04532   1.808  0.07053 . 
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 131.45  on 103  degrees of freedom
+Residual deviance: 128.07  on 102  degrees of freedom
+AIC: 132.07
+
+Number of Fisher Scoring iterations: 4</code></pre>
+</div>
+</div>
+<p>Arousal showed a trend towards significance, χ²(1, N = 104) = 3.27, p = .071. Higher arousal scores were associated with increased odds of intending to leave teaching, but this effect did not reach conventional levels of statistical significance (OR = 1.09, 95% CI [0.99, 1.18]).</p>
+</section>
+<section id="model-comparison-and-diagnostics" class="level4">
+<h4 class="anchored" data-anchor-id="model-comparison-and-diagnostics">Model Comparison and Diagnostics</h4>
+<p>Only the total score, intrusion, and avoidance models showed statistically significant results. The model with all three subscales combined did not reach significance, likely due to overlap between the subscales. Arousal, by itself, showed a possible trend but wasn’t strong enough to be considered significant.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Tidy each model and exponentiate to get odds ratios</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>tidy_model1 <span class="ot">&lt;-</span> <span class="fu">tidy</span>(model1, <span class="at">conf.int =</span> <span class="cn">TRUE</span>, <span class="at">exponentiate =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Model =</span> <span class="st">&quot;Model 1&quot;</span>, <span class="at">AIC =</span> <span class="fu">AIC</span>(model1))</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>tidy_model3 <span class="ot">&lt;-</span> <span class="fu">tidy</span>(model_intrusion, <span class="at">conf.int =</span> <span class="cn">TRUE</span>, <span class="at">exponentiate =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Model =</span> <span class="st">&quot;Model 3&quot;</span>, <span class="at">AIC =</span> <span class="fu">AIC</span>(model_intrusion))</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>tidy_model4 <span class="ot">&lt;-</span> <span class="fu">tidy</span>(model_avoidance, <span class="at">conf.int =</span> <span class="cn">TRUE</span>, <span class="at">exponentiate =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Model =</span> <span class="st">&quot;Model 4&quot;</span>, <span class="at">AIC =</span> <span class="fu">AIC</span>(model_avoidance))</span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine all models</span></span>
+<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a>combined_models <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(tidy_model1, tidy_model3, tidy_model4)</span>
+<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter out intercepts, rename, and capitalize predictor names</span></span>
+<span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a>model_table <span class="ot">&lt;-</span> combined_models <span class="sc">%&gt;%</span></span>
+<span id="cb33-16"><a href="#cb33-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(term <span class="sc">!=</span> <span class="st">&quot;(Intercept)&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb33-17"><a href="#cb33-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Model, term, estimate, std.error, conf.low, conf.high, p.value, AIC) <span class="sc">%&gt;%</span></span>
+<span id="cb33-18"><a href="#cb33-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(</span>
+<span id="cb33-19"><a href="#cb33-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">Predictor =</span> term,</span>
+<span id="cb33-20"><a href="#cb33-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Odds Ratio</span><span class="st">`</span> <span class="ot">=</span> estimate,</span>
+<span id="cb33-21"><a href="#cb33-21" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Std. Error</span><span class="st">`</span> <span class="ot">=</span> std.error,</span>
+<span id="cb33-22"><a href="#cb33-22" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">CI Lower</span><span class="st">`</span> <span class="ot">=</span> conf.low,</span>
+<span id="cb33-23"><a href="#cb33-23" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">CI Upper</span><span class="st">`</span> <span class="ot">=</span> conf.high,</span>
+<span id="cb33-24"><a href="#cb33-24" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">p-value</span><span class="st">`</span> <span class="ot">=</span> p.value</span>
+<span id="cb33-25"><a href="#cb33-25" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb33-26"><a href="#cb33-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb33-27"><a href="#cb33-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">Predictor =</span> <span class="fu">case_when</span>(</span>
+<span id="cb33-28"><a href="#cb33-28" aria-hidden="true" tabindex="-1"></a>      Predictor <span class="sc">==</span> <span class="st">&quot;stss_total_score&quot;</span> <span class="sc">~</span> <span class="st">&quot;STSS Total Score&quot;</span>,</span>
+<span id="cb33-29"><a href="#cb33-29" aria-hidden="true" tabindex="-1"></a>      Predictor <span class="sc">==</span> <span class="st">&quot;intrusion_score&quot;</span> <span class="sc">~</span> <span class="st">&quot;Intrusion Score&quot;</span>,</span>
+<span id="cb33-30"><a href="#cb33-30" aria-hidden="true" tabindex="-1"></a>      Predictor <span class="sc">==</span> <span class="st">&quot;avoidance_score&quot;</span> <span class="sc">~</span> <span class="st">&quot;Avoidance Score&quot;</span>,</span>
+<span id="cb33-31"><a href="#cb33-31" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> Predictor</span>
+<span id="cb33-32"><a href="#cb33-32" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb33-33"><a href="#cb33-33" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb33-34"><a href="#cb33-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(Model)</span>
+<span id="cb33-35"><a href="#cb33-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-36"><a href="#cb33-36" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the table</span></span>
+<span id="cb33-37"><a href="#cb33-37" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(model_table, <span class="at">digits =</span> <span class="dv">3</span>, <span class="at">caption =</span> <span class="st">&quot;Comparison of Logistic Regression Models Predicting Teacher Attrition&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Comparison of Logistic Regression Models Predicting Teacher Attrition</caption>
+<colgroup>
+<col style="width: 9%">
+<col style="width: 20%">
+<col style="width: 13%">
+<col style="width: 13%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 9%">
+<col style="width: 9%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Model</th>
+<th style="text-align: left;">Predictor</th>
+<th style="text-align: right;">Odds Ratio</th>
+<th style="text-align: right;">Std. Error</th>
+<th style="text-align: right;">CI Lower</th>
+<th style="text-align: right;">CI Upper</th>
+<th style="text-align: right;">p-value</th>
+<th style="text-align: right;">AIC</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Model 1</td>
+<td style="text-align: left;">STSS Total Score</td>
+<td style="text-align: right;">1.032</td>
+<td style="text-align: right;">0.015</td>
+<td style="text-align: right;">1.004</td>
+<td style="text-align: right;">1.064</td>
+<td style="text-align: right;">0.030</td>
+<td style="text-align: right;">130.508</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Model 3</td>
+<td style="text-align: left;">Intrusion Score</td>
+<td style="text-align: right;">1.115</td>
+<td style="text-align: right;">0.050</td>
+<td style="text-align: right;">1.013</td>
+<td style="text-align: right;">1.237</td>
+<td style="text-align: right;">0.031</td>
+<td style="text-align: right;">130.513</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Model 4</td>
+<td style="text-align: left;">Avoidance Score</td>
+<td style="text-align: right;">1.073</td>
+<td style="text-align: right;">0.033</td>
+<td style="text-align: right;">1.008</td>
+<td style="text-align: right;">1.146</td>
+<td style="text-align: right;">0.030</td>
+<td style="text-align: right;">130.556</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Both Model 1 (total secondary traumatic stress score) and Model 3 (intrusion subscale) fit the data equally well in predicting teacher attrition intentions, each yielding the lowest AIC values. Model 4 (avoidance subscale) also performed well and was statistically significant, indicating that avoidance symptoms are relevant to attrition decisions. However, its slightly higher AIC and the comparatively stronger association between intrusion scores and attrition suggest that Model 3 offers a more informative and efficient predictor. As such, the focus of further analysis and interpretation is placed on Models 1 and 3.</p>
+<p>To ensure the validity of the logistic regression analyses, the linearity assumption between continuous predictors and the log odds of the outcome was assessed for both Model 1 (total secondary traumatic stress score) and Model 3 (intrusion subscale). Predicted probabilities from each model were transformed into log odds and plotted against their respective predictors. Visual inspection of these plots verified that the linearity assumption was adequately met for both models.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Set plotting area to 1 row, 2 columns (side by side)</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Model 1: STSS Total Score</span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>sts_data<span class="sc">$</span>pred_prob_model1 <span class="ot">&lt;-</span> <span class="fu">predict</span>(model1, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>sts_data<span class="sc">$</span>log_odds_model1 <span class="ot">&lt;-</span> <span class="fu">log</span>(sts_data<span class="sc">$</span>pred_prob_model1 <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> sts_data<span class="sc">$</span>pred_prob_model1))</span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sts_data<span class="sc">$</span>stss_total_score, sts_data<span class="sc">$</span>log_odds_model1,</span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;STSS Total Score&quot;</span>,</span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">&quot;Log Odds of Leaving Teaching&quot;</span>,</span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Linearity Check for Model 1&quot;</span>)</span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Model 3: Intrusion Score</span></span>
+<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a>sts_data<span class="sc">$</span>pred_prob_model3 <span class="ot">&lt;-</span> <span class="fu">predict</span>(model_intrusion, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span>
+<span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a>sts_data<span class="sc">$</span>log_odds_model3 <span class="ot">&lt;-</span> <span class="fu">log</span>(sts_data<span class="sc">$</span>pred_prob_model3 <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> sts_data<span class="sc">$</span>pred_prob_model3))</span>
+<span id="cb34-16"><a href="#cb34-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-17"><a href="#cb34-17" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sts_data<span class="sc">$</span>intrusion_score, sts_data<span class="sc">$</span>log_odds_model3,</span>
+<span id="cb34-18"><a href="#cb34-18" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Intrusion Score&quot;</span>,</span>
+<span id="cb34-19"><a href="#cb34-19" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">&quot;Log Odds of Leaving Teaching&quot;</span>,</span>
+<span id="cb34-20"><a href="#cb34-20" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Linearity Check for Model 3&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img role="img" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABUAAAAPACAMAAADDuCPrAAADAFBMVEUAAAABAQECAgIDAwMEBAQFBQUGBgYHBwcICAgJCQkKCgoLCwsMDAwNDQ0ODg4PDw8QEBARERESEhITExMUFBQVFRUWFhYXFxcYGBgZGRkaGhobGxscHBwdHR0eHh4fHx8gICAhISEiIiIjIyMkJCQlJSUmJiYnJycoKCgpKSkqKiorKyssLCwtLS0uLi4vLy8wMDAxMTEyMjIzMzM0NDQ1NTU2NjY3Nzc4ODg5OTk6Ojo7Ozs8PDw9PT0+Pj4/Pz9AQEBBQUFCQkJDQ0NERERFRUVGRkZHR0dISEhJSUlKSkpLS0tMTExNTU1OTk5PT09QUFBRUVFSUlJTU1NUVFRVVVVWVlZXV1dYWFhZWVlaWlpbW1tcXFxdXV1eXl5fX19gYGBhYWFiYmJjY2NkZGRlZWVmZmZnZ2doaGhpaWlqampra2tsbGxtbW1ubm5vb29wcHBxcXFycnJzc3N0dHR1dXV2dnZ3d3d4eHh5eXl6enp7e3t8fHx9fX1+fn5/f3+AgICBgYGCgoKDg4OEhISFhYWGhoaHh4eIiIiJiYmKioqLi4uMjIyNjY2Ojo6Pj4+QkJCRkZGSkpKTk5OUlJSVlZWWlpaXl5eYmJiZmZmampqbm5ucnJydnZ2enp6fn5+goKChoaGioqKjo6OkpKSlpaWmpqanp6eoqKipqamqqqqrq6usrKytra2urq6vr6+wsLCxsbGysrKzs7O0tLS1tbW2tra3t7e4uLi5ubm6urq7u7u8vLy9vb2+vr6/v7/AwMDBwcHCwsLDw8PExMTFxcXGxsbHx8fIyMjJycnKysrLy8vMzMzNzc3Ozs7Pz8/Q0NDR0dHS0tLT09PU1NTV1dXW1tbX19fY2NjZ2dna2trb29vc3Nzd3d3e3t7f39/g4ODh4eHi4uLj4+Pk5OTl5eXm5ubn5+fo6Ojp6enq6urr6+vs7Ozt7e3u7u7v7+/w8PDx8fHy8vLz8/P09PT19fX29vb39/f4+Pj5+fn6+vr7+/v8/Pz9/f3+/v7////isF19AAAACXBIWXMAAB2HAAAdhwGP5fFlAAAgAElEQVR4nOydCbxM5f/HPzN37uLaunYisiVbikr+KpVEUVr92rRQibSRFiq/X8tPReJHSjuSpH0vW4toQYQiUVKKiOx3O/+zzHJmuffOOXPOc86Z+bxfL+Z5nnvm+3xn7ud+Zs45zwKJEEKIKeB0AoQQ4lVooIQQYhIaKCGEmIQGSgghJqGBEkKISWighBBiEhooIYSYhAZKCCEmoYESQohJaKCEEGISGighhJiEBkoIISahgRJCiElooIQQYhIaKCGEmIQGSgghJqGBEkKISWighBBiEhooIYSYhAZKCCEmoYESQohJaKCEEGISGighhJiEBkoIISahgRJCiElooIQQYhIaKCGEmIQGSgghJqGBEkKISWighBBiEhooIYSYhAZKCCEmoYESQohJaKCEEGISGighhJiEBkoIISahgRJCiElooIQQYhIaKCGEmIQGSgghJqGBEkKISWighBBiEhooIYSYhAZKCCEmoYESQohJaKCEEGISGighhJiEBkoIISahgRJCiElooIQQYhIaKCGEmIQGSgghJqGBEkKISWighBBiEhooIYSYhAZKCCEmoYESQohJaKCEEGISGighhJiEBkoIISahgRJCiElooIQQYhIaKCGEmMRxA/18oczXsa2bldbP7ekx9dg7f/hi7T/WxlyhBPi+goP++mrR0p9NBN+0MMi+cNOiYMvSZGP8qhy9qMwf2/kLcxTqU4X6LAPHDfQQyLSNbX1MaT3Enh5Ti100u38tJQAKLn9tv0UxZborAS4r74iSJ+slfKuSYAyCvBtq+dsXbOmUbIyxytG1yvxx+W/AtjFjxnyadLqugvpUSWd97vn+i+93G0g3igw30H4dZB4x8OTXWyLC4W8nimmKigV6u9ZnSgK9K9TyYahFjIHeJf9wVNLpugrqUyVt9bl2xKHKj7KOfrbYWNJBMtxAOyjlm5N+avE1iOaK4viYpqhQoD9lWyDQbqGW0UINdMshNNDkoT7F6bP0Pl/4vWrzodG8FWigBgRa1Bux9C+Ji2mKCgU6U+0u0LanieBhgeYXBVt6ijTQtYeDBpo81Kc4fV6mf6+yXjecuWsN9JObZe60p0d9bGMCHRl8p3OP7X1CvWD5AfUn9gv038oB/o2mgocFiuDdkNICcQa68lb1V5xeBkp9xuJJfc6J/rSpsc147i41UFEYEujnfu1tnqze4fykq1qr/LtSsV+gw5UDWpkLHhHoBK3h+3CDvQL99LwTDgv1lFYGKgrqM9kYZvRZ0khprXL/wrWzW6u9PWg8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" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Reset plotting area back to default (optional)</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Since Model 1 and Model 3 had the lowest and identical AIC values, diagnostic tests were conducted on these models. These included the Hosmer-Lemeshow goodness-of-fit test, likelihood ratio test, assessment of the significance of individual predictors, and evaluation of predictive performance using classification metrics such as accuracy, sensitivity, and specificity.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ResourceSelection)</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(caret)</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>models <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">Model1 =</span> model1,</span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">Model3 =</span> model_intrusion</span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">lapply</span>(models, <span class="cf">function</span>(mod) {</span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Hosmer-Lemeshow Test</span></span>
+<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a>  hl <span class="ot">&lt;-</span> <span class="fu">hoslem.test</span>(mod<span class="sc">$</span>y, <span class="fu">fitted</span>(mod))</span>
+<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Null model for LRT</span></span>
+<span id="cb36-14"><a href="#cb36-14" aria-hidden="true" tabindex="-1"></a>  null_mod <span class="ot">&lt;-</span> <span class="fu">glm</span>(leave_teaching <span class="sc">~</span> <span class="dv">1</span>, <span class="at">family =</span> binomial, <span class="at">data =</span> sts_data)</span>
+<span id="cb36-15"><a href="#cb36-15" aria-hidden="true" tabindex="-1"></a>  lrt <span class="ot">&lt;-</span> <span class="fu">anova</span>(null_mod, mod, <span class="at">test =</span> <span class="st">&quot;Chisq&quot;</span>)</span>
+<span id="cb36-16"><a href="#cb36-16" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb36-17"><a href="#cb36-17" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Predictions and confusion matrix</span></span>
+<span id="cb36-18"><a href="#cb36-18" aria-hidden="true" tabindex="-1"></a>  pred_probs <span class="ot">&lt;-</span> <span class="fu">predict</span>(mod, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span>
+<span id="cb36-19"><a href="#cb36-19" aria-hidden="true" tabindex="-1"></a>  pred_class <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(pred_probs <span class="sc">&gt;</span> <span class="fl">0.5</span>, <span class="dv">1</span>, <span class="dv">0</span>)</span>
+<span id="cb36-20"><a href="#cb36-20" aria-hidden="true" tabindex="-1"></a>  cm <span class="ot">&lt;-</span> <span class="fu">confusionMatrix</span>(<span class="fu">factor</span>(pred_class), <span class="fu">factor</span>(sts_data<span class="sc">$</span>leave_teaching))</span>
+<span id="cb36-21"><a href="#cb36-21" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb36-22"><a href="#cb36-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(</span>
+<span id="cb36-23"><a href="#cb36-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">HosmerLemeshow_p =</span> hl<span class="sc">$</span>p.value,</span>
+<span id="cb36-24"><a href="#cb36-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">LRT_p =</span> lrt<span class="sc">$</span><span class="st">`</span><span class="at">Pr(&gt;Chi)</span><span class="st">`</span>[<span class="dv">2</span>],</span>
+<span id="cb36-25"><a href="#cb36-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">Accuracy =</span> cm<span class="sc">$</span>overall[<span class="st">&quot;Accuracy&quot;</span>],</span>
+<span id="cb36-26"><a href="#cb36-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">Sensitivity =</span> cm<span class="sc">$</span>byClass[<span class="st">&quot;Sensitivity&quot;</span>],</span>
+<span id="cb36-27"><a href="#cb36-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">Specificity =</span> cm<span class="sc">$</span>byClass[<span class="st">&quot;Specificity&quot;</span>]</span>
+<span id="cb36-28"><a href="#cb36-28" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb36-29"><a href="#cb36-29" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb36-30"><a href="#cb36-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-31"><a href="#cb36-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert results to data.frame</span></span>
+<span id="cb36-32"><a href="#cb36-32" aria-hidden="true" tabindex="-1"></a>diagnostic_summary <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, <span class="fu">lapply</span>(results, as.data.frame))</span>
+<span id="cb36-33"><a href="#cb36-33" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(diagnostic_summary) <span class="ot">&lt;-</span> <span class="fu">names</span>(models)</span>
+<span id="cb36-34"><a href="#cb36-34" aria-hidden="true" tabindex="-1"></a>diagnostic_summary</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>       HosmerLemeshow_p      LRT_p  Accuracy Sensitivity Specificity
+Model1        0.6050059 0.02619078 0.6730769   0.9428571   0.1176471
+Model3        0.3359190 0.02625793 0.6826923   0.9571429   0.1176471</code></pre>
+</div>
+</div>
+<p><span class="math display">\[
+\text{Hosmer-Lemeshow (HL) Test}
+\]</span></p>
+<p><span class="math display">\[
+H_0:
+\text{The logistic regression model fits the data well.}
+\]</span></p>
+<p><span class="math display">\[
+H_1:
+\text{The model does not fit the data well.}
+\]</span></p>
+<p>Both Model 1 (total STSS score) and Model 3 (intrusion score) demonstrated good overall fit based on the Hosmer-Lemeshow test (Model 1: p = .605; Model 3: p = .336), indicating no significant lack of fit.</p>
+<p><span class="math display">\[
+\text{Likelihood Ratio Test}
+\]</span> <span class="math display">\[
+H_0:
+\text{The simpler model (with no predictors) fits the data as well as the more complex model.}
+\]</span> <span class="math display">\[
+H_1:
+\text{The more complex model (with predictors) fits the data significantly better than the simpler model.}
+\]</span></p>
+<p>Likelihood ratio tests showed that both models significantly improved prediction over a null model with no predictors (Model 1: p = .026; Model 3: p = .026).</p>
+<p><span class="math display">\[
+\text{Accuracy, Sensitivity and Specificity}
+\]</span></p>
+<p>In terms of classification accuracy, Model 3 slightly outperformed Model 1 (68.3% vs. 67.3%), primarily due to a marginally higher sensitivity (ability to correctly identify teachers intending to leave). Both models showed low specificity (~11.8%), indicating limited ability to correctly identify those intending to stay.</p>
+</section>
 </section>
 <section id="conclusion" class="level3">
 <h3 class="anchored" data-anchor-id="conclusion">Conclusion</h3>
@@ -3795,6 +4278,7 @@ W...4    arousal_score 901.0 0.04513017</code></pre>
 <li><p>Summarize your key findings.</p></li>
 <li><p>Discuss the implications of your results.</p></li>
 </ul>
+<p>The main goal of this analysis was to identify a model that accurately predicts teacher attrition. Both Model 1 and Model 3 achieved similar overall accuracy, correctly classifying nearly 70% of cases. However, while these models demonstrated high sensitivity—effectively identifying teachers who intend to leave—they showed low specificity, correctly identifying only about 12% of teachers who intend to stay. This indicates that although the models are strong at predicting attrition, they are limited in accurately recognizing those who will remain in teaching. Future analyses could focus on improving model specificity, potentially by adjusting classification thresholds or incorporating additional predictors, to better balance the identification of both teachers who leave and those who stay.</p>
 </section>
 </section>
 <section id="references" class="level2 unnumbered">

@@ -6,6 +6,8 @@ date: '`r Sys.Date()`'
 format:
   html:
     code-fold: true
+    toc: true
+    toc-depth: 4
 course: Capstone Projects in Data Science
 bibliography: references.bib # file contains bibtex for references
 #always_allow_html: true # this allows to get PDF with HTML features
@@ -51,36 +53,36 @@ In an effort to build on the previous research, the current study focuses on pre
 
 ## Methods
 
-In this project, binary logistic regression will be used to predict teacher attrition using responses to the Secondary Traumatic Stress Scale (STSS). Peng says “Many educational research problems call for the analysis and prediction of a dichotomous outcome: whether a student will succeed in college, whether a child should be classified as learning disabled (LD), whether a teenager is prone to engage in risky behaviors, and so on” [@peng2002introduction]. Binary logistic regression is useful in scenarios where the outcome variable is dichotomous (i.e., has two categories), such as predicting whether a teacher will stay in the profession or leave it.
+In this project, binary logistic regression will be used to predict teacher attrition using responses to the Secondary Traumatic Stress Scale (STSS). Peng says “Many educational research problems call for the analysis and prediction of a dichotomous outcome: whether a student will succeed in college, whether a child should be classified as learning disabled (LD), whether a teenager is prone to engage in risky behaviors, and so on” [@peng2002introduction]. Binary logistic regression is useful when the outcome has two categories, such as predicting whether a teacher stays in or leaves the profession.
 
 In binary logistic regression, the dependent (outcome) variable is binary and is modeled using one or more independent (predictor) variables. These predictors can be continuous or categorical. Categorical predictors with two or more levels are typically converted into dummy (indicator) variables, with one category chosen as the reference. The model then compares the effect of other categories relative to this reference. Tranmer explains, "If an explanatory variable has 𝑘 categories, we need 𝑘 − 1 dummy variables to investigate all the differences in the categories with respect to the response variable" [@tranmer2008binary].
 
-In binary logistic regression analysis, the outcome (dependent) variable is typically coded as 0 and 1. An observation coded as 1 usually indicates that the outcome of interest occurred, whereas an observation coded as 0 indicates that it did not occur. As previously mentioned, categorical predictor (independent) variables are converted into dummy variables, where a value of 1 represents membership in a specific category, and 0 represents the reference or baseline category [@tranmer2008binary].
+In binary logistic regression analysis, the outcome (dependent) variable is typically coded as 0 and 1. An observation coded as 1 usually indicates that the outcome of interest occurred, whereas an observation coded as 0 indicates that it did not occur. As previously mentioned, categorical predictor variables are dummy-coded, where a value of 1 indicates membership in a category, and 0 indicates the reference category [@tranmer2008binary].
 
 The probability of an event occurring given certain predictor variables can be modeled with this equation: 
 
 $$
-\pi = P(Y=1|X_1=x_1, X_2=x_2, \cdots, X_k=x_k )
+\pi = P(Y=1 | X_1=x_1, X_2=x_2, \cdots, X_k=x_k)=\frac{e^{\beta_0 + \beta_1 x_1 + \cdots+\beta_kx_k}}{1 + e^{\beta_0 + \beta_1 x_1 + \cdots+\beta_kx_k}}
 $$
-where $\pi$ is the probability of the event occurring, $Y$ is the binary outcome (dependent) variable and $X_i s$ are the predictor (independent) variables. 
+where $\pi$ is the probability of the event occurring, $Y$ is the binary outcome (dependent) variable, $e$ is Euler’s number (approximately 2.718), the base of the natural exponential function and $X_i s$ are the predictor (independent) variables. 
 [@tranmer2008binary]
 [@harris2021primer]
 [@peng2002introduction]
 [@abdulqader2017applying]
 
 
-Two way contingency tables can be used to represent categorical information. When using a two-way table, odds and odds ratios are easily calculated. Binary logistic regression relies on odds and odds ratios (ORs) for interpretation. Odds are a ratio that compare the probability of an event happening to the probability of the event not happening. Odds ratios are calculated by dividing the odds of a certain outcome in one group by the odds of the same outcome in a comparison group.
+Two-way contingency tables can represent categorical information, facilitating the calculation of odds and odds ratios. Binary logistic regression relies on these concepts for interpretation. Odds compare the probability of an event occurring to the probability of it not occurring, while odds ratios compare the odds of the event between groups.
 
-In binary logistic regression, a logit transformation of the probability of the outcome is used to model the likelihood of an event occurring. A logit is the natural log of the odds of the event occurring. This transformation allows us to model the relationship between the predictors and the odds of the event as a linear equation:
+Binary logistic regression models the logit transformation of the probability as a linear function of the predictors. The logit (or log-odds) is the natural logarithm of the odds of the event occurring.
 
 $$
-\ln\left(\frac{\pi}{1 - \pi}\right) = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \cdots + \beta_k x_k
+logit(\pi)=\ln\left(\frac{\pi}{1 - \pi}\right) = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \cdots + \beta_k x_k
 $$
 
-where $\pi$ is the probability of an event occurring, i.e., $P(Y=1)$, 
-$\left(\frac{\pi}{1 - \pi}\right)$ is the odds of an event occurring, 
-$\ln\left(\frac{\pi}{1 - \pi}\right)$ is the log odds (or logit) of the event,
-$\beta_0$ is the intercept (or constant term),
+where $\pi$ is the event probability, 
+$\left(\frac{\pi}{1 - \pi}\right)$ is the odds, 
+$logit(\pi)$ is the log-odds,
+$\beta_0$ is the intercept,
 $\beta_i s$ are the regression coefficients and 
 $x_i s$ are the predictor (independent) variables. 
 [@tranmer2008binary]
@@ -88,7 +90,15 @@ $x_i s$ are the predictor (independent) variables.
 [@peng2002introduction]
 [@abdulqader2017applying]
 
-Because of the logit transformation on the probability of the outcome, the model will return the log odds of an event. To discuss the regular odds of an event, one should exponentiate the log odds. In a binary logistic regression model, each regression coefficient represents the change in the log-odds of the outcome associated with a one-unit increase in the corresponding predictor, holding all other variables constant. Exponentiating a coefficient yields the odds ratio, which quantifies how the odds of the outcome change with a one-unit increase in that predictor. [@peng2002introduction]
+Because the model returns log-odds, exponentiating coefficients yields odds ratios, quantifying the change in odds associated with a one-unit increase in a predictor, holding others constant. [@peng2002introduction] For example, an odds ratio of 1.5 indicates a 50% increase in the odds of the event occurring for each one-unit increase in the predictor, all else equal.
+
+The logistic function converts the linear predictor back to a probability between 0 and 1:
+
+$$
+\pi=\frac{1}{1 + e^{-(\beta_0 + \beta_1 x_1 + \beta_2 x_2 + \cdots + \beta_k x_k)}}
+$$
+
+This represents the estimated probability that the event (e.g., teacher attrition) will occur given specific predictor values.
 
 Binary logistic regression relies on several assumptions:
 
@@ -110,7 +120,7 @@ The goal of this project is to predict teacher attrition using responses from th
 
 ### Data Exploration and Visualization
 
-The data for this analysis were collected via a questionnaire administered to teachers in Northwest Florida. The survey included eight items assessing teachers’ experiences with secondary traumatic stress (using items from the STSS), compassion fatigue (from the ProQOL), their intentions to stay in or leave the teaching profession, and their perceptions of whether secondary traumatic stress influenced that decision. For the purposes of this analysis, the focus is on responses to the STSS (Question 3) and participants’ stated intent to stay in or leave teaching (Question 5).
+Data for this analysis were collected through a questionnaire administered to teachers in Northwest Florida. The survey included eight items assessing participants’ experiences with secondary traumatic stress (using items adapted from the Secondary Traumatic Stress Scale [STSS]), compassion fatigue (from the Professional Quality of Life Scale [ProQOL]), intentions to remain in or leave the teaching profession, and perceptions of whether secondary traumatic stress influenced that decision. For the purposes of this analysis, the focus is on responses to the STSS (Item 3) and participants’ stated intent to stay in or leave teaching (Item 5). In this study, teacher attrition was operationalized as any decision to leave face-to-face classroom teaching, whether through a career change, retirement, or a transition to a teaching modality (e.g., online instruction) that substantially reduces direct student interaction.
 
 [View Questionnaire](Questionnaire.pdf)
 
@@ -128,7 +138,11 @@ library(dslabs)
 library(readr)
 library(patchwork)
 library(gt)
+library(car)
 library(tidyr)
+library(broom)
+library(ResourceSelection)
+library(caret)
 
 sts_data <- read_csv("sts_data.csv")
 
@@ -407,22 +421,292 @@ In contrast, correlations between the STSS scores and intent to leave teaching w
 
 ### Modeling and Results
 
--   Explain your data preprocessing and cleaning steps.
+The data for this analysis were collected through a questionnaire designed to assess teachers’ experiences with secondary traumatic stress and their intentions regarding their future in the profession. The Secondary Traumatic Stress Scale (STSS) was used, with Question 3 (Q3) allowing respondents to indicate how frequently a given statement had been true for them over the past seven days. Responses were recorded on a five-point Likert scale: Never (1), Rarely (2), Occasionally (3), Often (4), and Very Often (5). To explore teachers’ career intentions, Question 5 (Q5) asked respondents to indicate their anticipated career path within the next three years. Response options included: Continue teaching (1), Retire (2), Leave the teaching profession (3), Become an administrator (4), and Other (please explain) (5).
 
--   Present your key findings in a clear and concise manner.
+For the purposes of analysis, responses to Question 3 were recoded to reflect only the numerical values on the Likert scale (1 = Never, 2 = Rarely, 3 = Occasionally, 4 = Often, 5 = Very Often). Since Question 3 encompassed the items from the Secondary Traumatic Stress Scale (STSS), these responses were used to calculate subscale scores for Intrusion, Avoidance, and Arousal, as well as a total STSS score. Specifically, the Intrusion subscale score was calculated by summing the responses to items 2, 3, 6, 10, and 13. The Avoidance subscale score included items 1, 5, 7, 9, 12, 14, and 17. The Arousal subscale was based on items 4, 8, 11, 15, and 16. The total STSS score was obtained by summing all 17 items [@bride2004development].
 
--   Use visuals to support your claims.
+Data from Question 5 were recoded into a binary variable to indicate whether respondents intended to leave or remain in the teaching profession. Responses were coded as 1 if the respondent indicated they would be leaving teaching—specifically, if they selected Retire (2), Leave the teaching profession (3), or Become an administrator (4). Responses were coded as 0 if the respondent indicated they would Continue teaching (1).
 
--   **Tell a story about what the data reveals.**
+Five respondents selected Other (5). Of these, one stated they would continue teaching because they felt "stuck in the profession"; this response was recoded as 0. Another respondent indicated a move to online teaching. Given the study’s focus on daily, face-to-face student interaction as a key contributor to secondary traumatic stress, this response was recoded as 1, since the respondent would no longer be in direct contact with students. The remaining three respondents selected "Other" and expressed uncertainty about whether they would remain in or leave the profession. Because binary logistic regression requires a dichotomous outcome, these three cases were excluded from the final analysis. 
 
-```{r}
+
+#### Model 1
+
+A binary logistic regression analysis was conducted to determine whether scores on the Secondary Traumatic Stress Scale (STSS) could predict teachers’ intentions to leave the profession. The first model included the total STSS score as the sole predictor of teacher attrition.
+
+$$ 
+\ln(\text{attrition}) = -2.1175 + 0.0317(\text{Total STSS Score}) 
+$$
+
+```{r, warning=FALSE, echo=TRUE}
+# Model 1: Logistic regression with total STSS score
+model1 <- glm(leave_teaching ~ stss_total_score, data = sts_data, family = binomial)
+
+
+# View model summary (coefficients, p-values, etc.)
+summary(model1)
+
+# Calculate odds ratios and 95% confidence intervals
+exp(cbind(Odds_Ratio = coef(model1), confint(model1)))
 
 ```
+
+The model was statistically significant, χ²(1, N = 104) = 4.94, p = .030, indicating that total STSS scores significantly predicted attrition intention. The odds of indicating an intention to leave teaching increased by 3.2% for each additional point on the STSS (OR = 1.03, 95% CI [1.00, 1.06]).
+
+#### Model 2
+
+A second binary logistic regression model was conducted to examine whether the three components of secondary traumatic stress—Intrusion, Avoidance, and Arousal—significantly predicted teachers’ intentions to leave the profession. This model used the subscale scores for each component as separate predictor variables to assess their individual contributions to teacher attrition. 
+
+$$ 
+\ln(\text{attrition}) = -2.1066 + 0.0922(\text{Intrusion Score}) + 0.0684(\text{Avoidance Score}) - 0.0724(\text{Arousal Score})
+$$
+
+```{r, warning=FALSE, echo=TRUE}
+# Model 2: Logistic regression with STSS subscale scores
+model2 <- glm(leave_teaching ~ intrusion_score + avoidance_score + arousal_score, data = sts_data, family = binomial)
+
+# View model summary
+summary(model2)
+
+p_value <- 1 - pchisq(5.93, df = 3)
+print(p_value)  # This will print approximately 0.115
+
+
+# Calculate odds ratios and 95% confidence intervals
+exp(cbind(Odds_Ratio = coef(model2), confint(model2)))
+
+```
+
+The overall model did not reach statistical significance in predicting attrition intentions, χ²(3, N = 104) = 5.93, p = .115, indicating that these subscale scores together did not significantly improve prediction over the null model.
+
+Individually, none of the subscales were statistically significant predictors of attrition intentions: intrusion (OR = 1.10, 95% CI [0.91, 1.32], p = .322), avoidance (OR = 1.07, 95% CI [0.94, 1.23], p = .324), and arousal (OR = 0.93, 95% CI [0.75, 1.15], p = .504). This suggests that, when considered simultaneously, higher scores on these subscales were not associated with significantly greater or lower odds of intending to leave teaching.
+
+Model 2 was not statistically significant, likely due to multicollinearity among the STSS subscales. As indicated by the exploratory analysis, the subscales were highly correlated. To further assess multicollinearity, the Variance Inflation Factor (VIF) was calculated for each predictor variable.
+
+```{r, warning=FALSE, echo=TRUE}
+#check variance inflation factor
+vif(model2)
+```
+
+
+VIF values above 3 confirmed moderate to high multicollinearity, which may have masked individual predictor effects.
+
+Since Model 2, which included all three subscale scores (Intrusion, Avoidance, and Arousal) as predictors, was not statistically significant, separate binary logistic regression analyses were conducted to examine whether each component of secondary traumatic stress individually predicted teachers’ intentions to leave the profession.
+
+#### Model 3
+
+Model 3 assessed the predictive value of the Intrusion subscale score on teachers’ intentions to leave the profession.
+
+$$ 
+\ln(\text{attrition}) = -2.1044 + 0.1091(\text{Intrusion Score}) 
+$$
+```{r, warning=FALSE, echo=TRUE}
+# Model with intrusion only
+model_intrusion <- glm(leave_teaching ~ intrusion_score, data = sts_data, family = binomial)
+summary(model_intrusion)
+
+```
+Intrusion was a significant predictor of attrition intentions, χ²(1, N = 104) = 4.94, p = .031. For every one-point increase in intrusion scores, the odds of intending to leave teaching increased by approximately 11% (OR = 1.11, 95% CI [1.01, 1.23]).
+
+#### Model 4
+
+Model 4 used the Avoidance subscale score to predict teachers’ intentions to leave the profession.
+
+$$ 
+\ln(\text{attrition}) = -1.9626 + 0.0704(\text{Avoidance Score}) 
+$$
+
+```{r, warning=FALSE, echo=TRUE}
+
+# Model with avoidance only
+model_avoidance <- glm(leave_teaching ~ avoidance_score, data = sts_data, family = binomial)
+summary(model_avoidance)
+
+
+```
+Avoidance also significantly predicted attrition intentions, χ²(1, N = 104) = 4.95, p = .030. For every one-point increase in avoidance scores, the odds of intending to leave increased by about 7% (OR = 1.07, 95% CI [1.01, 1.14]).
+
+#### Model 5
+
+Model 5 examined whether the Arousal subscale score predicted teachers’ intentions to leave the profession.
+
+$$ 
+\ln(\text{attrition}) = -1.8426 + 0.0820(\text{Arousal Score}) 
+$$
+
+```{r, warning=FALSE, echo=TRUE}
+# Model with arousal only
+model_arousal <- glm(leave_teaching ~ arousal_score, data = sts_data, family = binomial)
+summary(model_arousal)
+
+```
+
+Arousal showed a trend towards significance, χ²(1, N = 104) = 3.27, p = .071. Higher arousal scores were associated with increased odds of intending to leave teaching, but this effect did not reach conventional levels of statistical significance (OR = 1.09, 95% CI [0.99, 1.18]).
+
+
+#### Model Comparison and Diagnostics
+
+Only the total score, intrusion, and avoidance models showed statistically significant results. The model with all three subscales combined did not reach significance, likely due to overlap between the subscales. Arousal, by itself, showed a possible trend but wasn’t strong enough to be considered significant.
+
+```{r, warning=FALSE, echo=TRUE}
+
+
+# Tidy each model and exponentiate to get odds ratios
+tidy_model1 <- tidy(model1, conf.int = TRUE, exponentiate = TRUE) %>%
+  mutate(Model = "Model 1", AIC = AIC(model1))
+
+tidy_model3 <- tidy(model_intrusion, conf.int = TRUE, exponentiate = TRUE) %>%
+  mutate(Model = "Model 3", AIC = AIC(model_intrusion))
+
+tidy_model4 <- tidy(model_avoidance, conf.int = TRUE, exponentiate = TRUE) %>%
+  mutate(Model = "Model 4", AIC = AIC(model_avoidance))
+
+# Combine all models
+combined_models <- bind_rows(tidy_model1, tidy_model3, tidy_model4)
+
+# Filter out intercepts, rename, and capitalize predictor names
+model_table <- combined_models %>%
+  filter(term != "(Intercept)") %>%
+  select(Model, term, estimate, std.error, conf.low, conf.high, p.value, AIC) %>%
+  rename(
+    Predictor = term,
+    `Odds Ratio` = estimate,
+    `Std. Error` = std.error,
+    `CI Lower` = conf.low,
+    `CI Upper` = conf.high,
+    `p-value` = p.value
+  ) %>%
+  mutate(
+    Predictor = case_when(
+      Predictor == "stss_total_score" ~ "STSS Total Score",
+      Predictor == "intrusion_score" ~ "Intrusion Score",
+      Predictor == "avoidance_score" ~ "Avoidance Score",
+      TRUE ~ Predictor
+    )
+  ) %>%
+  arrange(Model)
+
+# Display the table
+kable(model_table, digits = 3, caption = "Comparison of Logistic Regression Models Predicting Teacher Attrition")
+
+```
+
+Both Model 1 (total secondary traumatic stress score) and Model 3 (intrusion subscale) fit the data equally well in predicting teacher attrition intentions, each yielding the lowest AIC values. Model 4 (avoidance subscale) also performed well and was statistically significant, indicating that avoidance symptoms are relevant to attrition decisions. However, its slightly higher AIC and the comparatively stronger association between intrusion scores and attrition suggest that Model 3 offers a more informative and efficient predictor. As such, the focus of further analysis and interpretation is placed on Models 1 and 3.
+
+To ensure the validity of the logistic regression analyses, the linearity assumption between continuous predictors and the log odds of the outcome was assessed for both Model 1 (total secondary traumatic stress score) and Model 3 (intrusion subscale). Predicted probabilities from each model were transformed into log odds and plotted against their respective predictors. Visual inspection of these plots verified that the linearity assumption was adequately met for both models.
+
+```{r}
+# Set plotting area to 1 row, 2 columns (side by side)
+par(mfrow = c(1, 2))
+
+# Model 1: STSS Total Score
+sts_data$pred_prob_model1 <- predict(model1, type = "response")
+sts_data$log_odds_model1 <- log(sts_data$pred_prob_model1 / (1 - sts_data$pred_prob_model1))
+
+plot(sts_data$stss_total_score, sts_data$log_odds_model1,
+     xlab = "STSS Total Score",
+     ylab = "Log Odds of Leaving Teaching",
+     main = "Linearity Check for Model 1")
+
+# Model 3: Intrusion Score
+sts_data$pred_prob_model3 <- predict(model_intrusion, type = "response")
+sts_data$log_odds_model3 <- log(sts_data$pred_prob_model3 / (1 - sts_data$pred_prob_model3))
+
+plot(sts_data$intrusion_score, sts_data$log_odds_model3,
+     xlab = "Intrusion Score",
+     ylab = "Log Odds of Leaving Teaching",
+     main = "Linearity Check for Model 3")
+
+# Reset plotting area back to default (optional)
+par(mfrow = c(1, 1))
+
+```
+
+Since Model 1 and Model 3 had the lowest and identical AIC values, diagnostic tests were conducted on these models. These included the Hosmer-Lemeshow goodness-of-fit test, likelihood ratio test, assessment of the significance of individual predictors, and evaluation of predictive performance using classification metrics such as accuracy, sensitivity, and specificity.
+
+
+```{r, warning=FALSE, echo=TRUE}
+library(ResourceSelection)
+library(caret)
+
+models <- list(
+  Model1 = model1,
+  Model3 = model_intrusion
+)
+
+results <- lapply(models, function(mod) {
+  # Hosmer-Lemeshow Test
+  hl <- hoslem.test(mod$y, fitted(mod))
+  
+  # Null model for LRT
+  null_mod <- glm(leave_teaching ~ 1, family = binomial, data = sts_data)
+  lrt <- anova(null_mod, mod, test = "Chisq")
+  
+  # Predictions and confusion matrix
+  pred_probs <- predict(mod, type = "response")
+  pred_class <- ifelse(pred_probs > 0.5, 1, 0)
+  cm <- confusionMatrix(factor(pred_class), factor(sts_data$leave_teaching))
+  
+  list(
+    HosmerLemeshow_p = hl$p.value,
+    LRT_p = lrt$`Pr(>Chi)`[2],
+    Accuracy = cm$overall["Accuracy"],
+    Sensitivity = cm$byClass["Sensitivity"],
+    Specificity = cm$byClass["Specificity"]
+  )
+})
+
+# Convert results to data.frame
+diagnostic_summary <- do.call(rbind, lapply(results, as.data.frame))
+rownames(diagnostic_summary) <- names(models)
+diagnostic_summary
+
+```
+
+$$
+\text{Hosmer-Lemeshow (HL) Test}
+$$
+
+$$
+H_0:
+\text{The logistic regression model fits the data well.}
+$$
+
+$$
+H_1:
+\text{The model does not fit the data well.}
+$$
+
+Both Model 1 (total STSS score) and Model 3 (intrusion score) demonstrated good overall fit based on the Hosmer-Lemeshow test (Model 1: p = .605; Model 3: p = .336), indicating no significant lack of fit.
+
+$$
+\text{Likelihood Ratio Test}
+$$
+$$
+H_0:
+\text{The simpler model (with no predictors) fits the data as well as the more complex model.}
+$$
+$$
+H_1:
+\text{The more complex model (with predictors) fits the data significantly better than the simpler model.}
+$$
+
+Likelihood ratio tests showed that both models significantly improved prediction over a null model with no predictors (Model 1: p = .026; Model 3: p = .026).
+
+$$
+\text{Accuracy, Sensitivity and Specificity}
+$$
+
+In terms of classification accuracy, Model 3 slightly outperformed Model 1 (68.3% vs. 67.3%), primarily due to a marginally higher sensitivity (ability to correctly identify teachers intending to leave). Both models showed low specificity (~11.8%), indicating limited ability to correctly identify those intending to stay.
 
 ### Conclusion
 
 -   Summarize your key findings.
 
 -   Discuss the implications of your results.
+
+The main goal of this analysis was to identify a model that accurately predicts teacher attrition. Both Model 1 and Model 3 achieved similar overall accuracy, correctly classifying nearly 70% of cases. However, while these models demonstrated high sensitivity—effectively identifying teachers who intend to leave—they showed low specificity, correctly identifying only about 12% of teachers who intend to stay. This indicates that although the models are strong at predicting attrition, they are limited in accurately recognizing those who will remain in teaching. Future analyses could focus on improving model specificity, potentially by adjusting classification thresholds or incorporating additional predictors, to better balance the identification of both teachers who leave and those who stay.
+
+
 
 ## References
