@@ -59,32 +59,31 @@ In binary logistic regression, the dependent (outcome) variable is binary and is
 
 In binary logistic regression analysis, the outcome (dependent) variable is typically coded as 0 and 1. An observation coded as 1 usually indicates that the outcome of interest occurred, whereas an observation coded as 0 indicates that it did not occur. As previously mentioned, categorical predictor variables are dummy-coded, where a value of 1 indicates membership in a category, and 0 indicates the reference category [@tranmer2008binary].
 
-The probability of an event occurring given certain predictor variables can be modeled with this equation: 
+The probability of an event occurring given certain predictor variables can be modeled using the logistic regression function:
 
 $$
-\pi = P(Y=1 | X_1=x_1, X_2=x_2, \cdots, X_k=x_k)=\frac{e^{\beta_0 + \beta_1 x_1 + \cdots+\beta_kx_k}}{1 + e^{\beta_0 + \beta_1 x_1 + \cdots+\beta_kx_k}}
+\pi = P(Y=1 | X_1=x_1, X_2=x_2, \cdots, X_k=x_k)=\frac{1}{1 + e^{-(\beta_0 + \beta_1 x_1 + \beta_2 x_2 + \cdots + \beta_k x_k)}}
 $$
-where $\pi$ is the probability of the event occurring, $Y$ is the binary outcome (dependent) variable, $e$ is Euler’s number (approximately 2.718), the base of the natural exponential function and $X_i s$ are the predictor (independent) variables. 
+where $\pi$ represents the probability of the event occurring, $Y$ is the binary outcome (dependent) variable, $e$ is Euler’s number (approximately 2.718), the base of the natural exponential function, and the $X_i$ are the predictor (independent) variables.
 [@tranmer2008binary]
 [@harris2021primer]
 [@peng2002introduction]
 [@abdulqader2017applying]
 
-
 Two-way contingency tables can represent categorical information, facilitating the calculation of odds and odds ratios. Binary logistic regression relies on these concepts for interpretation. Odds compare the probability of an event occurring to the probability of it not occurring, while odds ratios compare the odds of the event between groups.
 
-Binary logistic regression models the logit transformation of the probability as a linear function of the predictors. The logit (or log-odds) is the natural logarithm of the odds of the event occurring.
+Binary logistic regression models the logit transformation of the event probability as a linear function of the predictors. The logit (or log-odds) is defined as the natural logarithm of the odds of the event occurring:
 
 $$
 logit(\pi)=\ln\left(\frac{\pi}{1 - \pi}\right) = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \cdots + \beta_k x_k
 $$
 
-where $\pi$ is the event probability, 
-$\left(\frac{\pi}{1 - \pi}\right)$ is the odds, 
+where $\pi$ is the probability of the event, 
+$\frac{\pi}{1 - \pi}$ represents the odds, 
 $logit(\pi)$ is the log-odds,
 $\beta_0$ is the intercept,
-$\beta_i s$ are the regression coefficients and 
-$x_i s$ are the predictor (independent) variables. 
+$\beta_i$ are the regression coefficients and 
+$x_i$ are the predictor (independent) variables. 
 [@tranmer2008binary]
 [@harris2021primer]
 [@peng2002introduction]
@@ -92,13 +91,13 @@ $x_i s$ are the predictor (independent) variables.
 
 Because the model returns log-odds, exponentiating coefficients yields odds ratios, quantifying the change in odds associated with a one-unit increase in a predictor, holding others constant. [@peng2002introduction] For example, an odds ratio of 1.5 indicates a 50% increase in the odds of the event occurring for each one-unit increase in the predictor, all else equal.
 
-The logistic function converts the linear predictor back to a probability between 0 and 1:
+The logistic function transforms the linear predictor back into a probability bounded between 0 and 1:
 
 $$
 \pi=\frac{1}{1 + e^{-(\beta_0 + \beta_1 x_1 + \beta_2 x_2 + \cdots + \beta_k x_k)}}
 $$
 
-This represents the estimated probability that the event (e.g., teacher attrition) will occur given specific predictor values.
+This expression represents the estimated probability that the event (e.g., teacher attrition) will occur, given specific values of the predictor variables.
 
 Binary logistic regression relies on several assumptions:
 
@@ -698,6 +697,7 @@ $$
 $$
 
 In terms of classification accuracy, Model 3 slightly outperformed Model 1 (68.3% vs. 67.3%), primarily due to a marginally higher sensitivity (ability to correctly identify teachers intending to leave). Both models showed low specificity (~11.8%), indicating limited ability to correctly identify those intending to stay.
+
 
 ### Conclusion
 
