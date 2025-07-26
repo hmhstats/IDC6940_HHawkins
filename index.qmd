@@ -121,11 +121,11 @@ The goal of this project is to predict teacher attrition using responses from th
 
 For this analysis, data were gathered through a questionnaire designed by Dr. Melanie DiLoreto. Following approval from the district superintendent, the instrument was sent to school principals, who then distributed it to their teaching staff via email. Participants were teachers based in Northwest Florida. 
 
-The survey included eight items assessing participants’ experiences with secondary traumatic stress (using items adapted from the Secondary Traumatic Stress Scale [STSS]; [@bride2004development]), compassion fatigue (from the Professional Quality of Life Scale [ProQOL]; [@stamm2005professional]), intentions to remain in or leave the teaching profession, and perceptions of whether secondary traumatic stress influenced that decision. For this analysis, only responses to the STSS (Item 3) and the participants’ intent to stay or leave teaching (Item 5) were examined.
+The survey included eight items assessing participants’ experiences with secondary traumatic stress (using items adapted from the [Secondary Traumatic Stress Scale (STSS)](STSS.pdf); [@bride2004development]), compassion fatigue (from the [Professional Quality of Life Scale](ProQOL_5_English.pdf); [@stamm2005professional]), intentions to remain in or leave the teaching profession, and perceptions of whether secondary traumatic stress influenced that decision. For this analysis, only responses to STSS Item 3 and the participants’ intent to stay or leave teaching (Item 5) were examined.
 
-Teacher attrition was operationalized as any decision to leave face-to-face classroom teaching, including career changes, retirement, or transitions to modalities that substantially reduce direct student interaction.
+Teacher attrition was operationalized as any decision to leave face-to-face classroom teaching, including career changes, retirement, or transitions to modalities that substantially reduce direct student interaction. In adapting the STSS for this study, the term “client” was replaced with “student” to better reflect teachers’ experiences, consistent with the scale’s guidance that the term may be substituted to suit the relevant helping relationship.
 
-[View Questionnaire Item 3 (Secondary Traumatic Stress Scale)](STSS.pdf)
+[View Questionnaire Item 3 (Secondary Traumatic Stress Scale)](Questionnaire Item 3.pdf)
 
 [View Questionnaire Item 5 (Teaching Career Intentions)](Questionnaire Item 5.pdf)
 
@@ -146,6 +146,8 @@ library(tidyr)
 library(broom)
 library(ResourceSelection)
 library(caret)
+library(pscl)              
+library(pROC)
 
 sts_data <- read_csv("sts_data.csv")
 
@@ -335,27 +337,10 @@ $$
 
 ```{r, warning=FALSE, echo=TRUE}
 
-# List of variable names to test
-score_vars <- c("stss_total_score", "intrusion_score", "avoidance_score", "arousal_score")
-
-# Loop over each variable and run Shapiro-Wilk test for each group
-for (var in score_vars) {
-  cat("\n--- Shapiro-Wilk test for", var, "---\n")
-  
-  stay_group <- sts_data[[var]][sts_data$leave_teaching == 0]
-  leave_group <- sts_data[[var]][sts_data$leave_teaching == 1]
-  
-  cat("Stay group:\n")
-  print(shapiro.test(stay_group))
-  
-  cat("Leave group:\n")
-  print(shapiro.test(leave_group))
-}
-
 # Variables to test
 score_vars <- c("stss_total_score", "intrusion_score", "avoidance_score", "arousal_score")
 
-# Initialize empty data frame to store results
+# Initialize results data frame
 shapiro_results <- data.frame(
   Variable = character(),
   Group = character(),
@@ -363,17 +348,14 @@ shapiro_results <- data.frame(
   stringsAsFactors = FALSE
 )
 
-# Loop through each variable and group
+# Loop through each variable and group to run Shapiro-Wilk test
 for (var in score_vars) {
-  # Subsets
   stay_group <- sts_data[[var]][sts_data$leave_teaching == 0]
   leave_group <- sts_data[[var]][sts_data$leave_teaching == 1]
-  
-  # Shapiro tests
+
   stay_test <- shapiro.test(stay_group)
   leave_test <- shapiro.test(leave_group)
-  
-  # Append results
+
   shapiro_results <- rbind(
     shapiro_results,
     data.frame(Variable = var, Group = "Stay", P_Value = stay_test$p.value),
@@ -381,11 +363,13 @@ for (var in score_vars) {
   )
 }
 
-# Print the result
-print(shapiro_results)
+# Optional: Round p-values for display
+shapiro_results <- shapiro_results %>%
+  mutate(P_Value = round(P_Value, 4))
 
-# Optional: Save to CSV
-# write.csv(shapiro_results, "shapiro_results.csv", row.names = FALSE)
+# Print as a neat table
+kable(shapiro_results, caption = "Shapiro-Wilk Test Results for Score Variables by Group")
+
 
 ```
 
@@ -453,7 +437,7 @@ results <- lapply(scores, function(var) {
 
 # Combine results into one table
 
-bind_rows(results)
+#bind_rows(results)
 
 
 # Create the results data frame
@@ -517,9 +501,24 @@ model1 <- glm(leave_teaching ~ stss_total_score, data = sts_data, family = binom
 # View model summary (coefficients, p-values, etc.)
 summary(model1)
 
-# Calculate odds ratios and 95% confidence intervals
-exp(cbind(Odds_Ratio = coef(model1), confint(model1)))
 
+# Tidy the model output, exponentiate to get odds ratios
+model1_table <- tidy(model1, conf.int = TRUE, exponentiate = TRUE) %>%
+  select(term, estimate, conf.low, conf.high, p.value) %>%
+  rename(
+    Term = term,
+    Odds_Ratio = estimate,
+    CI_Lower = conf.low,
+    CI_Upper = conf.high,
+    P_Value = p.value
+  ) %>%
+  mutate(across(c(Odds_Ratio, CI_Lower, CI_Upper, P_Value), ~ round(., 4)))
+
+# Create the table
+kable(
+  model1_table,
+  caption = "Model 1: Odds Ratios, 95% Confidence Intervals, and p-values for STSS Total Score"
+)
 ```
 
 The model was statistically significant, χ²(1, N = 104) = 4.94, p = .030, indicating that total STSS scores significantly predicted attrition intention. The odds of indicating an intention to leave teaching increased by 3.2% for each additional point on the STSS (OR = 1.03, 95% CI [1.00, 1.06]).
@@ -543,9 +542,23 @@ p_value <- 1 - pchisq(5.93, df = 3)
 print(p_value)  # This will print approximately 0.115
 
 
-# Calculate odds ratios and 95% confidence intervals
-exp(cbind(Odds_Ratio = coef(model2), confint(model2)))
+# Tidy and exponentiate results
+model2_table <- tidy(model2, conf.int = TRUE, exponentiate = TRUE) %>%
+  select(term, estimate, conf.low, conf.high, p.value) %>%
+  rename(
+    Term = term,
+    Odds_Ratio = estimate,
+    CI_Lower = conf.low,
+    CI_Upper = conf.high,
+    P_Value = p.value
+  ) %>%
+  mutate(across(c(Odds_Ratio, CI_Lower, CI_Upper, P_Value), ~ round(., 4)))
 
+# Display the table
+kable(
+  model2_table,
+  caption = "Model 2: Odds Ratios, 95% Confidence Intervals, and p-values for STSS Subscale Scores"
+)
 ```
 
 The overall model did not reach statistical significance in predicting attrition intentions, χ²(3, N = 104) = 5.93, p = .115, indicating that these subscale scores together did not significantly improve prediction over the null model.
@@ -555,8 +568,18 @@ Individually, none of the subscales were statistically significant predictors of
 Model 2 was not statistically significant, likely due to multicollinearity among the STSS subscales. As indicated by the exploratory analysis, the subscales were highly correlated. To further assess multicollinearity, the Variance Inflation Factor (VIF) was calculated for each predictor variable.
 
 ```{r, warning=FALSE, echo=TRUE}
-#check variance inflation factor
-vif(model2)
+
+# Run your model (assuming model2 is already defined)
+vif_values <- vif(model2)
+
+# Convert to data frame for better display
+vif_table <- data.frame(
+  Variable = names(vif_values),
+  VIF = round(as.numeric(vif_values), 2)
+)
+
+# Print the table
+kable(vif_table, caption = "Variance Inflation Factor (VIF) Table")
 ```
 
 
@@ -571,11 +594,29 @@ Model 3 assessed the predictive value of the Intrusion subscale score on teacher
 $$ 
 \ln(\text{attrition}) = -2.1044 + 0.1091(\text{Intrusion Score}) 
 $$
+
+
 ```{r, warning=FALSE, echo=TRUE}
 # Model with intrusion only
 model_intrusion <- glm(leave_teaching ~ intrusion_score, data = sts_data, family = binomial)
 summary(model_intrusion)
+# Tidy and exponentiate results
+model_intrusion_table <- tidy(model_intrusion, conf.int = TRUE, exponentiate = TRUE) %>%
+  select(term, estimate, conf.low, conf.high, p.value) %>%
+  rename(
+    Term = term,
+    Odds_Ratio = estimate,
+    CI_Lower = conf.low,
+    CI_Upper = conf.high,
+    P_Value = p.value
+  ) %>%
+  mutate(across(c(Odds_Ratio, CI_Lower, CI_Upper, P_Value), ~ round(., 4)))
 
+# Display the table
+kable(
+  model_intrusion_table,
+  caption = "Model (Intrusion Only): Odds Ratios, 95% Confidence Intervals, and p-values"
+)
 ```
 Intrusion was a significant predictor of attrition intentions, χ²(1, N = 104) = 4.94, p = .031. For every one-point increase in intrusion scores, the odds of intending to leave teaching increased by approximately 11% (OR = 1.11, 95% CI [1.01, 1.23]).
 
@@ -593,7 +634,23 @@ $$
 model_avoidance <- glm(leave_teaching ~ avoidance_score, data = sts_data, family = binomial)
 summary(model_avoidance)
 
+# Tidy and exponentiate results
+model_avoidance_table <- tidy(model_avoidance, conf.int = TRUE, exponentiate = TRUE) %>%
+  select(term, estimate, conf.low, conf.high, p.value) %>%
+  rename(
+    Term = term,
+    Odds_Ratio = estimate,
+    CI_Lower = conf.low,
+    CI_Upper = conf.high,
+    P_Value = p.value
+  ) %>%
+  mutate(across(c(Odds_Ratio, CI_Lower, CI_Upper, P_Value), ~ round(., 4)))
 
+# Display the table
+kable(
+  model_avoidance_table,
+  caption = "Model (Avoidance Only): Odds Ratios, 95% Confidence Intervals, and p-values"
+)
 ```
 Avoidance also significantly predicted attrition intentions, χ²(1, N = 104) = 4.95, p = .030. For every one-point increase in avoidance scores, the odds of intending to leave increased by about 7% (OR = 1.07, 95% CI [1.01, 1.14]).
 
@@ -609,7 +666,23 @@ $$
 # Model with arousal only
 model_arousal <- glm(leave_teaching ~ arousal_score, data = sts_data, family = binomial)
 summary(model_arousal)
+# Tidy and exponentiate results
+model_arousal_table <- tidy(model_arousal, conf.int = TRUE, exponentiate = TRUE) %>%
+  select(term, estimate, conf.low, conf.high, p.value) %>%
+  rename(
+    Term = term,
+    Odds_Ratio = estimate,
+    CI_Lower = conf.low,
+    CI_Upper = conf.high,
+    P_Value = p.value
+  ) %>%
+  mutate(across(c(Odds_Ratio, CI_Lower, CI_Upper, P_Value), ~ round(., 4)))
 
+# Display the table
+kable(
+  model_arousal_table,
+  caption = "Model (Arousal Only): Odds Ratios, 95% Confidence Intervals, and p-values"
+)
 ```
 
 Arousal showed a trend towards significance, χ²(1, N = 104) = 3.27, p = .071. Higher arousal scores were associated with increased odds of intending to leave teaching, but this effect did not reach conventional levels of statistical significance (OR = 1.09, 95% CI [0.99, 1.18]).
@@ -693,13 +766,10 @@ par(mfrow = c(1, 1))
 
 ```
 
-Since Model 1 and Model 3 had the lowest and identical AIC values, diagnostic tests were conducted on these models. These included the Hosmer-Lemeshow goodness-of-fit test, likelihood ratio test, assessment of the significance of individual predictors, and evaluation of predictive performance using classification metrics such as accuracy, sensitivity, and specificity.
+Since Model 1 and Model 3 had the lowest and identical AIC values, additional diagnostic tests were conducted to evaluate their fit and predictive performance. These included the Hosmer-Lemeshow goodness-of-fit test, likelihood ratio test, assessment of the significance of individual predictors, and classification metrics such as accuracy, sensitivity, and specificity. To further assess model quality, McFadden’s pseudo R² was calculated to estimate explained variance, and the area under the ROC curve (AUC) was used to evaluate each model’s ability to discriminate between teachers who indicated intent to leave and those who did not.
 
 
 ```{r, warning=FALSE, echo=TRUE}
-library(ResourceSelection)
-library(caret)
-
 models <- list(
   Model1 = model1,
   Model3 = model_intrusion
@@ -718,19 +788,25 @@ results <- lapply(models, function(mod) {
   pred_class <- ifelse(pred_probs > 0.5, 1, 0)
   cm <- confusionMatrix(factor(pred_class), factor(sts_data$leave_teaching))
   
+  # Pseudo R² (McFadden)
+  pseudo_r2 <- pR2(mod)["McFadden"]
+  
+  # AUC
+  roc_obj <- roc(sts_data$leave_teaching, pred_probs)
+  auc_value <- auc(roc_obj)
+  
   list(
     HosmerLemeshow_p = hl$p.value,
     LRT_p = lrt$`Pr(>Chi)`[2],
     Accuracy = cm$overall["Accuracy"],
     Sensitivity = cm$byClass["Sensitivity"],
-    Specificity = cm$byClass["Specificity"]
+    Specificity = cm$byClass["Specificity"],
+    Pseudo_R2 = pseudo_r2,
+    AUC = auc_value
   )
 })
 
-# Convert results to data.frame
-diagnostic_summary <- do.call(rbind, lapply(results, as.data.frame))
-rownames(diagnostic_summary) <- names(models)
-diagnostic_summary
+
 
 ```
 
@@ -770,15 +846,203 @@ $$
 
 In terms of classification accuracy, Model 3 slightly outperformed Model 1 (68.3% vs. 67.3%), primarily due to a marginally higher sensitivity (ability to correctly identify teachers intending to leave). Both models showed low specificity (~11.8%), indicating limited ability to correctly identify those intending to stay.
 
+$$
+\text{McFadden's Pseudo-}R^{2} 
+$$
+In terms of overall model fit, both models yielded identical McFadden’s pseudo-$R^{2}$ values of 0.038, indicating a modest improvement over a model with no predictors. While pseudo-$R^{2}$ does not reflect the exact proportion of variance explained, these values suggest that total STSS score and intrusion score each contribute meaningfully, though moderately, to predicting teachers’ intent to leave the profession.
+
+
+$$
+\text{Area Under the ROC Curve (AUC)} 
+$$
+In terms of discriminative ability, both models demonstrated modest performance based on the area under the ROC curve (AUC). Model 1 achieved an AUC of 0.636, while Model 3 scored slightly lower at 0.632. These values indicate that both models are somewhat better than chance at distinguishing between teachers who intend to leave and those who do not, but their ability to do so is limited.
+
+```{r}
+# Create a data frame with your results
+diagnostic_summary <- data.frame(
+  Model = c("Model1", "Model3"),
+  HosmerLemeshow_p = c(0.6050059, 0.3359190),
+  LRT_p = c(0.02619078, 0.02625793),
+  Accuracy = c(0.6730769, 0.6826923),
+  Sensitivity = c(0.9428571, 0.9571429),
+  Specificity = c(0.1176471, 0.1176471),
+  Pseudo_R2 = c(0.03760612, 0.03757245),
+  AUC = c(0.6357143, 0.6317227)
+)
+
+# Print a clean table with 3 decimal places
+kable(diagnostic_summary, digits = 3, caption = "Model Diagnostic Summary")
+
+```
+
+
+
+#### Practical Interpretation of Model Outputs 
+
+To further interpret the practical implications of the logistic regression models, predicted probabilities of attrition were calculated using representative values from the sample: the low (10th percentile), average (mean), and high (90th percentile) scores. Specifically, the regression equations for each model were used to estimate the likelihood that a teacher with a low, average, or high STSS Total Score or Intrusion Score would indicate an intention to leave the profession. These predicted probabilities were then compared to the actual attrition rate observed in the dataset (32.7%), providing a real-world frame of reference for the model outputs across the spectrum of scores.
+
+
+```{r, warning=FALSE, echo=TRUE}
+# Define percentiles for low and high
+low_pct <- 0.10
+high_pct <- 0.90
+
+# Calculate values for STSS total score
+low_total <- quantile(sts_data$stss_total_score, probs = low_pct, na.rm = TRUE)
+mean_total <- mean(sts_data$stss_total_score, na.rm = TRUE)
+high_total <- quantile(sts_data$stss_total_score, probs = high_pct, na.rm = TRUE)
+
+# Model 1 coefficients
+beta0_total <- -2.1175
+beta1_total <- 0.0317
+
+# Function to get predicted probability
+pred_prob <- function(x, intercept, slope) {
+  log_odds <- intercept + slope * x
+  1 / (1 + exp(-log_odds))
+}
+
+# Predicted probabilities for Model 1 (STSS total score)
+prob_low_total <- pred_prob(low_total, beta0_total, beta1_total)
+prob_mean_total <- pred_prob(mean_total, beta0_total, beta1_total)
+prob_high_total <- pred_prob(high_total, beta0_total, beta1_total)
+
+# Print results
+cat("Model 1 (STSS Total Score) Predicted Probabilities:\n")
+cat(sprintf("  Low (10th percentile = %.2f): %.3f\n", low_total, prob_low_total))
+cat(sprintf("  Average (mean = %.2f): %.3f\n", mean_total, prob_mean_total))
+cat(sprintf("  High (90th percentile = %.2f): %.3f\n\n", high_total, prob_high_total))
+
+# Calculate values for intrusion score
+low_intrusion <- quantile(sts_data$intrusion_score, probs = low_pct, na.rm = TRUE)
+mean_intrusion <- mean(sts_data$intrusion_score, na.rm = TRUE)
+high_intrusion <- quantile(sts_data$intrusion_score, probs = high_pct, na.rm = TRUE)
+
+# Model 3 coefficients
+beta0_intrusion <- -2.1044
+beta1_intrusion <- 0.1091
+
+# Predicted probabilities for Model 3 (Intrusion Score)
+prob_low_intrusion <- pred_prob(low_intrusion, beta0_intrusion, beta1_intrusion)
+prob_mean_intrusion <- pred_prob(mean_intrusion, beta0_intrusion, beta1_intrusion)
+prob_high_intrusion <- pred_prob(high_intrusion, beta0_intrusion, beta1_intrusion)
+
+# Print results
+cat("Model 3 (Intrusion Score) Predicted Probabilities:\n")
+cat(sprintf("  Low (10th percentile = %.2f): %.3f\n", low_intrusion, prob_low_intrusion))
+cat(sprintf("  Average (mean = %.2f): %.3f\n", mean_intrusion, prob_mean_intrusion))
+cat(sprintf("  High (90th percentile = %.2f): %.3f\n\n", high_intrusion, prob_high_intrusion))
+
+# Create a data frame to summarize results
+results_df <- data.frame(
+  Model = rep(c("STSS Total Score", "Intrusion Score"), each = 3),
+  Score_Level = rep(c("Low (10th percentile)", "Average (mean)", "High (90th percentile)"), 2),
+  Score_Value = c(low_total, mean_total, high_total, low_intrusion, mean_intrusion, high_intrusion),
+  Predicted_Probability = c(prob_low_total, prob_mean_total, prob_high_total, prob_low_intrusion, prob_mean_intrusion, prob_high_intrusion)
+)
+
+# Optionally, format output for better readability
+kable(results_df, digits = 3, caption = "Predicted Probabilities of Attrition at Low, Average, and High Score Levels")
+
+```
+
+In the logistic regression models, a teacher’s predicted probability of indicating intent to leave varies meaningfully across the range of scores. For Model 1 (STSS Total Score), predicted probabilities range from approximately 20.1% at the low 10th percentile score (23.30), to 31.9% at the average score (42.83), and 46.8% at the high 90th percentile score (62.80). Similarly, for Model 3 (Intrusion Score), predicted probabilities range from about 20.7% at the low 10th percentile score (7.00), to 31.9% at the average score (12.36), and 45.7% at the high 90th percentile score (17.70). The average predicted probabilities closely match the observed attrition rate of 32.7% in our sample, highlighting how higher scores are associated with substantially increased likelihood of attrition.
+
+```{r, warning=FALSE, echo=TRUE}
+
+# Create data frame with sequence of values for STSS total score
+stss_seq <- seq(min(sts_data$stss_total_score, na.rm = TRUE),
+                max(sts_data$stss_total_score, na.rm = TRUE), length.out = 100)
+
+# Calculate predicted probabilities for each value
+prob_stss <- pred_prob(stss_seq, beta0_total, beta1_total)
+
+df_stss <- data.frame(score = stss_seq, probability = prob_stss, model = "STSS Total Score")
+
+# Same for Intrusion score
+intrusion_seq <- seq(min(sts_data$intrusion_score, na.rm = TRUE),
+                     max(sts_data$intrusion_score, na.rm = TRUE), length.out = 100)
+
+prob_intrusion <- pred_prob(intrusion_seq, beta0_intrusion, beta1_intrusion)
+
+df_intrusion <- data.frame(score = intrusion_seq, probability = prob_intrusion, model = "Intrusion Score")
+
+# Combine data frames
+df_plot <- rbind(df_stss, df_intrusion)
+
+#Plot
+ggplot(df_plot, aes(x = score, y = probability, color = model)) +
+  geom_line(linewidth = 1.2) +          # changed size to linewidth here
+  labs(
+    x = "Score",
+    y = "Predicted Probability of Attrition",
+    title = "Predicted Probability of Attrition Across Score Range",
+    color = "Model"
+  ) +
+  theme_minimal() +
+  theme(text = element_text(size = 14))
+
+```
+
+This figure visually represents how higher STSS Total Scores and higher Intrusion Scores correspond to an increased probability of teachers indicating intent to leave the profession. As scores rise across their observed ranges, the predicted likelihood of attrition increases substantially in both models. This visualization depicts the progressive increase in attrition risk captured by the models and underscores the importance of these stress-related measures in predicting teacher attrition.
+
 
 ### Conclusion
 
--   Summarize your key findings.
+The primary goal of this analysis was to identify a model that effectively predicts teacher attrition. Results indicated that Models 1 and 3 were strong candidates, both demonstrating the lowest AIC values and high sensitivity (~95%) in correctly identifying teachers who intended to leave the profession.
 
--   Discuss the implications of your results.
+#### Key Findings
 
-The main goal of this analysis was to identify a model that accurately predicts teacher attrition. Both Model 1 and Model 3 achieved similar overall accuracy, correctly classifying nearly 70% of cases. However, while these models demonstrated high sensitivity—effectively identifying teachers who intend to leave—they showed low specificity, correctly identifying only about 12% of teachers who intend to stay. This indicates that although the models are strong at predicting attrition, they are limited in accurately recognizing those who will remain in teaching. Future analyses could focus on improving model specificity, potentially by adjusting classification thresholds or incorporating additional predictors, to better balance the identification of both teachers who leave and those who stay.
+Model 1 used the overall STSS score to predict whether a teacher intended to leave or continue teaching.
 
+$$ 
+\ln(\text{attrition}) = -2.1175 + 0.0317(\text{Total STSS Score}) 
+$$
 
+This model indicates that for every one-point increase in a teacher’s total STSS score, the likelihood of leaving the profession increases by approximately 3%. For a teacher with a score near the sample average of 43, the predicted probability of attrition is around 32%.
+
+Model 3 used the intrusion score to predict whether a teacher intended to leave or continue teaching.
+
+$$ 
+\ln(\text{attrition}) = -2.1044 + 0.1091(\text{Intrusion Score}) 
+$$
+
+This model indicates that for every one-point increase in a teacher’s intrusion score, the likelihood of leaving the profession increases by approximately 11%. A teacher scoring near the sample average of 12 has an estimated 32% probability of leaving the teaching profession.
+
+Model 4 used the avoidance score to predict whether a teacher intended to leave or continue teaching. 
+
+$$ 
+\ln(\text{attrition}) = -1.9626 + 0.0704(\text{Avoidance Score}) 
+$$
+
+This model was statistically significant, indicating that for every 1 point increase in a teacher's avoidance score, the odds of leaving teaching increase by about 7%. However, for practical interpretation and clarity, the focus remained on Models 1 and 3.
+
+Both models 1 and 3 demonstrated high sensitivity—around 95%—indicating strong ability to identify teachers who intend to leave. However, specificity was low, with only about 12% of teachers who intended to stay correctly classified. While overall accuracy approached 70%, the models’ ability to distinguish between leavers and stayers across all thresholds was modest, with AUC values around 0.63.
+
+The models improved predictability by approximately 4% over a model with no predictors, as reflected in McFadden’s pseudo-$R^{2}$ values of 0.038. While pseudo-$R^{2}$ does not indicate the exact proportion of variance explained, these results suggest that total STSS score and intrusion score contribute meaningfully—though moderately—to predicting teachers’ intent to leave the profession.
+
+#### Implications 
+
+The results of this analysis provide clear evidence that secondary traumatic stress (STS) can significantly impact teachers’ well-being in ways that influence their decision to remain in or leave the profession. Higher overall STS scores—and specifically higher scores on the intrusion subscale—were associated with an increased likelihood of teacher attrition. These findings have important implications for school districts serving trauma-exposed student populations, particularly in high-needs schools, where teachers may be at elevated risk for STS-related burnout and turnover.
+
+This analysis revealed that intrusion symptoms were the strongest indicators of teacher attrition, compared to arousal and avoidance symptoms. The intrusion subscale of the [STSS](STSS.pdf) includes items 2, 3, 6, 10, and 13, which reflect the physical, mental, and emotional disturbances teachers may experience as a result of direct or indirect exposure to student trauma. These symptoms often intensify with repeated exposure [@mcewen2020revisiting], highlighting how cumulative stress can contribute to a teacher’s decision to leave the profession.
+
+While these findings indicate that intrusion symptoms are the strongest predictors of teacher attrition, this does not diminish the significance of arousal and avoidance symptoms. Both of these symptom categories also impact teachers’ physical, mental, and emotional well-being. Their effects may extend beyond professional consequences—such as burnout and attrition—and contribute to negative outcomes in teachers’ personal lives as well.
+
+It is imperative that teachers not only receive training on trauma and its effects on students, but also on how exposure to student trauma can impact their own well-being. As Inabnett (2023) noted, “Many teachers do not receive education on trauma and trauma-informed practices in their teacher preparation programs, and many teachers struggle to identify signs of trauma in their students” [@inabnett2023secondary]. Without adequate preparation—particularly for those entering high-needs schools—teacher attrition related to secondary traumatic stress is likely to persist. Teachers need to be made aware that STS is a real and common phenomenon they may encounter due to the environments they work in and the students they serve.
+
+Administrators and district leaders have a critical opportunity to mitigate—if not prevent—the effects of secondary traumatic stress (STS) on teachers. As Nguyen (2019) suggests, “In particular, educators and policy-makers should consider creating school environments where strong administrative support, consistent teacher collaborations, and regular and meaningful professional development could provide young or specialty teachers the resources and support needed to keep them in teaching” [@nguyen2019factors]. Offering professional development focused on recognizing signs of trauma in students, as well as identifying and addressing STS in educators, would greatly enhance awareness and provide practical tools to support teacher well-being and retention.
+
+Such training and support could also provide teachers with practical strategies for coping with stress. For example, it may open opportunities for teachers to connect with school counselors or on-site mental health professionals. Teachers who develop strategies to view students’ behaviors more objectively tend to report a greater sense of personal accomplishment and reduced burnout, which may, in turn, help buffer against the effects of secondary traumatic stress [@chang2009appraisal]. Additionally, creating space and time for teachers to connect in supportive peer communities—particularly with more experienced colleagues—could offer another valuable avenue for guidance, reflection, and emotional support.
+ 
+The results of this analysis highlight secondary traumatic stress (STS) as a significant factor influencing teacher attrition. STS not only impacts the well-being of educators, but also affects student achievement when capable and committed teachers leave the profession as a result of its effects. While the problem is complex, it is not insurmountable—meaningful action can and should be taken to address teacher attrition related to STS.
+
+#### Suggestions For Further Study
+
+The models developed in this analysis demonstrated reasonable predictive performance based solely on secondary traumatic stress (STS) total and subscale scores. However, these models could be substantially strengthened by incorporating demographic and professional variables such as sex, age, years of teaching experience, subject taught, and other relevant factors.
+
+Future research should aim to improve model specificity to better identify teachers likely to remain in the profession. This could involve exploring alternative classification thresholds, adding additional predictors, or examining interaction effects to enhance the models’ discriminative ability.
+
+Additionally, including variables related to teacher demographics and school context may improve the models’ explanatory power by providing a clearer and more detailed understanding of the factors influencing teacher attrition.
 
 ## References
