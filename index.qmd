@@ -119,11 +119,15 @@ The goal of this project is to predict teacher attrition using responses from th
 
 ### Data Exploration and Visualization
 
-Data for this analysis were collected through a questionnaire administered to teachers in Northwest Florida. The survey included eight items assessing participants’ experiences with secondary traumatic stress (using items adapted from the Secondary Traumatic Stress Scale [STSS]), compassion fatigue (from the Professional Quality of Life Scale [ProQOL]), intentions to remain in or leave the teaching profession, and perceptions of whether secondary traumatic stress influenced that decision. For the purposes of this analysis, the focus is on responses to the STSS (Item 3) and participants’ stated intent to stay in or leave teaching (Item 5). In this study, teacher attrition was operationalized as any decision to leave face-to-face classroom teaching, whether through a career change, retirement, or a transition to a teaching modality (e.g., online instruction) that substantially reduces direct student interaction.
+For this analysis, data were gathered through a questionnaire designed by Dr. Melanie DiLoreto. Following approval from the district superintendent, the instrument was sent to school principals, who then distributed it to their teaching staff via email. Participants were teachers based in Northwest Florida. 
 
-[View Questionnaire](Questionnaire.pdf)
+The survey included eight items assessing participants’ experiences with secondary traumatic stress (using items adapted from the Secondary Traumatic Stress Scale [STSS]; [@bride2004development]), compassion fatigue (from the Professional Quality of Life Scale [ProQOL]; [@stamm2005professional]), intentions to remain in or leave the teaching profession, and perceptions of whether secondary traumatic stress influenced that decision. For this analysis, only responses to the STSS (Item 3) and the participants’ intent to stay or leave teaching (Item 5) were examined.
 
-[View Secondary Traumatic Stress Scale](STSS.pdf)
+Teacher attrition was operationalized as any decision to leave face-to-face classroom teaching, including career changes, retirement, or transitions to modalities that substantially reduce direct student interaction.
+
+[View Questionnaire Item 3 (Secondary Traumatic Stress Scale)](STSS.pdf)
+
+[View Questionnaire Item 5 (Teaching Career Intentions)](Questionnaire Item 5.pdf)
 
 ```{r, warning=FALSE, echo=T, message=FALSE}
 library(ggplot2)
@@ -330,31 +334,101 @@ H_1= \text{The data is not normally distributed.}
 $$
 
 ```{r, warning=FALSE, echo=TRUE}
-shapiro.test(sts_data$stss_total_score[sts_data$leave_teaching == 0])  # Stay
-shapiro.test(sts_data$stss_total_score[sts_data$leave_teaching == 1])  # Leave
+
+# List of variable names to test
+score_vars <- c("stss_total_score", "intrusion_score", "avoidance_score", "arousal_score")
+
+# Loop over each variable and run Shapiro-Wilk test for each group
+for (var in score_vars) {
+  cat("\n--- Shapiro-Wilk test for", var, "---\n")
+  
+  stay_group <- sts_data[[var]][sts_data$leave_teaching == 0]
+  leave_group <- sts_data[[var]][sts_data$leave_teaching == 1]
+  
+  cat("Stay group:\n")
+  print(shapiro.test(stay_group))
+  
+  cat("Leave group:\n")
+  print(shapiro.test(leave_group))
+}
+
+# Variables to test
+score_vars <- c("stss_total_score", "intrusion_score", "avoidance_score", "arousal_score")
+
+# Initialize empty data frame to store results
+shapiro_results <- data.frame(
+  Variable = character(),
+  Group = character(),
+  P_Value = numeric(),
+  stringsAsFactors = FALSE
+)
+
+# Loop through each variable and group
+for (var in score_vars) {
+  # Subsets
+  stay_group <- sts_data[[var]][sts_data$leave_teaching == 0]
+  leave_group <- sts_data[[var]][sts_data$leave_teaching == 1]
+  
+  # Shapiro tests
+  stay_test <- shapiro.test(stay_group)
+  leave_test <- shapiro.test(leave_group)
+  
+  # Append results
+  shapiro_results <- rbind(
+    shapiro_results,
+    data.frame(Variable = var, Group = "Stay", P_Value = stay_test$p.value),
+    data.frame(Variable = var, Group = "Leave", P_Value = leave_test$p.value)
+  )
+}
+
+# Print the result
+print(shapiro_results)
+
+# Optional: Save to CSV
+# write.csv(shapiro_results, "shapiro_results.csv", row.names = FALSE)
 
 ```
 
 
-The Shapiro-Wilk test indicated that the data for teachers intending to continue teaching were not normally distributed, as evidenced by a p-value of 0.01536 (p < 0.05). This finding is supported by the corresponding density plot, which deviates from the shape of a normal distribution. In contrast, the data for teachers intending to leave teaching met the assumption of normality, with a Shapiro-Wilk p-value of 0.9717 (p > 0.05) and a density plot that closely resembles a bell curve.
-
+The Shapiro-Wilk tests indicated that for teachers intending to continue teaching, the data for all four STSS subscales deviated from a normal distribution. Specifically, the p-values for the stay group were 0.01536 for STSS Total Score, 0.02752 for Intrusion, 0.008379 for Avoidance, and 0.0349 for Arousal—all below the 0.05 threshold, suggesting violations of the normality assumption. These results are consistent with density plots that visually diverge from the expected bell curve. In contrast, the data for teachers intending to leave teaching met the assumption of normality across all subscales, with p-values of 0.9717 (STSS Total), 0.7114 (Intrusion), 0.3975 (Avoidance), and 0.3525 (Arousal), each well above 0.05. Visual inspection of these distributions further supported normality, with density plots that more closely resemble normal distributions.
 
 ```{r, warning=FALSE, echo=TRUE}
+# Create labeled version of leave_teaching before reshaping
+sts_data <- sts_data %>%
+  mutate(
+    Teaching_Intent = factor(leave_teaching, levels = c(0, 1), labels = c("Stay", "Leave"))
+  )
 
-ggplot(sts_data, aes(x = stss_total_score, fill = as.factor(leave_teaching))) +
+# Reshape the data to long format
+sts_long <- sts_data %>%
+  pivot_longer(
+    cols = c(stss_total_score, intrusion_score, avoidance_score, arousal_score),
+    names_to = "Score_Type",
+    values_to = "Score_Value"
+  )
+
+# Create density plots for each subscale by teaching intent
+ggplot(sts_long, aes(x = Score_Value, fill = Teaching_Intent)) +
   geom_density(alpha = 0.5) +
-  facet_wrap(~ leave_teaching, labeller = labeller(leave_teaching = c("0" = "Stay", "1" = "Leave"))) +
+  facet_grid(Score_Type ~ Teaching_Intent, labeller = labeller(
+    Score_Type = c(
+      stss_total_score = "Total STSS",
+      intrusion_score = "Intrusion",
+      avoidance_score = "Avoidance",
+      arousal_score = "Arousal"
+    )
+  )) +
   labs(
-    title = "Density of Total STSS Scores by Intent",
-    fill = "Intent to Stay or Leave",  
-    x = "Total STSS Score",
-    y = "Density"
+    title = "Density Plots of STSS Subscale Scores by Teaching Intent",
+    x = "Score",
+    y = "Density",
+    fill = "Teaching Intent"
   ) +
   theme_minimal()
 ```
 
 
-Because the data did not meet the assumptions of normality, Wilcoxon rank-sum tests were conducted to compare STSS scores between teachers who intended to remain in the profession and those who intended to leave.
+Because the normality assumption was not met for teachers intending to continue teaching, Wilcoxon rank-sum tests were used to compare STSS scores between those planning to stay and those planning to leave the profession.
 
 $$
 H_0= \text{The distributions of the two groups are the same.}
