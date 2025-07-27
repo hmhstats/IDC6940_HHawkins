@@ -64,7 +64,8 @@ The probability of an event occurring given certain predictor variables can be m
 $$
 \pi = P(Y=1 | X_1=x_1, X_2=x_2, \cdots, X_k=x_k)=\frac{1}{1 + e^{-(\beta_0 + \beta_1 x_1 + \beta_2 x_2 + \cdots + \beta_k x_k)}}
 $$
-where $\pi$ represents the probability of the event occurring, $Y$ is the binary outcome (dependent) variable, $e$ is Euler’s number (approximately 2.718), the base of the natural exponential function, and the $X_i$ are the predictor (independent) variables.
+where $\pi$ represents the probability of the event occurring, $Y$ is the binary outcome (dependent) variable, $e$ is Euler’s number (approximately 2.718), the base of the natural exponential function, $\beta_0$ is the intercept,
+$\beta_i$ are the regression coefficients and  and the $X_i$ are the predictor (independent) variables.
 [@tranmer2008binary]
 [@harris2021primer]
 [@peng2002introduction]
@@ -91,7 +92,7 @@ $x_i$ are the predictor (independent) variables.
 
 Because the model returns log-odds, exponentiating coefficients yields odds ratios, quantifying the change in odds associated with a one-unit increase in a predictor, holding others constant. [@peng2002introduction] For example, an odds ratio of 1.5 indicates a 50% increase in the odds of the event occurring for each one-unit increase in the predictor, all else equal.
 
-The logistic function transforms the linear predictor back into a probability bounded between 0 and 1:
+The logistic function mentioned earlier transforms the linear predictor back into a probability bounded between 0 and 1:
 
 $$
 \pi=\frac{1}{1 + e^{-(\beta_0 + \beta_1 x_1 + \beta_2 x_2 + \cdots + \beta_k x_k)}}
