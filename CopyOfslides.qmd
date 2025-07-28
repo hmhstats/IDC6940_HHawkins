@@ -18,64 +18,32 @@ editor:
     wrap: 72
 ---
 
-## Introduction {.smaller}
+::: callout-important
+**Remember:** Your goal is to make your audience understand and care
+about your findings. By crafting a compelling story, you can effectively
+communicate the value of your data science project.
 
-::: {.columns}
+Carefully read this template since it has instructions and tips to
+writing!
 
-::: {.column width="40%"}
-<img src="image4.jpg" width="80%" style="margin-bottom: 4px;" />
-<div style="font-size: 0.75em; color: gray; margin-top: 2px;">
-Image source: <a href="https://themindsjournal.com" target="_blank">The Mind's Journal</a>
-</div>
-
-<img src="image3.png" width="90%" style="margin-top: 20px; margin-bottom: 4px;" />
-<div style="font-size: 0.75em; color: gray; margin-top: 2px;">
-Image source: <a href="https://collidu.com" target="_blank">Collidu</a>
-</div>
+More information about `revealjs`:
+<https://quarto.org/docs/reference/formats/presentations/revealjs.html>
 :::
 
-::: {.column width="60%"}
+## Introduction  {.smaller}
+-   Develop a storyline that captures attention and maintains interest.
 
-**Background & Motivation**
+-   Your audience is your peers
 
-- STS impacts trauma-exposed educators  
-- Linked to burnout and attrition  
-- Few predictive models exist  
+-   Clearly state the problem or question you're addressing.
 
-**National Context**  
-(Source: NCES [@taie2023teacher])
+-   Introduce why it is relevant needs.
 
-- 16% left to retire  
-- 15% for personal/life reasons (health, childcare)  
-- 9% cited low salary  
-- 12–19% moved outside education  
-- 26–39% stayed in K–12 but changed roles  
+-   Provide an overview of your approach.
 
-:::
-
-:::
-
-## Research Questions and Objectives
-
-
-::: {.columns}
-
-::: {.column width="100%" .smaller}
-
-🎯 **Objectives**
-
-- Predict teacher attrition using binary logistic regression  
-- Use STSS (Secondary Traumatic Stress Scale) scores  
-- Identify which STS symptom contributes most to attrition  
-
-❓ **Research Questions**
-
-- Can STSS scores predict whether a teacher intends to leave?  
-- Which symptom (intrusion, avoidance, arousal) has the strongest effect?
-
-:::
-
-:::
+In kernel estimator, weight function is known as kernel function
+[@efr2008]. Cite this paper [@bro2014principal]. The GEE [@wang2014].
+The PCA [@daffertshofer2004pca]\*
 
 ## Methods
 
