@@ -364,7 +364,7 @@ for (var in score_vars) {
   )
 }
 
-# Optional: Round p-values for display
+# Round p-values for display
 shapiro_results <- shapiro_results %>%
   mutate(P_Value = round(P_Value, 4))
 
@@ -570,7 +570,7 @@ Model 2 was not statistically significant, likely due to multicollinearity among
 
 ```{r, warning=FALSE, echo=TRUE}
 
-# Run your model (assuming model2 is already defined)
+# Run the model 2 vif
 vif_values <- vif(model2)
 
 # Convert to data frame for better display
@@ -762,7 +762,7 @@ plot(sts_data$intrusion_score, sts_data$log_odds_model3,
      ylab = "Log Odds of Leaving Teaching",
      main = "Linearity Check for Model 3")
 
-# Reset plotting area back to default (optional)
+# Reset plotting area back to default
 par(mfrow = c(1, 1))
 
 ```
@@ -859,7 +859,7 @@ $$
 In terms of discriminative ability, both models demonstrated modest performance based on the area under the ROC curve (AUC). Model 1 achieved an AUC of 0.636, while Model 3 scored slightly lower at 0.632. These values indicate that both models are somewhat better than chance at distinguishing between teachers who intend to leave and those who do not, but their ability to do so is limited.
 
 ```{r}
-# Create a data frame with your results
+# Create a data frame with results
 diagnostic_summary <- data.frame(
   Model = c("Model1", "Model3"),
   HosmerLemeshow_p = c(0.6050059, 0.3359190),
@@ -942,7 +942,7 @@ results_df <- data.frame(
   Predicted_Probability = c(prob_low_total, prob_mean_total, prob_high_total, prob_low_intrusion, prob_mean_intrusion, prob_high_intrusion)
 )
 
-# Optionally, format output for better readability
+# Format output for better readability
 kable(results_df, digits = 3, caption = "Predicted Probabilities of Attrition at Low, Average, and High Score Levels")
 
 ```
