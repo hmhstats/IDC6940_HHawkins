@@ -77,6 +77,91 @@ Image source: <a href="https://collidu.com" target="_blank">Collidu</a>
 
 :::
 
+## Sample & Measurement: Secondary Traumatic Stress Scale (STSS)
+
+::: columns
+
+::: {.column width="40%"}
+
+### Sample Overview
+
+<div style="font-size: 0.75em; line-height: 1.3;">
+
+- **N** = 104 teachers  
+- **Measure**: STSS total and subscales  
+- **% intending to leave**: 32.7%
+
+</div>
+
+
+```{r, warning=FALSE, echo=F, message=FALSE}
+library(dplyr)
+library(knitr)
+library(readr)
+library(kableExtra)
+
+# Load your data
+sts_data <- read_csv("sts_data.csv")
+
+# Create summary table
+summary_df <- sts_data %>%
+  summarise(
+    Mean = c(mean(stss_total_score, na.rm=TRUE),
+             mean(intrusion_score, na.rm=TRUE),
+             mean(avoidance_score, na.rm=TRUE),
+             mean(arousal_score, na.rm=TRUE)),
+    SD = c(sd(stss_total_score, na.rm=TRUE),
+           sd(intrusion_score, na.rm=TRUE),
+           sd(avoidance_score, na.rm=TRUE),
+           sd(arousal_score, na.rm=TRUE)),
+    Min = c(min(stss_total_score, na.rm=TRUE),
+            min(intrusion_score, na.rm=TRUE),
+            min(avoidance_score, na.rm=TRUE),
+            min(arousal_score, na.rm=TRUE)),
+    Max = c(max(stss_total_score, na.rm=TRUE),
+            max(intrusion_score, na.rm=TRUE),
+            max(avoidance_score, na.rm=TRUE),
+            max(arousal_score, na.rm=TRUE))
+  ) %>%
+  mutate(Measure = c("STSS Total", "Intrusion", "Avoidance", "Arousal")) %>%
+  select(Measure, Mean, SD, Min, Max)
+
+# Render styled table - fills more of the column space
+kable(summary_df, digits = 1, caption = "STSS Score Summary") %>%
+  kable_styling(
+    bootstrap_options = c("striped", "hover"),
+    font_size = 22,              # Increase font size
+    full_width = TRUE,           # Allow table to stretch
+    position = "center"
+  ) %>%
+  row_spec(0, bold = TRUE) %>%
+  column_spec(1, bold = TRUE)
+```
+
+:::
+
+::: {.column width="60%"}
+
+### About the STSS
+
+<div style="font-size: 0.75em; line-height: 1.3;">
+
+- 17-item self-report scale  
+- Measures secondary traumatic stress  
+- Subscales:  
+  - **Intrusion** (e.g., unwanted thoughts)  
+  - **Avoidance** (e.g., emotional numbing)  
+  - **Arousal** (e.g., sleep issues)  
+- Scale: 1 = Never to 5 = Very Often  
+- **Example item**:  
+  _“My heart starting pounding when I thought about my work with students.”_
+
+</div>
+
+:::
+
+:::
+
 ## Methods
 
 -   Detail the models or algorithms used.
