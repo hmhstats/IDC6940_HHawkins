@@ -42,7 +42,7 @@ Image source: <a href="https://collidu.com" target="_blank">Collidu</a>
 - Linked to burnout and attrition  
 - Few predictive models exist  
 
-**National Context**  
+**National Context - Teacher Attrition**  
 (Source: NCES [@taie2023teacher])
 
 - 16% left to retire  
