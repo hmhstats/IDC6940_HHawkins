@@ -162,6 +162,95 @@ kable(summary_df, digits = 1, caption = "STSS Score Summary") %>%
 
 :::
 
+## Exploratory Data Analysis {.smaller}
+
+::: columns
+::: {.column width="40%"}
+
+### Key Observations
+
+- STSS scores vary widely across the sample.
+- Teachers intending to leave show higher scores across subscales.
+- Attrition rates increase across quartiles.
+- Strongest patterns are in **Total** and **Arousal** scores.
+
+:::
+
+::: {.column width="60%"}
+
+```{r}
+# Load required packages
+library(ggplot2)
+library(dplyr)
+library(patchwork)
+
+# Intent labels
+sts_data$intent_label <- factor(sts_data$leave_teaching, levels = c(0, 1), labels = c("Stay", "Leave"))
+
+# Custom theme to reduce whitespace
+minimal_tight <- theme_minimal(base_size = 9) +
+  theme(
+    plot.margin = margin(2, 2, 2, 2),
+    axis.title.x = element_text(margin = margin(t = 4)),
+    axis.title.y = element_text(margin = margin(r = 4))
+  )
+
+# Function for stacked density + bar chart
+plot_density_and_bar <- function(data, score_col, score_label) {
+  # Density
+  p_density <- ggplot(data, aes_string(x = score_col, fill = "intent_label")) +
+    geom_density(alpha = 0.5) +
+    xlim(0, 85) +
+    scale_fill_manual(values = c("#a6bddb", "#2b8cbe")) +
+    labs(title = paste("Density:", score_label), x = score_label, y = "Density", fill = "Intent") +
+    minimal_tight +
+    theme(legend.position = "none")
+  
+  # Quartile variable
+  quartile_var <- paste0(score_col, "_quartile")
+  data[[quartile_var]] <- cut(
+    data[[score_col]],
+    breaks = quantile(data[[score_col]], probs = seq(0, 1, 0.25), na.rm = TRUE),
+    include.lowest = TRUE,
+    labels = c("Q1", "Q2", "Q3", "Q4")
+  )
+  
+  # Bar data
+  bar_data <- data %>%
+    group_by(!!sym(quartile_var)) %>%
+    summarise(attrition_rate = mean(leave_teaching == 1, na.rm = TRUE)) %>%
+    rename(quartile = !!sym(quartile_var))
+  
+  # Bar chart
+  p_bar <- ggplot(bar_data, aes(x = quartile, y = attrition_rate)) +
+    geom_bar(stat = "identity", fill = "#3182bd") +
+    ylim(0, 1) +
+    labs(title = paste("Attrition by", score_label, "Quartile"), x = NULL, y = "Proportion Leaving") +
+    minimal_tight
+  
+  # Stack vertically with equal height and no excess margins
+  p_density / p_bar + plot_layout(heights = c(1, 1)) & theme(plot.margin = margin(2, 2, 2, 2))
+}
+
+# Generate 4 sets of plots
+p_total     <- plot_density_and_bar(sts_data, "stss_total_score", "Total STSS")
+p_intrusion <- plot_density_and_bar(sts_data, "intrusion_score", "Intrusion")
+p_avoidance <- plot_density_and_bar(sts_data, "avoidance_score", "Avoidance")
+p_arousal   <- plot_density_and_bar(sts_data, "arousal_score", "Arousal")
+
+# Combine into a tighter 2x2 grid
+(p_total | p_intrusion) / (p_avoidance | p_arousal) +
+  plot_layout(guides = "collect") +
+  plot_annotation(theme = theme(plot.margin = margin(0, 0, 0, 0)))
+```
+
+:::
+
+:::
+
+
+
+
 ## Methods
 
 -   Detail the models or algorithms used.
