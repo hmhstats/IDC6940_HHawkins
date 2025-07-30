@@ -151,6 +151,7 @@ library(pROC)
 sts_data <- read_csv("sts_data.csv")
 
 
+
 ```
 
 A total of 107 teachers responded to the questionnaire. Of these, three participants indicated uncertainty about whether they would continue or leave the teaching profession. Because the analysis required a definitive "yes" or "no" response regarding intent to stay or leave, these uncertain responses were excluded. The final sample included 104 teachers, with 70 indicating they intended to continue teaching and 34 indicating they planned to leave the profession. 
@@ -289,35 +290,33 @@ kable(summary_table_long, digits = 2, caption = "Summary Statistics (Long Format
 ```
 
 
-Boxplots were generated to visually compare the distribution of scores across teacher intent groups. One notable outlier was observed in the intrusion scores, suggesting that a single respondent reported significantly higher levels of intrusion compared to the rest of the sample. Upon further examination, it is important to highlight that the maximum possible score for intrusion is 25. Interestingly, the respondent associated with this outlier also indicated an intention to leave the teaching profession.
-
+Boxplots were generated to visually compare the distribution of scores across teacher intent groups. A notable outlier was observed in the intrusion scores, where one respondent reported a substantially higher level of intrusion than the rest of the sample. This outlier, with a score of 24 (just below the maximum possible score of 25), belonged to a participant who indicated an intention to remain in the teaching profession (the "stay" group).
 
 ```{r, warning=FALSE, echo=TRUE}
+# Load required package
+library(tidyr)
+library(dplyr)
+library(ggplot2)
 
+# Convert to long format for easier plotting
+sts_long <- sts_data %>%
+  mutate(leave_teaching = factor(leave_teaching, levels = c(0, 1), labels = c("Stay", "Leave"))) %>%
+  pivot_longer(cols = c(intrusion_score, avoidance_score, arousal_score, stss_total_score),
+               names_to = "Subscale",
+               values_to = "Score")
 
-p_intrusion <- ggplot(sts_data, aes(x = leave_teaching, y = intrusion_score, fill = leave_teaching)) +
-  geom_boxplot() +
-  labs(title = "Intrusion", x = NULL, y = "Score") +
-  theme_minimal()
+# Clean up subscale labels
+sts_long$Subscale <- factor(sts_long$Subscale,
+                            levels = c("stss_total_score", "intrusion_score", "avoidance_score", "arousal_score"),
+                            labels = c("Total STSS", "Intrusion", "Avoidance", "Arousal"))
 
-p_avoidance <- ggplot(sts_data, aes(x = leave_teaching, y = avoidance_score, fill = leave_teaching)) +
-  geom_boxplot() +
-  labs(title = "Avoidance", x = NULL, y = "Score") +
-  theme_minimal()
+# Create grouped boxplots
+ggplot(sts_long, aes(x = Subscale, y = Score, fill = leave_teaching)) +
+  geom_boxplot(position = position_dodge(width = 0.75)) +
+  labs(title = "STSS Subscales by Teacher Intent", x = "Subscale", y = "Score", fill = "Intent") +
+  theme_minimal() +
+  theme(legend.position = "bottom")
 
-p_arousal <- ggplot(sts_data, aes(x = leave_teaching, y = arousal_score, fill = leave_teaching)) +
-  geom_boxplot() +
-  labs(title = "Arousal", x = "Intent", y = "Score") +
-  theme_minimal()
-
-p_total <- ggplot(sts_data, aes(x = leave_teaching, y = stss_total_score, fill = leave_teaching)) +
-  geom_boxplot() +
-  labs(title = "Total STSS", x = "Intent", y = "Score") +
-  theme_minimal()
-
-# Combine into 2x2 layout
-(p_total | p_intrusion) / (p_avoidance | p_arousal) +
-  plot_layout(guides = "collect") & theme(legend.position = "bottom")
 ```
 
 
