@@ -25,31 +25,66 @@ editor:
 
 ## Slide 1: What is Secondary Traumatic Stress (STS)? {.small}
 
-<span style="font-size: 0.8em;">
+::: {.columns}
 
+::: {.column width="60%" style="font-size: 0.70em; line-height: 1.3;"}
 
-- STS mimics PTSD, resulting from indirect exposure to others' trauma [@figley1995compassion; @baird2006vicarious]
-- Common in service professions:
-  - Therapists
-  - First responders
-  - Teachers
-- Symptoms include:
-  - Intrusion
-  - Avoidance
-  - Arousal [@bride2004development]
+- STS mimics PTSD, resulting from indirect exposure to others' trauma [@figley1995compassion; @baird2006vicarious]  
+- Common in service professions:  
+  - Therapists  
+  - First responders  
+  - Teachers  
+- Symptoms include:  
+  - Intrusion  
+  - Avoidance  
+  - Arousal [@bride2004development]  
 - STS affects both mental and physical health
 
-</span>
+:::
+
+::: {.column width="40%" style="text-align:center;"}
+
+<img src="image3.png" alt="STS Concept Diagram" style="width:100%; margin-top: 0.5em;" />
+
+<div style="font-size: 0.7em; color: #666; margin-top: 0.3em;">
+  Source: www.collidu.com
+</div>
+
+:::
+
+:::
+
+
+
 
 ## Slide 2: STS and Teachers
 
-- Teachers are exposed to trauma:
-  - **Directly:** school violence, threats
+::: {.columns style="display: flex; align-items: flex-start;"}
+
+::: {.column style="flex: 0 0 60%;"}
+
+- Teachers are exposed to trauma:  
+  - **Directly:** school violence, threats  
   - **Indirectly:** student trauma from abuse, poverty, neglect
 
 - High-needs / Title I schools → higher risk of STS [@inabnett2023secondary]
 
 - Teacher well-being is linked to stress and school conditions [@kidger2016teachers]
+
+:::
+
+::: {.column style="flex: 0 0 40%; text-align: center;"}
+
+<img src="image4.jpg" alt="Teachers and STS" style="max-width: 100%; height: auto; margin-top: 0.5em;" />
+
+<div style="font-size: 0.7em; color: #666; margin-top: 0.3em;">
+  Source: www.themindsjournal.com
+</div>
+
+:::
+
+:::
+
 
 ## Slide 3: STS, Burnout, and Attrition
 
@@ -69,11 +104,10 @@ editor:
 - STS measured by Secondary Traumatic Stress Scale (STSS):  
   17 items across intrusion, avoidance, arousal subscales [@bride2004development]
 
-- Inabnett (2023): STS significantly predicted attrition beyond other factors
+- [@inabnett2023secondary]: STS significantly predicted attrition beyond other factors
 
-- Hilton (2021): Though STS not measured, findings support its indirect impact
-
-- Teacher support & student trauma linked to attrition
+- [@hilton2021predicting]: Though STS not measured, findings support its indirect impact
+  - Lack of teacher support & student apathy linked to attrition
 
 - Current study: Predict attrition using STSS in Northwest Florida
 
@@ -99,27 +133,40 @@ editor:
 
 - Categorical variables converted to dummy variables [@tranmer2008binary]
 
-- Model estimates the probability of an event (teacher leaving)
+- Model estimates the probability of an event (e.g. teacher leaving)
 
-## Slide 7: Key Logistic Regression Concepts
+## Slide 7: Key Logistic Regression Concepts {.smaller}
 
-- Logistic function:
+<div style="font-size: 0.7em; max-width: 700px; line-height: 1.3;">
 
-$$
-\pi = \frac{1}{1 + e^{-(\beta_0 + \beta_1 x_1 + \cdots + \beta_k x_k)}}
-$$
-
-where \(\pi\) = probability of teacher leaving
-
-- Models log-odds (logit):
+**Logistic function:**
 
 $$
-\text{logit}(\pi) = \ln\left(\frac{\pi}{1-\pi}\right) = \beta_0 + \beta_1 x_1 + \cdots + \beta_k x_k
+\pi = P(Y = 1 \mid X_1 = x_1, X_2 = x_2, \cdots, X_k = x_k) 
+= \frac{1}{1 + e^{-(\beta_0 + \beta_1 x_1 + \beta_2 x_2 + \cdots + \beta_k x_k)}}
 $$
 
-- Exponentiated coefficients → odds ratios (e.g., OR = 1.5 means 50% increased odds)
+- $\pi$ is the probability that the outcome/event (e.g., teacher leaving) occurs.
+- $\beta_0$ is the intercept
+- $\beta_is$ are regression coefficients.
+- $x_is$ are the predictor variables (e.g., stress score, experience).
+
+**Log-odds model (logit):**
+
+$$
+\text{logit}(\pi) = \ln\left(\frac{\pi}{1 - \pi}\right) = \beta_0 + \beta_1 x_1 + \cdots + \beta_k x_k
+$$
+
+- Exponentiated coefficients → **odds ratios**  
+  (e.g., OR = 1.5 means 50% increased odds)
+
+</div>
+
+
 
 ## Slide 8: Assumptions & Model Evaluation
+
+<div style="font-size: 0.8em; line-height: 1.2em;">
 
 ### Assumptions:
 
@@ -136,6 +183,9 @@ $$
 - Predictor significance (p-values)
 - Classification accuracy [@peng2002introduction]
 
+</div>
+
+
 ## Slide 9: Implementation & Predictors
 
 - **Software:** RStudio using packages like `dplyr`, `broom`, `ResourceSelection`, `pROC`, `tidyverse`
@@ -151,20 +201,25 @@ $$
 
 ## Slide 10: Data Collection & Sample Overview
 
+<div style="font-size: 0.70em; line-height: 1.2;">
+
 - **Data Collection:**  
-  Questionnaire designed by Dr. Melanie DiLoreto, approved by district superintendent, distributed via school principals to teaching staff in Northwest Florida.
+  Questionnaire by Dr. Melanie DiLoreto, approved by superintendent, distributed via principals in NW Florida.
 
 - **Survey Content:**  
-  Eight items assessing secondary traumatic stress (adapted from STSS, [@bride2004development]), compassion fatigue (from Professional Quality of Life Scale, [@stamm2005professional]), teaching career intentions, and perceived impact of secondary traumatic stress on these intentions.  
-  *For this analysis, only STSS Item 3 and intent to stay or leave teaching (Item 5) were examined.*
+  8 items on secondary traumatic stress (from STSS), compassion fatigue (ProQOL), career intentions, & impact of STS.  
+  *Only STSS Item 3 & teaching intent (Item 5) analyzed here.*
 
-- **Attrition Operationalization:**  
-  Defined as any intention to leave face-to-face classroom teaching, including career changes, retirement, or shifts to roles with reduced student interaction. The STSS term “client” was adapted to “student” to reflect teaching context.
+- **Attrition Defined:**  
+  Intent to leave face-to-face teaching (career change, retirement, less student contact). “Client” changed to “student.”
 
-- **Sample Size:**  
-  107 teachers responded; 3 uncertain about intent were excluded, leaving a final sample of 104 teachers:  
-  - 70 intended to continue teaching (stayers)  
-  - 34 planned to leave the profession (leavers)
+- **Sample:**  
+  107 responses; 3 unsure excluded → final 104:  
+  - 70 stayers  
+  - 34 leavers
+
+</div>
+
 
 ## Slide 11: Visualizing Teacher Intentions & STSS Score Distributions
 
@@ -224,7 +279,7 @@ bullet_points <- grid::textGrob(
     "• Total STSS scores tend to be higher among teachers planning to leave.\n",
     "• Intrusion scores peak similarly but higher values occur more in stayers.\n",
     "• Avoidance scores are elevated among those intending to leave.\n",
-    "• Arousal scores show slight differences favoring stayers."
+    "• Arousal scores are slightly higher among stayers."
   ),
   x = 0, just = "left",
   gp = grid::gpar(fontsize = 12, lineheight = 1.2)
@@ -256,38 +311,23 @@ popViewport(2)
 ```{r, warning=FALSE, echo=FALSE, message=FALSE}
 library(dplyr)
 library(tidyr)
-library(knitr)
-library(gridExtra)
 library(grid)
+library(gridExtra)
 
-# Prepare summary stats table
+# --- Prepare summary stats (means and SDs only) by teaching intent ---
 summary_table <- sts_data %>%
   mutate(Intent = factor(leave_teaching, labels = c("Stay", "Leave"))) %>%
   group_by(Intent) %>%
   summarise(
-    Count = n(),
     Total_Mean = mean(stss_total_score, na.rm = TRUE),
     Total_SD = sd(stss_total_score, na.rm = TRUE),
-    Total_Min = min(stss_total_score, na.rm = TRUE),
-    Total_Max = max(stss_total_score, na.rm = TRUE),
-    
     Intrusion_Mean = mean(intrusion_score, na.rm = TRUE),
     Intrusion_SD = sd(intrusion_score, na.rm = TRUE),
-    Intrusion_Min = min(intrusion_score, na.rm = TRUE),
-    Intrusion_Max = max(intrusion_score, na.rm = TRUE),
-    
     Avoidance_Mean = mean(avoidance_score, na.rm = TRUE),
     Avoidance_SD = sd(avoidance_score, na.rm = TRUE),
-    Avoidance_Min = min(avoidance_score, na.rm = TRUE),
-    Avoidance_Max = max(avoidance_score, na.rm = TRUE),
-    
     Arousal_Mean = mean(arousal_score, na.rm = TRUE),
-    Arousal_SD = sd(arousal_score, na.rm = TRUE),
-    Arousal_Min = min(arousal_score, na.rm = TRUE),
-    Arousal_Max = max(arousal_score, na.rm = TRUE)
-  )
-
-summary_table_long <- summary_table %>%
+    Arousal_SD = sd(arousal_score, na.rm = TRUE)
+  ) %>%
   pivot_longer(
     cols = -Intent,
     names_to = "Measure",
@@ -296,82 +336,96 @@ summary_table_long <- summary_table %>%
   pivot_wider(
     names_from = Intent,
     values_from = Value
-  )
+  ) %>%
+  filter(grepl("Mean|SD", Measure))  # only means and SDs
 
-# (1) Summary table first
-summary_table_grob <- tableGrob(summary_table_long, rows = NULL, theme = ttheme_minimal(base_size = 8))
+summary_table_grob <- tableGrob(summary_table, rows = NULL, theme = ttheme_minimal(base_size = 12))
 
-# (2) Run Shapiro-Wilk test
+# --- Shapiro-Wilk Normality Tests ---
 score_vars <- c("stss_total_score", "intrusion_score", "avoidance_score", "arousal_score")
 shapiro_results <- data.frame(Variable = character(), Group = character(), P_Value = numeric())
 
 for (var in score_vars) {
   stay_group <- sts_data[[var]][sts_data$leave_teaching == 0]
   leave_group <- sts_data[[var]][sts_data$leave_teaching == 1]
-  stay_test <- shapiro.test(stay_group)
-  leave_test <- shapiro.test(leave_group)
+  
+  stay_test <- tryCatch(shapiro.test(stay_group), error = function(e) NULL)
+  leave_test <- tryCatch(shapiro.test(leave_group), error = function(e) NULL)
+  
   shapiro_results <- rbind(
     shapiro_results,
-    data.frame(Variable = var, Group = "Stay", P_Value = stay_test$p.value),
-    data.frame(Variable = var, Group = "Leave", P_Value = leave_test$p.value)
+    data.frame(Variable = var, Group = "Stay", P_Value = ifelse(is.null(stay_test), NA, stay_test$p.value)),
+    data.frame(Variable = var, Group = "Leave", P_Value = ifelse(is.null(leave_test), NA, leave_test$p.value))
   )
 }
 
-shapiro_results <- shapiro_results %>% mutate(P_Value = round(P_Value, 4))
-shapiro_grob <- tableGrob(shapiro_results, rows = NULL, theme = ttheme_minimal(base_size = 9))
-shapiro_title <- textGrob("Shapiro-Wilk Test Results", gp = gpar(fontsize=11, fontface="bold"))
-
-# (3) Run Wilcoxon test
-results <- lapply(score_vars, function(var) {
-  test <- wilcox.test(as.formula(paste(var, "~ leave_teaching")), data = sts_data)
-  data.frame(Subscale = var, W = test$statistic, p_value = test$p.value)
-})
-
-test_results <- do.call(rbind, results) %>%
-  mutate(Subscale = recode(Subscale,
+shapiro_results <- shapiro_results %>%
+  mutate(P_Value = round(P_Value, 4)) %>%
+  mutate(Variable = recode(Variable,
     "stss_total_score" = "STSS Total Score",
     "intrusion_score" = "Intrusion",
     "avoidance_score" = "Avoidance",
     "arousal_score" = "Arousal"
-  )) %>%
-  mutate(p_value = round(p_value, 3), W = round(W, 1))
+  ))
 
-wilcox_grob <- tableGrob(test_results, rows = NULL, theme = ttheme_minimal(base_size = 9))
-wilcox_title <- textGrob("Wilcoxon Rank-Sum Test Results", gp = gpar(fontsize=11, fontface="bold"))
+shapiro_grob <- tableGrob(shapiro_results, rows = NULL, theme = ttheme_minimal(base_size = 10))
 
-# (4) Combine Shapiro & Wilcoxon tables
-right_top <- arrangeGrob(shapiro_title, shapiro_grob, ncol=1, heights=c(0.1, 0.9))
-right_bottom <- arrangeGrob(wilcox_title, wilcox_grob, ncol=1, heights=c(0.1, 0.9))
-right_col <- arrangeGrob(right_top, right_bottom, nrow=2, heights=c(0.6, 0.4))
+# --- Wilcoxon Rank-Sum Tests ---
+wilcox_results <- lapply(score_vars, function(var) {
+  test <- wilcox.test(as.formula(paste(var, "~ leave_teaching")), data = sts_data)
+  data.frame(
+    Subscale = recode(var,
+                      "stss_total_score" = "STSS Total Score",
+                      "intrusion_score" = "Intrusion",
+                      "avoidance_score" = "Avoidance",
+                      "arousal_score" = "Arousal"),
+    W = round(test$statistic, 1),
+    p_value = round(test$p.value, 3)
+  )
+}) %>% bind_rows()
 
-# (5) Final layout
-final_layout <- arrangeGrob(summary_table_grob, right_col, ncol=2, widths=c(0.5, 0.5))
+wilcox_grob <- tableGrob(wilcox_results, rows = NULL, theme = ttheme_minimal(base_size = 10))
 
-# (6) Summary text
-summary_text <- textGrob(
+# --- Bullets text (top-left) ---
+bullets <- textGrob(
   paste(
-    "• Summary statistics of STSS subscales by teaching intent (left)\n",
-    "• Shapiro-Wilk tests suggest non-normality for most subscales\n",
-    "• Wilcoxon tests show significant differences between groups (right)"
+    "• Summary stats: means and SDs only (bottom-left)\n",
+    "• Shapiro-Wilk test results (top-right)\n",
+    "• Wilcoxon test results (bottom-right)\n"
   ),
-  x = 0.01, y = 1, just = c("left", "top"),
-  gp = gpar(fontsize = 10, fontface = "italic", col = "gray30", lineheight = 1.2)
+  x = 0, y = 1, just = c("left", "top"),
+  gp = gpar(fontsize = 14, fontface = "italic")
 )
 
-# (7) Arrange everything
-grid.newpage()
-pushViewport(viewport(layout = grid.layout(2, 1, heights = unit(c(0.08, 0.92), "npc"))))
+# --- Titles for the right side tables ---
+shapiro_title <- textGrob("Shapiro-Wilk Test Results", gp = gpar(fontface = "bold", fontsize = 11))
+wilcox_title <- textGrob("Wilcoxon Rank-Sum Test Results", gp = gpar(fontface = "bold", fontsize = 11))
 
-pushViewport(viewport(layout.pos.row = 1))
-grid.draw(summary_text)
-popViewport()
+# Combine each title with its table, vertical layout (title on top)
+shapiro_with_title <- arrangeGrob(shapiro_title, shapiro_grob, ncol = 1, heights = c(0.15, 0.85))
+wilcox_with_title <- arrangeGrob(wilcox_title, wilcox_grob, ncol = 1, heights = c(0.15, 0.85))
 
-pushViewport(viewport(layout.pos.row = 2))
-grid.draw(final_layout)
-popViewport()
+# --- Arrange right side vertically ---
+right_col <- arrangeGrob(shapiro_with_title, wilcox_with_title, ncol = 1, heights = c(0.55, 0.45))
 
-popViewport()
+# --- Final layout ---
+# Layout matrix:
+# | bullets (top-left) | empty | right_col (top-right + bottom-right stacked) |
+# | summary_table (bottom-left) | empty | (right_col continues) |
 
+layout_matrix <- rbind(
+  c(1, NA, 3),
+  c(2, NA, 3)
+)
+
+grid.arrange(
+  bullets,
+  summary_table_grob,
+  right_col,
+  layout_matrix = layout_matrix,
+  widths = unit(c(3, 0.2, 4), "null"),
+  heights = unit(c(1.5, 4), "null")
+)
 ```
 
 ## Slide 13: Correlation Matrix & Key Insights
@@ -399,7 +453,7 @@ key_insights <- textGrob(
     sep = "\n"
   ),
   x = 0, just = "left",
-  gp = gpar(fontsize = 11, lineheight = 1.3)
+  gp = gpar(fontsize = 12, lineheight = 1.3)
 )
 
 # Capture corrplot as raster grob
@@ -434,17 +488,18 @@ grid.arrange(
 
 ::: {.columns}
 
-::: {.column width="50%"}
+::: {.column width="45%" style="font-size:0.65em; line-height:1.3;"}
 ### Recoding Process
-- STSS items recoded to Likert scale: **1 = Never** to **5 = Very Often**
-- Computed:
-  - **STSS Total Score** (sum of 17 items)
-  - **Subscale Scores**:
-    - Intrusion
-    - Avoidance
-    - Arousal
-- Attrition intentions recoded into binary:
-  - `1 = Plans to leave` (retirement, admin, etc.)
+
+- STSS items recoded to Likert scale:<br>**1 = Never** to **5 = Very Often**<br>
+- Computed:<br>
+  - **STSS Total Score** (sum of 17 items)<br>
+  - **Subscale Scores**:<br>
+    - Intrusion<br>
+    - Avoidance<br>
+    - Arousal<br>
+- Attrition intentions recoded into binary:<br>
+  - `1 = Plans to leave` (retirement, admin, etc.)<br>  
   - `0 = Plans to stay`
 :::
 
@@ -463,11 +518,10 @@ subscale_map <- data.frame(
 
 knitr::kable(subscale_map, caption = "STSS Subscale Item Mapping")
 ```
-
 :::
 :::
 
-## Slide 15: Model 1 — Total STSS Score
+## Slide 15: Model 1 — Total STSS Score {.smaller}
 
 ### Model 1: Total STSS Score Predicting Attrition
 
@@ -479,35 +533,11 @@ $$
 
 - **Odds Ratio (OR):** 1.03, *p* = .030  
 - **Chi-square test:** χ²(1) = 4.94, *significant*  
+- **Confidence Interval:** [1.00, 1.06]
 - **Interpretation:** Each 1-point increase in STSS total score increases odds of intending to leave by about 3.2%.
 
-### Model 1 Results Table
 
-```{r echo=FALSE, warning=FALSE, message=FALSE}
-library(broom)
-library(dplyr)
-library(knitr)
-
-# Logistic regression model
-model1 <- glm(leave_teaching ~ stss_total_score, data = sts_data, family = binomial)
-
-# Tidy results with OR and 95% CI
-model1_table <- tidy(model1, conf.int = TRUE, exponentiate = TRUE) %>%
-  select(term, estimate, conf.low, conf.high, p.value) %>%
-  rename(
-    Term = term,
-    Odds_Ratio = estimate,
-    CI_Lower = conf.low,
-    CI_Upper = conf.high,
-    P_Value = p.value
-  ) %>%
-  mutate(across(c(Odds_Ratio, CI_Lower, CI_Upper, P_Value), ~ round(., 3)))
-
-kable(model1_table,
-      caption = "Model 1: Odds Ratios, 95% Confidence Intervals, and p-values for STSS Total Score")
-```
-
-## Slide 16: Model 2 — Subscales Combined
+## Slide 16: Model 2 — Subscales Combined {.smaller}
 
 - Predictors included: **Intrusion**, **Avoidance**, **Arousal**
 
@@ -521,9 +551,9 @@ kable(model1_table,
 - Likely due to **multicollinearity**  
   - Confirmed with **Variance Inflation Factor (VIF) > 3**
 
-## Slide 17: Models 3–5 — Subscales Individually
+## Slide 17: Models 3–5 — Subscales Individually {.smaller}
 
-### Model Equations
+### Model Equations {.smaller}
 
 $$ 
 \ln(\text{attrition}) = -2.1044 + 0.1091(\text{Intrusion Score}) 
@@ -533,45 +563,48 @@ $$
 \ln(\text{attrition}) = -1.9626 + 0.0704(\text{Avoidance Score}) 
 $$
 
-
 ### Results Summary
 
-| Subscale  | χ²    | p-value | OR   | 95% CI         | Interpretation         |
-|-----------|--------|---------|------|----------------|------------------------|
-| Intrusion | 4.94   | .031    | 1.11 | [1.01, 1.23]   | Significant            |
-| Avoidance | 4.95   | .030    | 1.07 | [1.01, 1.14]   | Significant            |
-| Arousal   | 3.27   | .071    | 1.09 | [0.99, 1.18]   | Not sig. (trend)       |
+<span style="font-size: 0.4em;">
 
+| Subscale  | χ²    | p-value | OR   | 95% CI         | Interpretation   |
+|-----------|-------|---------|------|----------------|------------------|
+| Intrusion | 4.94  | .031    | 1.11 | [1.01, 1.24]   | Significant      |
+| Avoidance | 4.95  | .030    | 1.07 | [1.01, 1.15]   | Significant      |
+| Arousal   | 3.27  | .071    | 1.09 | [0.99, 1.19]   | Not sig. (trend) |
 > **Note:** Arousal showed a trend toward significance.
+
+</span>
+
+
 
 ## Slide 18: Model Comparison Summary
 
 ### Comparing Model Performance
 
-<div style="display: flex; justify-content: space-between; align-items: flex-start;">
+::: {.columns}
 
-<!-- Left Column: Smaller Table -->
-<div style="flex: 0 0 48%; font-size: 0.8em; padding-right: 1rem;">
+::: {.column width="48%" style="font-size:0.6em;"}
 
-| Model   | Predictor       | OR   | p     | 95% CI        | AIC   |
-|---------|-----------------|------|-------|---------------|-------|
-| 1       | Total Score     | 1.03 | .030  | [1.00, 1.06]  | 130.5 |
-| 3       | Intrusion       | 1.11 | .031  | [1.01, 1.23]  | 130.5 |
-| 4       | Avoidance       | 1.07 | .030  | [1.01, 1.15]  | 130.6 |
+| Model | Predictor   | OR   | p     | 95% CI        | AIC   |
+|-------|-------------|------|-------|---------------|-------|
+| 1     | Total Score | 1.03 | .030  | [1.00, 1.06]  | 130.5 |
+| 3     | Intrusion   | 1.11 | .031  | [1.01, 1.24]  | 130.5 |
+| 4     | Avoidance   | 1.07 | .030  | [1.01, 1.15]  | 130.6 |
 
-</div>
+:::
 
-<!-- Right Column: Summary -->
-<div style="flex: 0 0 50%;">
+::: {.column width="52%" style="font-size:0.8em;"}
 
-- ✅ **Models 1 & 3** had best fit (lowest AIC)
-- ⭐ **Model 3 (Intrusion)** slightly more informative
-- ⚠️ **Model 4 (Avoidance)** valid, but weaker fit
+- **Models 1 & 3** had best fit (lowest AIC)  
+- **Model 3 (Intrusion)** slightly more informative  
+- **Model 4 (Avoidance)** valid, but slightly weaker fit  
 
 > **Conclusion:** Intrusion is the most predictive subscale.
 
-</div>
-</div>
+:::
+
+:::
 
 ## Slide 19: Model Diagnostics
 
@@ -580,7 +613,7 @@ $$
 <div style="display: flex; justify-content: space-between; align-items: flex-start;">
 
 <!-- Left Column: Diagnostic Table -->
-<div style="flex: 0 0 52%; font-size: 0.8em; padding-right: 1rem;">
+<div style="flex: 0 0 52%; font-size: 0.7em; padding-right: 1rem;">
 
 | Metric              | Model 1 | Model 3 |
 |---------------------|---------|---------|
@@ -595,20 +628,21 @@ $$
 </div>
 
 <!-- Right Column: Smaller Text Summary -->
-<div style="flex: 0 0 45%; font-size: 0.75em;">
+<div style="flex: 0 0 45%; font-size: 0.6em;">
 
-- ✅ **Hosmer-Lemeshow**: Both models fit well (no significant misfit).
-- 🔍 **Likelihood Ratio Tests**: Both models outperform null (p ≈ .026).
-- 🎯 **Accuracy**: Model 3 slightly better (68.3% vs. 67.3%).
-- 💡 **Sensitivity**: High (~95%),  
-  🧯 **Specificity**: Very low (~11.8%).
-- 🧮 **McFadden’s R² ≈ .038**: Modest predictive power.
-- 📉 **AUC**: Both models show **modest discrimination**.
+- **Hosmer-Lemeshow**: Both models fit well (no significant misfit).
+- **Likelihood Ratio Tests**: Both models outperform null (p ≈ .026).
+- **Accuracy**: Model 3 slightly better (68.3% vs. 67.3%).
+- **Sensitivity**: High (~95%)  
+- **Specificity**: Very low (~11.8%)
+- **McFadden’s R² ≈ .038**: Modest predictive power.
+- **AUC**: Both models show **modest discrimination**.
 
 > Both models useful; Model 3 slightly more accurate.
 
 </div>
 </div>
+
 
 ## Slide 20: Predicted Probabilities
 
@@ -632,20 +666,21 @@ $$
 <!-- Right Column: Interpretation -->
 <div style="flex: 0 0 43%; font-size: 0.75em;">
 
-- 📊 **Both models align** closely with actual attrition rate.
-- 📈 Higher scores → **↑ probability** of intent to leave.
-- 🔹 At high stress levels (90th percentile), risk ~**46%**.
-- 🔸 At low stress levels (10th percentile), risk ~**20%**.
-- ✅ Interpretation supports stress → attrition hypothesis.
+- **Both models align** closely with actual attrition rate.
+- Higher scores → **increased probability** of intent to leave.
+- At high stress levels (90th percentile), risk is ~**46%**.
+- At low stress levels (10th percentile), risk is ~**20%**.
+- Interpretation supports stress → attrition hypothesis.
 
 </div>
 </div>
+
 
 ## Slide 21: Visualizing Risk
 
 ### Attrition Probability Increases with Score
 
-```{r, fig.align='center', fig.width=9, fig.height=5, echo=FALSE, warning=FALSE, message=FALSE}
+```{r, fig.align='center', fig.width=9.5, fig.height=5.5, echo=FALSE, warning=FALSE, message=FALSE}
 # Define prediction function
 pred_prob <- function(x, intercept, slope) {
   log_odds <- intercept + slope * x
@@ -704,13 +739,12 @@ ggplot(df_plot, aes(x = score, y = probability, color = model)) +
   theme_minimal() +
   theme(text = element_text(size = 14))
 ```
-<div style="font-size: 0.7em; margin-top: 1em;"> 📈 Both STSS Total and Intrusion models show increasing attrition risk with rising stress scores.
+<div style="font-size: 0.65em; margin-top: 1em;">
+- <strong>Both STSS Total and Intrusion models</strong> show increasing attrition risk with rising stress scores.<br><br>
+- Visual evidence supports quantitative findings: higher stress = greater intent to leave.<br><br>
+- Emphasizes real-world implications of teacher stress on workforce retention.
+</div>
 
-🔍 Visual evidence supports quantitative findings: higher stress = greater intent to leave.
-
-⚠️ Emphasizes real-world implications of teacher stress on workforce retention.
-
-</div> 
 
 ::: {.slide .center .middle}
 # Analysis and Results - Conclusion
@@ -720,17 +754,17 @@ ggplot(df_plot, aes(x = score, y = probability, color = model)) +
 
 ### Summary of Findings and Practical Implications
 
-<div style="display: flex; justify-content: space-between; gap: 1.5rem; font-size: 0.6em; overflow-wrap: break-word;">
+<div style="display: flex; justify-content: space-between; gap: 1.5rem; font-size: 0.7em; overflow-wrap: break-word;">
 
 <!-- LEFT: Key Findings -->
 <div style="flex: 0 0 40%;">
-<h4>📊 Top Models</h4>
+<h4>Top Models</h4>
 <ul style="margin: 0; padding-left: 1rem;">
   <li><b>Model 1 (STSS Total):</b> +3% odds of attrition per 1-point ↑</li>
-  <li><b>Model 3 (Intrusion):</b> +11% odds per point ↑ → strongest predictor</li>
+  <li><b>Model 3 (Intrusion):</b> +11% odds per point ↑ — strongest predictor</li>
 </ul>
 
-<h4>📈 Performance</h4>
+<h4>Performance</h4>
 <ul style="margin: 0; padding-left: 1rem;">
   <li>High sensitivity (~95%)</li>
   <li>Low specificity (~12%)</li>
@@ -740,7 +774,7 @@ ggplot(df_plot, aes(x = score, y = probability, color = model)) +
 
 <!-- RIGHT: Implications -->
 <div style="flex: 0 0 40%;">
-<h4>🔍 Implications</h4>
+<h4>Implications</h4>
 <ul style="margin: 0; padding-left: 1rem;">
   <li><b>STS, especially intrusion symptoms, linked to higher attrition risk</b></li>
   <li>Stress affects both <i>teacher well-being</i> and <i>student outcomes</i></li>
@@ -751,15 +785,16 @@ ggplot(df_plot, aes(x = score, y = probability, color = model)) +
 
 </div>
 
+
 ## Slide 23: Addressing STS & Future Directions
 
 ### Recommendations and Future Research
 
-<div style="font-size: 0.85em; display: flex; flex-wrap: wrap; gap: 2rem;">
+<div style="font-size: 0.75em; display: flex; flex-wrap: wrap; gap: 2rem;">
 
 <!-- Recommendations -->
 <div style="flex: 1 1 45%; min-width: 280px;">
-<h4>🛠️ Recommendations</h4>
+<h4>Recommendations</h4>
 <ul>
   <li>Embed trauma-informed training in teacher prep & professional development</li>
   <li>Promote peer support and access to mental health staff</li>
@@ -769,7 +804,7 @@ ggplot(df_plot, aes(x = score, y = probability, color = model)) +
 
 <!-- Future Directions -->
 <div style="flex: 1 1 45%; min-width: 280px;">
-<h4>🔬 Future Study</h4>
+<h4>Future Study</h4>
 <ul>
   <li>Add predictors: age, experience, subject taught, school context</li>
   <li>Improve specificity with thresholds or interaction effects</li>
@@ -780,8 +815,9 @@ ggplot(df_plot, aes(x = score, y = probability, color = model)) +
 </div>
 
 <blockquote style="font-size: 0.8em; margin-top: 1em; font-style: italic; color: #555;">
-“STS is a real and common phenomenon teachers may encounter” — Inabnett (2023)
+STS is a real and common phenomenon teachers may encounter.
 </blockquote>
+
 
 
 ## References
