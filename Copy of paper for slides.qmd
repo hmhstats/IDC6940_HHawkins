@@ -1,0 +1,147 @@
+---
+title: "A Statistical Analysis of Secondary Traumatic Stress (STS) and Teacher Attrition"
+subtitle: "Using Binary Logistic Regression to Predict Teacher Attrition Based on Secondary Traumatic Stress (STS)"
+author: "Hailee Hawkins (Advisors: Dr. Achraf Cohen, Dr. Melanie DiLoreto)"
+date: '`r Sys.Date()`'
+format:
+  revealjs
+course: Capstone Projects in Data Science
+bibliography: references.bib # file contains bibtex for references
+#always_allow_html: true # this allows to get PDF with HTML features
+self-contained: true
+execute: 
+  warning: false
+  message: false
+editor: 
+  markdown: 
+    wrap: 72
+---
+
+Slides: [slides.html](slides.html){target="_blank"} 
+
+## Introduction
+
+## What is Secondary Traumatic Stress (STS)? {.small}
+
+<span style="font-size: 0.8em;">
+
+
+- STS mimics PTSD, resulting from indirect exposure to others' trauma [@figley1995compassion; @baird2006vicarious]
+- Common in service professions:
+  - Therapists
+  - First responders
+  - Teachers
+- Symptoms include:
+  - Intrusion
+  - Avoidance
+  - Arousal [@bride2004development]
+- STS affects both mental and physical health
+
+</span>
+
+## STS and Teachers
+
+- Teachers are exposed to trauma:
+  - **Directly:** school violence, threats
+  - **Indirectly:** student trauma from abuse, poverty, neglect
+
+- High-needs / Title I schools → higher risk of STS [@inabnett2023secondary]
+
+- Teacher well-being is linked to stress and school conditions [@kidger2016teachers]
+
+## STS, Burnout, and Attrition
+
+- Chronic stress leads to burnout → emotional, mental, and physical toll [@baker2021experience]
+
+- Burnout dimensions: emotional exhaustion, cynicism, inefficacy [@chang2009appraisal]
+
+- Burnout types:
+  - Personal
+  - Work-related
+  - Student-related [@de2017burnout]
+
+- Burnout contributes to teacher attrition [@hilton2021predicting]
+
+## STS Measurement & Relevance to Study
+
+- STS measured by Secondary Traumatic Stress Scale (STSS):  
+  17 items across intrusion, avoidance, arousal subscales [@bride2004development]
+
+- Inabnett (2023): STS significantly predicted attrition beyond other factors
+
+- Hilton (2021): Though STS not measured, findings support its indirect impact
+
+- Teacher support & student trauma linked to attrition
+
+- Current study: Predict attrition using STSS in Northwest Florida
+
+
+##Methods
+
+## Overview of Analysis Method
+
+- Goal: Predict teacher attrition (stay vs. leave) using STSS responses
+
+- Method: Binary Logistic Regression
+
+- Useful for predicting binary outcomes (e.g., yes/no, stay/leave) [@peng2002introduction]
+
+
+## Binary Logistic Regression Basics
+
+- Outcome variable is binary (coded 0 or 1)
+
+- Predictor variables can be continuous or categorical
+
+- Categorical variables converted to dummy variables [@tranmer2008binary]
+
+- Model estimates the probability of an event (teacher leaving)
+
+## Key Logistic Regression Concepts
+
+- Logistic function:
+
+$$
+\pi = \frac{1}{1 + e^{-(\beta_0 + \beta_1 x_1 + \cdots + \beta_k x_k)}}
+$$
+
+where \(\pi\) = probability of teacher leaving
+
+- Models log-odds (logit):
+
+$$
+\text{logit}(\pi) = \ln\left(\frac{\pi}{1-\pi}\right) = \beta_0 + \beta_1 x_1 + \cdots + \beta_k x_k
+$$
+
+- Exponentiated coefficients → odds ratios (e.g., OR = 1.5 means 50% increased odds)
+
+## Assumptions & Model Evaluation
+
+### Assumptions:
+
+- Binary dependent variable
+- Independent observations
+- No perfect multicollinearity
+- Linear relationship between continuous predictors & log odds
+- Sufficient sample size (≥10 events per predictor)
+
+### Model evaluation:
+
+- Goodness-of-fit tests
+- Likelihood ratio tests
+- Predictor significance (p-values)
+- Classification accuracy [@peng2002introduction]
+
+## Implementation & Predictors
+
+- **Software:** RStudio using packages like `lmtest`, `MASS`, `fastDummies`, `tidyverse`
+
+- **Predictors:** STSS subscale scores for Intrusion, Avoidance, Arousal
+
+- **Outcome:** Probability a teacher will leave the profession
+
+## Data Exploration and Visualization
+
+
+
+## References
