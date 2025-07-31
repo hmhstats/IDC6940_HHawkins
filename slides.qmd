@@ -88,19 +88,36 @@ editor:
 
 ## Slide 3: STS, Burnout, and Attrition
 
-- Chronic stress leads to burnout → emotional, mental, and physical toll [@baker2021experience]
+:::{.columns}
+::: {.column width="70%"}
+<div style="font-size: 0.8em;">
 
-- Burnout dimensions: emotional exhaustion, cynicism, inefficacy [@chang2009appraisal]
+- Chronic stress leads to burnout → emotional, mental, and physical toll [@baker2021experience]  
+- Burnout dimensions: emotional exhaustion, cynicism, inefficacy [@chang2009appraisal]  
+- Burnout types:  
+  - Personal  
+  - Work-related  
+  - Student-related [@de2017burnout]  
+- Burnout contributes to teacher attrition [@hilton2021predicting]  
 
-- Burnout types:
-  - Personal
-  - Work-related
-  - Student-related [@de2017burnout]
+</div>
+:::
 
-- Burnout contributes to teacher attrition [@hilton2021predicting]
+::: {.column width="30%"}
+<img src="image7.png" alt="Teacher Burnout" style="max-width: 100%; height: auto; margin-top: 0.5em;" />
+
+<div style="font-size: 0.8em; color: #666; margin-top: 0.3em;">
+  Source: www.fairgaze.com
+</div>
+:::
+:::
+
 
 ## Slide 4: STS Measurement & Relevance to Study
 
+:::{.columns}
+::: {.column width="55%"}
+<div style="font-size: 0.7em;">
 - STS measured by Secondary Traumatic Stress Scale (STSS):  
   17 items across intrusion, avoidance, arousal subscales [@bride2004development]
 
@@ -110,6 +127,18 @@ editor:
   - Lack of teacher support & student apathy linked to attrition
 
 - Current study: Predict attrition using STSS in Northwest Florida
+</div>
+:::
+
+::: {.column width="45%"}
+<img src="image8.png" alt="Secondary Traumatic Stress Scale illustration" style="max-width: 100%; height: auto; margin-top: 0.5em;" />
+
+<div style="font-size: 0.7em; color: #666; margin-top: 0.3em;">
+  Source: [@bride2004development]
+</div>
+:::
+:::
+
 
 
 ::: {.slide .center .middle}
@@ -137,19 +166,22 @@ editor:
 
 ## Slide 7: Key Logistic Regression Concepts {.smaller}
 
-<div style="font-size: 0.7em; max-width: 700px; line-height: 1.3;">
+<div style="font-size: 0.65em; max-width: 700px; line-height: 1.3;">
 
 **Logistic function:**
 
 $$
-\pi = P(Y = 1 \mid X_1 = x_1, X_2 = x_2, \cdots, X_k = x_k) 
+\pi = P(Y = 1 \mid X_1 = x_1, X_2 = x_2, \ldots, X_k = x_k) 
 = \frac{1}{1 + e^{-(\beta_0 + \beta_1 x_1 + \beta_2 x_2 + \cdots + \beta_k x_k)}}
 $$
 
-- $\pi$ is the probability that the outcome/event (e.g., teacher leaving) occurs.
-- $\beta_0$ is the intercept
-- $\beta_is$ are regression coefficients.
-- $x_is$ are the predictor variables (e.g., stress score, experience).
+- $\pi$: Probability that the event (e.g., teacher leaving) occurs  
+- $Y$: Binary outcome variable (1 = event occurs, 0 = does not occur)  
+- $X_1, X_2, \ldots, X_k$: Predictor variables (e.g., stress score, years of experience)  
+- $x_1, x_2, \ldots, x_k$: Observed values of the predictor variables  
+- $\beta_0$: Intercept term  
+- $\beta_1, \beta_2, \ldots, \beta_k$: Regression coefficients for each predictor  
+- $e$: Euler’s number (≈ 2.718), the base of the natural logarithm
 
 **Log-odds model (logit):**
 
@@ -159,6 +191,8 @@ $$
 
 - Exponentiated coefficients → **odds ratios**  
   (e.g., OR = 1.5 means 50% increased odds)
+
+[@peng2002introduction] [@tranmer2008binary] [@harris2021primer] [@abdulqader2017applying]
 
 </div>
 
