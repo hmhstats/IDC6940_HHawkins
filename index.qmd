@@ -62,8 +62,8 @@ The probability of an event occurring given certain predictor variables can be m
 $$
 \pi = P(Y=1 | X_1=x_1, X_2=x_2, \cdots, X_k=x_k)=\frac{1}{1 + e^{-(\beta_0 + \beta_1 x_1 + \beta_2 x_2 + \cdots + \beta_k x_k)}}
 $$
-where $\pi$ represents the probability of the event occurring, $Y$ is the binary outcome (dependent) variable, $e$ is Euler’s number (approximately 2.718), the base of the natural exponential function, $\beta_0$ is the intercept,
-$\beta_i$ are the regression coefficients and  and the $X_i$ are the predictor (independent) variables.
+
+In this formula, $\pi$ represents the probability that the outcome variable $Y$ equals 1, given the values of the predictor variables. The variable $Y$ is a binary outcome (dependent) variable, meaning it takes on only two possible values—typically 0 or 1—where 1 usually denotes the occurrence of the event of interest. The terms $X_1, X_2, \ldots, X_k$ are the predictor (independent) variables, and $x_1, x_2, \ldots, x_k$ are their specific observed values. The symbol $e$ denotes Euler’s number (approximately 2.718), which is the base of the natural exponential function. The parameter $\beta_0$ is the intercept of the model, indicating the log-odds of the event occurring when all predictor variables are equal to zero. The coefficients $\beta_1, \beta_2, \ldots, \beta_k$ represent the regression parameters associated with each predictor variable; each $\beta_i$ quantifies the change in the log-odds of the outcome occurring for a one-unit increase in the corresponding predictor variable $X_i$, holding all other variables constant.
 [@tranmer2008binary]
 [@harris2021primer]
 [@peng2002introduction]
@@ -77,18 +77,13 @@ $$
 logit(\pi)=\ln\left(\frac{\pi}{1 - \pi}\right) = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \cdots + \beta_k x_k
 $$
 
-where $\pi$ is the probability of the event, 
-$\frac{\pi}{1 - \pi}$ represents the odds, 
-$logit(\pi)$ is the log-odds,
-$\beta_0$ is the intercept,
-$\beta_i$ are the regression coefficients and 
-$x_i$ are the predictor (independent) variables. 
+In this formula, $\pi$ is the probability of the event occurring. The expression $\frac{\pi}{1 - \pi}$ represents the odds of the event, defined as the ratio of the probability that the event occurs to the probability that it does not. The term $\text{logit}(\pi)$ refers to the log-odds, or the natural logarithm of the odds. The parameter $\beta_0$ is the intercept, indicating the log-odds of the event when all predictor variables are zero. The terms $\beta_1, \beta_2, \ldots, \beta_k$ are the regression coefficients, where each $\beta_i$ represents the change in the log-odds of the event associated with a one-unit increase in the corresponding predictor variable $x_i$. The variables $x_1, x_2, \ldots, x_k$ are the predictor (independent) variables included in the model.
 [@tranmer2008binary]
 [@harris2021primer]
 [@peng2002introduction]
 [@abdulqader2017applying]
 
-Because the model returns log-odds, exponentiating coefficients yields odds ratios, quantifying the change in odds associated with a one-unit increase in a predictor, holding others constant. [@peng2002introduction] For example, an odds ratio of 1.5 indicates a 50% increase in the odds of the event occurring for each one-unit increase in the predictor, all else equal.
+Because the model returns log-odds, exponentiating coefficients yields odds ratios, quantifying the change in odds associated with a one-unit increase in a predictor, holding others constant. [@peng2002introduction] For example, an odds ratio of 1.5 indicates a 50% increase in the odds of the event occurring for each one-unit increase in the predictor, holding others constant.
 
 The logistic function mentioned earlier transforms the linear predictor back into a probability bounded between 0 and 1:
 
@@ -112,7 +107,7 @@ There are multiple approaches to selecting predictors in a binary logistic regre
 
 RStudio will be used to perform the statistical analyses in this project. Several R packages provide functions for performing binary logistic regression and related tasks. These include lmtest, MASS, fastDummies, tidyverse, car, and the base stats package, among others. [@zeileis2002diagnostic] [@venables2013modern] [@kaplan2020fastdummies] [@wickham2019welcome] [@fox2020using] [@team2002r] 
 
-The goal of this project is to predict teacher attrition using responses from the Secondary Traumatic Stress Scale (STSS). Given that teacher attrition is a binary outcome—indicating whether a teacher stays in or leaves the profession—binary logistic regression will be applied in this analysis. Predictor variables will include the subscale scores for intrusion, arousal, and avoidance from the STSS, which will be used to estimate the likelihood of a teacher leaving the profession.
+The goal of this project is to predict teacher attrition using responses from the Secondary Traumatic Stress Scale (STSS). Given that teacher attrition is a binary outcome—indicating whether a teacher stays in or leaves the profession—binary logistic regression will be applied in the analysis. Predictor variables will include the subscale scores for intrusion, arousal, and avoidance from the STSS, which will be used to estimate the likelihood of a teacher leaving the profession.
 
 ## Analysis and Results
 
@@ -120,7 +115,7 @@ The goal of this project is to predict teacher attrition using responses from th
 
 For this analysis, data were gathered through a questionnaire designed by Dr. Melanie DiLoreto. Following approval from the district superintendent, the instrument was sent to school principals, who then distributed it to their teaching staff via email. Participants were teachers based in Northwest Florida. 
 
-The survey included eight items assessing participants’ experiences with secondary traumatic stress (using items adapted from the [Secondary Traumatic Stress Scale (STSS)](STSS.pdf); [@bride2004development]), compassion fatigue (from the [Professional Quality of Life Scale](ProQOL_5_English.pdf); [@stamm2005professional]), intentions to remain in or leave the teaching profession, and perceptions of whether secondary traumatic stress influenced that decision. For this analysis, only responses to STSS Item 3 and the participants’ intent to stay or leave teaching (Item 5) were examined.
+The survey included eight items assessing participants’ experiences with secondary traumatic stress (using items adapted from the [Secondary Traumatic Stress Scale (STSS)](STSS.pdf); [@bride2004development]), compassion fatigue (from the [Professional Quality of Life Scale](ProQOL_5_English.pdf); [@stamm2005professional]), intentions to remain in or leave the teaching profession, and perceptions of whether secondary traumatic stress influenced that decision. For this analysis, only responses to STSS (Item 3) and the participants’ intent to stay or leave teaching (Item 5) were examined.
 
 Teacher attrition was operationalized as any decision to leave face-to-face classroom teaching, including career changes, retirement, or transitions to modalities that substantially reduce direct student interaction. In adapting the STSS for this study, the term “client” was replaced with “student” to better reflect teachers’ experiences, consistent with the scale’s guidance that the term may be substituted to suit the relevant helping relationship.
 
@@ -763,7 +758,7 @@ par(mfrow = c(1, 1))
 
 ```
 
-Since Model 1 and Model 3 had the lowest and identical AIC values, additional diagnostic tests were conducted to evaluate their fit and predictive performance. These included the Hosmer-Lemeshow goodness-of-fit test, likelihood ratio test, assessment of the significance of individual predictors, and classification metrics such as accuracy, sensitivity, and specificity. To further assess model quality, McFadden’s pseudo R² was calculated to estimate explained variance, and the area under the ROC curve (AUC) was used to evaluate each model’s ability to discriminate between teachers who indicated intent to leave and those who did not.
+Since Model 1 and Model 3 had the lowest and identical AIC values, additional diagnostic tests were conducted to evaluate their fit and predictive performance. These included the Hosmer-Lemeshow goodness-of-fit test, likelihood ratio test, assessment of the significance of individual predictors, and classification metrics such as accuracy, sensitivity, and specificity. To further assess model quality, McFadden’s Pseudo-R² was calculated to estimate explained variance, and the area under the ROC curve (AUC) was used to evaluate each model’s ability to discriminate between teachers who indicated intent to leave and those who did not.
 
 
 ```{r, warning=FALSE, echo=TRUE}
@@ -844,9 +839,9 @@ $$
 In terms of classification accuracy, Model 3 slightly outperformed Model 1 (68.3% vs. 67.3%), primarily due to a marginally higher sensitivity (ability to correctly identify teachers intending to leave). Both models showed low specificity (~11.8%), indicating limited ability to correctly identify those intending to stay.
 
 $$
-\text{McFadden's Pseudo-}R^{2} 
+\text{McFadden's Pseudo-}R^{2}
 $$
-In terms of overall model fit, both models yielded identical McFadden’s pseudo-$R^{2}$ values of 0.038, indicating a modest improvement over a model with no predictors. While pseudo-$R^{2}$ does not reflect the exact proportion of variance explained, these values suggest that total STSS score and intrusion score each contribute meaningfully, though moderately, to predicting teachers’ intent to leave the profession.
+In terms of overall model fit, both models yielded identical McFadden’s Pseudo-R² values of 0.038, indicating a modest improvement over a model with no predictors. While Pseudo-R² does not reflect the exact proportion of variance explained, these values suggest that total STSS score and intrusion score each contribute meaningfully, though moderately, to predicting teachers’ intent to leave the profession.
 
 
 $$
@@ -1016,7 +1011,7 @@ This model was statistically significant, indicating that for every 1 point incr
 
 Both models 1 and 3 demonstrated high sensitivity—around 95%—indicating strong ability to identify teachers who intend to leave. However, specificity was low, with only about 12% of teachers who intended to stay correctly classified. While overall accuracy approached 70%, the models’ ability to distinguish between leavers and stayers across all thresholds was modest, with AUC values around 0.63.
 
-The models improved predictability by approximately 4% over a model with no predictors, as reflected in McFadden’s pseudo-$R^{2}$ values of 0.038. While pseudo-$R^{2}$ does not indicate the exact proportion of variance explained, these results suggest that total STSS score and intrusion score contribute meaningfully—though moderately—to predicting teachers’ intent to leave the profession.
+The models improved predictability by approximately 4% over a model with no predictors, as reflected in McFadden’s Pseudo-R² values of 0.038. While Pseudo-R² does not indicate the exact proportion of variance explained, these results suggest that total STSS score and intrusion score contribute meaningfully—though moderately—to predicting teachers’ intent to leave the profession.
 
 #### Implications 
 
