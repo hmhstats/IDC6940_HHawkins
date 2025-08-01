@@ -216,7 +216,7 @@ $$
 
 - **Predictors:** STSS total score and subscale scores for Intrusion, Avoidance, Arousal
 
-- **Outcome:** Probability a teacher will leave the profession
+- **Predicted Outcome:** Probability that a teacher plans to leave the profession
 
 
 
