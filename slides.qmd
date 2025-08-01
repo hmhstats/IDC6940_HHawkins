@@ -1,7 +1,7 @@
 ---
-title: "A Statistical Analysis of Secondary Traumatic Stress (STS) and Teacher Attrition"
-subtitle: "Using Binary Logistic Regression to Predict Teacher Attrition Based on Secondary Traumatic Stress (STS)"
-author: "Hailee Hawkins (Advisors: Dr. Achraf Cohen, Dr. Melanie DiLoreto)"
+title: "Secondary Traumatic Stress and Teacher Attrition: A Statistical Analysis"
+subtitle: "Predicting Teacher Attrition Using Binary Logistic Regression"
+author: "Hailee Hawkins (Advisors: Dr. Achraf Cohen and Dr. Melanie DiLoreto)"
 date: '`r Sys.Date()`'
 format:
   revealjs:
@@ -38,7 +38,7 @@ editor:
   - Intrusion  
   - Avoidance  
   - Arousal [@bride2004development]  
-- STS affects both mental and physical health
+- STS affects mental, physical and emotional health
 
 :::
 
@@ -65,9 +65,9 @@ editor:
 
 - Teachers are exposed to trauma:  
   - **Directly:** school violence, threats  
-  - **Indirectly:** student trauma from abuse, poverty, neglect
+  - **Indirectly:** student trauma from abuse, poverty, neglect [@inabnett2023secondary]
 
-- High-needs / Title I schools → higher risk of STS [@inabnett2023secondary]
+- High-needs / Title I schools → higher risk of STS 
 
 - Teacher well-being is linked to stress and school conditions [@kidger2016teachers]
 
@@ -215,7 +215,7 @@ $$
 - Goodness-of-fit tests
 - Likelihood ratio tests
 - Predictor significance (p-values)
-- Classification accuracy [@peng2002introduction]
+- Classification accuracy [@peng2002introduction] [@abdulqader2017applying]
 
 </div>
 
@@ -242,10 +242,10 @@ $$
 
 - **Survey Content:**  
   8 items on secondary traumatic stress (from STSS), compassion fatigue (ProQOL), career intentions, & impact of STS.  
-  *Only STSS Item 3 & teaching intent (Item 5) analyzed here.*
+  *Only STSS (Item 3) & teaching intent (Item 5) analyzed here.*
 
 - **Attrition Defined:**  
-  Intent to leave face-to-face teaching (career change, retirement, less student contact). “Client” changed to “student.”
+  Intent to leave face-to-face teaching (career change, retirement, less student contact). “Client” changed to “student”.
 
 - **Sample:**  
   107 responses; 3 unsure excluded → final 104:  
@@ -311,7 +311,7 @@ density_plots <- (p_total | p_intrusion) / (p_avoidance | p_arousal) +
 bullet_points <- grid::textGrob(
   label = paste0(
     "• Total STSS scores tend to be higher among teachers planning to leave.\n",
-    "• Intrusion scores peak similarly but higher values occur more in stayers.\n",
+    "• Intrusion scores peak similarly but higher scores occur among those leaving.\n",
     "• Avoidance scores are elevated among those intending to leave.\n",
     "• Arousal scores are slightly higher among stayers."
   ),
@@ -830,7 +830,7 @@ ggplot(df_plot, aes(x = score, y = probability, color = model)) +
 <div style="flex: 1 1 45%; min-width: 280px;">
 <h4>Recommendations</h4>
 <ul>
-  <li>Embed trauma-informed training in teacher prep & professional development</li>
+  <li>Embed trauma-informed training in teacher preparation programs & professional development</li>
   <li>Promote peer support and access to mental health staff</li>
   <li>Foster strong administrative support and collaboration structures</li>
 </ul>
