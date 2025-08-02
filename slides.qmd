@@ -114,7 +114,7 @@ editor:
 ::: {.column width="55%"}
 <div style="font-size: 0.7em;">
 - STS measured by Secondary Traumatic Stress Scale (STSS):  
-  17 items across intrusion, avoidance, arousal subscales [@bride2004development]
+  17 items across intrusion, avoidance, arousal subscales 
 
 - [@inabnett2023secondary]: STS significantly predicted attrition beyond other factors
 
