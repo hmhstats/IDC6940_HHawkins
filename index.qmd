@@ -981,7 +981,7 @@ This figure visually represents how higher STSS Total Scores and higher Intrusio
 
 ### Conclusion
 
-The primary goal of this analysis was to identify a model that effectively predicts teacher attrition. Results indicated that Models 1 and 3 were strong candidates, both demonstrating the lowest AIC values and high sensitivity (~95%) in correctly identifying teachers who intended to leave the profession.
+The primary goal of this analysis was to identify a model that effectively predicts teacher attrition. Results indicated that Models 1 and 3 were strong candidates. Both models demonstrated the lowest AIC values and high sensitivity (~95%) in correctly identifying teachers who intended to leave the profession.
 
 #### Key Findings
 
@@ -1031,10 +1031,6 @@ The results of this analysis highlight secondary traumatic stress (STS) as a sig
 
 #### Suggestions For Further Study
 
-The models developed in this analysis demonstrated reasonable predictive performance based solely on secondary traumatic stress (STS) total and subscale scores. However, these models could be substantially strengthened by incorporating demographic and professional variables such as sex, age, years of teaching experience, subject taught, and other relevant factors.
-
-Future research should aim to improve model specificity to better identify teachers likely to remain in the profession. This could involve exploring alternative classification thresholds, adding additional predictors, or examining interaction effects to enhance the models’ discriminative ability.
-
-Additionally, including variables related to teacher demographics and school context may improve the models’ explanatory power by providing a clearer and more detailed understanding of the factors influencing teacher attrition.
+The models developed in this analysis demonstrated reasonable predictive performance based solely on secondary traumatic stress (STS) total and subscale scores. However, their accuracy and utility could be significantly enhanced by incorporating additional demographic and professional variables, such as sex, age, years of teaching experience, subject taught, and other relevant factors. Future research should focus on improving model specificity to better identify teachers likely to remain in the profession. This may involve exploring alternative classification thresholds, integrating additional predictors, or examining interaction effects to enhance the models’ discriminative capabilities. Additionally, including variables related to teacher demographics and school context could improve the explanatory power of the models by offering a more comprehensive understanding of the factors contributing to teacher attrition.
 
 ## References

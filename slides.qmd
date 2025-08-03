@@ -18,6 +18,10 @@ editor:
     wrap: 72
 ---
 
+##
+
+<div style="text-align: center; font-size: 3em; margin-top: 30vh;">Introduction</div>
+
 ## Slide 1: What is Secondary Traumatic Stress (STS)? {.small}
 
 ::: {.columns}
@@ -134,6 +138,10 @@ editor:
 :::
 :::
 
+##
+
+<div style="text-align: center; font-size: 3em; margin-top: 30vh;">Methods</div>
+
 
 ## Slide 5: Overview of Analysis Method
 
@@ -218,7 +226,18 @@ $$
 
 - **Predicted Outcome:** Probability that a teacher plans to leave the profession
 
+## 
 
+<div style="
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-size: 3em;
+  text-align: center;
+">
+  Analysis and Results – Data Exploration and Visualization
+</div>
 
 ## Slide 10: Data Collection & Sample Overview
 
@@ -502,6 +521,19 @@ grid.arrange(
 ```
 
 
+## 
+
+<div style="
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-size: 3em;
+  text-align: center;
+">
+  Analysis and Results – Modeling and Results
+</div>
+
 ## Slide 14: Data Preparation and Variable Recoding
 
 ::: {.columns}
@@ -764,6 +796,18 @@ ggplot(df_plot, aes(x = score, y = probability, color = model)) +
 </div>
 
 
+## 
+
+<div style="
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-size: 3em;
+  text-align: center;
+">
+  Analysis and Results – Conclusion
+</div>
 
 ## Slide 22: Key Findings and Implications
 
